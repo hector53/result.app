@@ -467,5 +467,8 @@ console.log(id)
           }*/
       }
   },
+   destroyed () {
+   window.removeEventListener('keyup', this.detectaTecla)
+ },
 };
 </script>
