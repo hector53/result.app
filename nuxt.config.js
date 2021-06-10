@@ -44,7 +44,7 @@ export default {
 
   axios: {
     //  baseURL: 'https://indiehackersapi.hectoracosta.site/api',
-    baseURL: 'apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
+    baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
     credentials: true
     },
 
