@@ -1,0 +1,24 @@
+{
+  "name": "resultapp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "cookie-universal-nuxt": "^2.1.4",
+    "cookieparser": "^0.1.0",
+    "core-js": "^3.8.3",
+    "nuxt": "^2.14.12",
+    "nuxt-sweetalert2": "^1.0.0",
+    "vue-loading-overlay": "3.0"
+  },
+  "devDependencies": {
+    "push-dir": "^0.4.1"
+  }
+}
