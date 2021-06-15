@@ -1,7 +1,14 @@
 <template>
 <div>
-        <get-evento v-if="login"></get-evento>
+  <div v-if="statusEvent == 1">
+       <get-evento v-if="tipoUsuario != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
         <get-evento-not-user v-else></get-evento-not-user>
+  </div>
+  <div v-else style="    margin-top: 50px;    margin-bottom: 50px;    text-align: center;">
+
+    <h1>Evento No Disponible</h1>
+  </div>
+       
 </div>
 </template>
 
@@ -11,8 +18,31 @@ import GetEventoNotUser from '../../components/eventos/getEventoNotUser.vue';
 import { mapState } from 'vuex'
 export default {
   components: { getEvento, GetEventoNotUser },
+  async asyncData({ params, store, redirect, app }) {
+
+
+    const response =  await app.$axios.$get("get_event_by_cod_front?codigo="+params.cod)
+
+    console.log("res", response)
+    if(response.status == 0){
+       return redirect('/')
+    }else{
+      var tipoUser;
+      if(response.tipoUser == 0){
+        //usuario no registrado 
+        tipoUser = 0
+      }else{
+        //usuario registrado
+        tipoUser = response.tipoUser
+      }
+
+      return {userTipo: tipoUser, id_evento: response.id_evento, encuestas: response.encuestas, statusEvent: response.statusEvent}
+    }
+   
+  },
   data() {
     return {
+      tipoUsuario: this.userTipo
      
 	};
   },

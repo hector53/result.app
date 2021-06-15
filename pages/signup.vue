@@ -84,6 +84,15 @@ export default {
             maxAge: 60 * 60 * 24 * 7,
             }
             );
+
+            this.$cookies.set(
+            "r_user",
+            {"name": response.name, "email": response.email, "username": response.username},
+            {
+            path: "/",
+            maxAge: 10000 * 60 * 24 * 7,
+            }
+            );
                location.href = '/dashboard'
               }
     }

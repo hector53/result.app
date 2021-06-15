@@ -4,6 +4,8 @@ export const state = () => ({
  cookieLogin: false, 
  lang: 0,
  login: false,
+ p:0,
+ eventStatus: 0,
  languajes: [
     {
     ////// HEAD
@@ -191,8 +193,8 @@ export const state = () => ({
     "triviaHeadBlock": 'Trivia',
     "triviaSubBlock": 'En construcción...',
     
-    "buttonHero": 'Mis eventos',
-    "buttonSubHero": 'Características',
+    "buttonHero": 'REGISTRARME',
+    "buttonSubHero": 'MIS EVENTOS',
     
     "brandTitle": 'Nos usan los mejores',
     "callHeadline": 'Tus videollamadas al máximo!',
@@ -344,8 +346,13 @@ export const mutations = {
       setLogin(state, val){
         state.login = val
       }, 
+      setP(state, val){
+        state.p = val
+      }, 
    
-  
+      setEventStatus(state, val){
+        state.eventStatus = val
+      },
   }
 
   function makeid(length) {
@@ -360,7 +367,7 @@ export const mutations = {
 }
 
 export const actions = {
-    async   nuxtServerInit({ commit }, {   req,  app }) {
+    async   nuxtServerInit({ commit }, {   req,  app, redirect}) {
          if (process.server && process.static) return;
          if (!req.headers.cookie){
             commit("setIdioma", 0 );
@@ -374,15 +381,16 @@ export const actions = {
                 maxAge: 10000 * 60 * 24 * 7,
                 }
                 );
-
+                var cod_u =  makeid(10)
                 this.$cookies.set(
                   "_r_u",
-                  makeid(10),
+                  cod_u,
                   {
                   path: "/",
                   maxAge: 10000 * 60 * 24 * 7,
                   }
                   );
+                  commit("setP", cod_u );
             return;
          } 
      
@@ -402,6 +410,7 @@ export const actions = {
                 
                 const response =  await app.$axios.$get("getSession")
                 console.log("aprobado")
+                commit("setP", response.id );
                 commit("setLogin", true );
 
             } catch (err) {
@@ -416,15 +425,18 @@ export const actions = {
          }else{
            console.log("no existe la sesion de usuario del bnackend")
            if(!cookieLoginNotUser){
+            var cod_u =  makeid(10)
             this.$cookies.set(
               "_r_u",
-              makeid(10),
+              cod_u,
               {
               path: "/",
               maxAge: 10000 * 60 * 24 * 7,
               }
               );
+              commit("setP", cod_u );
            }
+           
           
          }
          if(cookieIdioma){

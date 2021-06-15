@@ -1,290 +1,504 @@
 <template>
-<div>
- 
- <section class="section-hero">
-    <div class="container">
-        <h1 class="hero-heading">{{$store.state.idioma.headlineHero}} <br/> {{$store.state.idioma.headlineHero2}}</h1>
-        <p class="hero-subhead">{{$store.state.idioma.subheadHero}}</p>
+  <div>
+    <section class="section-hero">
+      <div class="container">
+        <h1 class="hero-heading">
+          {{ $store.state.idioma.headlineHero }} <br />
+          {{ $store.state.idioma.headlineHero2 }}
+        </h1>
+        <p class="hero-subhead">{{ $store.state.idioma.subheadHero }}</p>
 
-        <div class="columns " style="    margin-top: 60px;">
-            <div class="column is-3">
-                <nuxt-link to="/create">
-                    <div class="crear-producto">
-                        <div class="div-block-2">
-                            <div class="text-block"><strong class="bold-text">{{$store.state.idioma.pollHeadBlock}}</strong></div>
-                            <div class="text-block-2">{{$store.state.idioma.pollSubBlock}}</div>
-                        </div>
-                        <div class="tag is-danger">
-                            <div class="text-block-3">{{$store.state.idioma.tagGratis}}</div>
-                        </div>
-                    </div>
-                </nuxt-link>
-                
+        <div class="columns" style="margin-top: 60px;     padding-left: 10px;
+    padding-right: 10px;">
+          <div class="column is-3">
+              <nuxt-link to="/create">
+            <div class="evento">
+              <div class="bloque-evento">
+                <div class="text-block">
+                  <strong class="bold-text-6">{{
+                      $store.state.idioma.pollHeadBlock
+                    }}<br /></strong>
+                </div>
+                <div class="text-block-2">  {{ $store.state.idioma.pollSubBlock }}</div>
+              </div>
+              <div class="tag is-danger">
+                <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
+              </div>
+            </div>
+              </nuxt-link>
+          </div>
+
+          <div class="column is-3">
+            <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(251, 198, 202, 0.25);">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #61060e;">{{
+                      $store.state.idioma.qaHeadBlock
+                    }}<br /></strong>
+                </div>
+                <div class="text-block-2" style="    color: #61060e;">  {{ $store.state.idioma.qaSubBlock }}</div>
+              </div>
+              <div class="tag is-danger">
+                <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="column is-3">
+
+             <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(222, 205, 245, 0.25);" >
+                <div class="text-block">
+                  <strong class="bold-text-6" >{{
+                      $store.state.idioma.dateHeadBlock
+                    }}<br /></strong>
+                </div>
+                <div class="text-block-2" >  {{ $store.state.idioma.dateSubBlock }}</div>
+              </div>
+              <div class="tag is-danger">
+                <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
+              </div>
+            </div>
+
+            
+          </div>
+
+          <div class="column is-3">
+
+                <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(192, 235, 223, 0.25);">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #0a674e;">{{
+                      $store.state.idioma.cloudHeadBlock
+                    }}<br /></strong>
+                </div>
+                <div class="text-block-2" style="    color: #0a674e;">  {{ $store.state.idioma.cloudSubBlock }}</div>
+              </div>
+              <div class="tag is-info">
+                <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
+              </div>
+            </div>
+            
+          </div>
         </div>
+        <div class="columns" style="   padding-left: 10px;
+    padding-right: 10px;">
+          <div class="column is-3">
 
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.qaHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.qaSubBlock}}</div>
-                    </div>
-                    <div class="tag is-danger">
-                        <div class="text-block-3">{{$store.state.idioma.tagGratis}}</div>
-                    </div>
+                 <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(253, 226, 194, 0.25)">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #8f5702;">{{
+                      $store.state.idioma.rateHeadBlock
+                    }}<br /></strong>
                 </div>
-            </div>
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.dateHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.dateSubBlock}}</div>
-                    </div>
-                    <div class="tag is-danger">
-                        <div class="text-block-3">{{$store.state.idioma.tagGratis}}</div>
-                    </div>
-                </div>
+                <div class="text-block-2" style="    color: #8f5702;">  {{ $store.state.idioma.rateSubBlock }}</div>
+              </div>
+              <div class="tag is-info">
+                <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
+              </div>
             </div>
 
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.cloudHeadBlock}} </strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.cloudSubBlock}}</div>
-                    </div>
-                    <div class="tag is-info">
-                        <div class="text-block-3">{{$store.state.idioma.tagRegistro}}</div>
-                    </div>
+
+            
+          </div>
+          <div class="column is-3">
+            <a href="/sorteos">
+
+            
+                 <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(203, 243, 248, 0.25)">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #0b676f;">{{
+                      $store.state.idioma.giveHeadBlock
+                    }}<br /></strong>
                 </div>
+                <div class="text-block-2" style="    color: #0b676f;">  {{ $store.state.idioma.giveSubBlock }}</div>
+              </div>
+              <div class="tag is-info">
+                <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
+              </div>
             </div>
             
-        </div>
-        <div class="columns ">
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.rateHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.rateSubBlock}}</div>
-                    </div>
-                    <div class="tag is-info">
-                        <div class="text-block-3">{{$store.state.idioma.tagRegistro}}</div>
-                    </div>
-                </div>
-            </div>
-            <div class="column is-3">
-                <a href="/sorteos">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.giveHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.giveSubBlock}}</div>
-                    </div>
-                    <div class="tag is-info">
-                        <div class="text-block-3">{{$store.state.idioma.tagRegistro}}</div>
-                    </div>
-                </div>
-                </a>
-            </div>
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.quizzHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.quizzSubBlock}}</div>
-                    </div>
-                    <div class="tag is-success">
-                        <div class="text-block-3">{{$store.state.idioma.tagPro}}</div>
-                    </div>
-                </div>
-            </div>
+            </a>
+          </div>
+          <div class="column is-3">
 
-            <div class="column is-3">
-                <div class="crear-producto">
-                    <div class="div-block-2">
-                        <div class="text-block"><strong class="bold-text">{{$store.state.idioma.triviaHeadBlock}}</strong></div>
-                        <div class="text-block-2">{{$store.state.idioma.triviaSubBlock}}
-                        </div>
-                    </div>
-                    <div class="tag is-success">
-                        <div class="text-block-3">{{$store.state.idioma.tagPro}}</div>
-                    </div>
+               <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(228, 235, 188, 0.25)">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #495a06;">{{
+                      $store.state.idioma.quizzHeadBlock
+                    }}<br /></strong>
                 </div>
+                <div class="text-block-2" style="    color: #495a06;">  {{ $store.state.idioma.quizzSubBlock }}</div>
+              </div>
+              <div class="tag is-success">
+                <div class="text-block-3">{{ $store.state.idioma.tagPro }}</div>
+              </div>
             </div>
             
-            
+          </div>
 
+          <div class="column is-3">
+
+                <div class="evento">
+              <div class="bloque-evento" style="background-color: rgba(240, 187, 225, 0.25)">
+                <div class="text-block">
+                  <strong class="bold-text-6" style="    color: #590647;">{{
+                      $store.state.idioma.triviaHeadBlock
+                    }}<br /></strong>
+                </div>
+                <div class="text-block-2" style="    color: #590647;">  {{ $store.state.idioma.triviaSubBlock }}</div>
+              </div>
+              <div class="tag is-success">
+                <div class="text-block-3">{{ $store.state.idioma.tagPro }}</div>
+              </div>
+            </div>
+            
+          </div>
         </div>
 
         <div class="button-group">
-            
-            <nuxt-link  v-if="login" to="/dashboard" class="buttonN blue ">{{$store.state.idioma.buttonHero}}</nuxt-link>
-            <nuxt-link v-else class="buttonN blue " to="/dashboard/not-registered">{{$store.state.idioma.buttonHero}}</nuxt-link>
-           
-            <a href="#" class="buttonN ">{{$store.state.idioma.buttonSubHero}}</a>
+          <nuxt-link v-if="login" to="/dashboard" class="buttonN blue">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
+              loading="lazy"
+              alt=""
+              class="image-5"
+            />
+            <span>{{ $store.state.idioma.buttonHero }}</span>
+          </nuxt-link>
+          <nuxt-link v-else class="buttonN blue" to="/dashboard/not-registered">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
+              loading="lazy"
+              alt=""
+              class="image-5"
+            />
+            <span>{{ $store.state.idioma.buttonHero }}</span>
+          </nuxt-link>
+          <nuxt-link to="/dashboard" class="buttonN">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
+              loading="lazy"
+              alt=""
+              class="image-5"
+            />
+            <span>{{ $store.state.idioma.buttonSubHero }}</span>
+          </nuxt-link>
         </div>
 
-        <img src="img/portada2.png"
-            width="940" 
-            alt="" class="image">
-
-            <div class="div-block-14"><h3 class="heading-3">{{$store.state.idioma.brandTitle}}</h3><div class="w-layout-grid grid-2"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9785508bb3835515e7a_home-logo-facebook.svg" loading="lazy" alt="" class="image-4"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e987d63585722a12233d_home-logo-amazon.svg" loading="lazy" alt="" class="image-3"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9938e7b7ae950e9922d_home-logo-linkedin.svg" loading="lazy" alt=""><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e99cef9192be59080443_home-logo-whatsapp.svg" loading="lazy" alt=""><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9a5388e8b33fad8a14e_home-logo-mailchimp.svg" loading="lazy" alt=""></div></div>
-    </div>
-</section>
-
-
-
-<section class="section-hero">
-    <div class="container">
-        <h2 class="section-title">{{$store.state.idioma.callHeadline}}</h2>
-        <p class="section-subtitle">{{$store.state.idioma.callSubheadline}}</p>
-
-        <div class="columns">
-            <div class="column">
-                <img src="img/portada3.png"
-                    width="452px"
-                    alt="">
-            </div>
-            <div class="column" style="    padding-top: 79px;
-            text-align: left;">
-                <img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d5919aa5c02_4-icon-chrome.png"
-                    width="37px" alt="" class="grey-icon">
-                    <img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4db8aa5c05_4-icon-fire.png"
-                    width="37px" alt="" class="grey-icon">
-                    <img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d8446aa5c0c_4-icon-ie.png"
-                    width="37px" alt="" class="grey-icon">
-                   
-                   
-                    <img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d71f0aa5c0e_4-icon-safari.png"
-                    width="37px" alt="" class="grey-icon">
-                <h3>{{$store.state.idioma.call2Headline}}</h3>
-                <p>{{$store.state.idioma.call2Subheadline}}</p><img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4088aa5c10_5-icon-apple.png"
-                    width="37px" alt="" class="grey-icon"><img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d02c7aa5c11_6-icon-android.png"
-                    width="37px" alt="" class="grey-icon"><img
-                    src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4894aa5c14_7-icon-microsoft.png"
-                    width="37px" alt="" class="grey-icon">
-                <h3>{{$store.state.idioma.call3Headline}}</h3>
-                <p>{{$store.state.idioma.call3Subheadline}}</p>
-            </div>
-
+        <div class="div-block-23">
+          <img
+            src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png"
+            width="940"
+            sizes="(max-width: 479px) 94vw, (max-width: 767px) 95vw, (max-width: 991px) 728px, 940px"
+            srcset="
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-500.png   500w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-800.png   800w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-1080.png 1080w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-1600.png 1600w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-2000.png 2000w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204-p-2600.png 2600w,
+              https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png        3333w
+            "
+            alt=""
+            class="image"
+          />
         </div>
 
-    </div>
-</section>
+        <div class="div-block-14">
+          <h3 class="heading-3">{{ $store.state.idioma.brandTitle }}</h3>
+          <div class="w-layout-grid grid-2">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9785508bb3835515e7a_home-logo-facebook.svg"
+              loading="lazy"
+              alt=""
+              class="image-4"
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e987d63585722a12233d_home-logo-amazon.svg"
+              loading="lazy"
+              alt=""
+              class="image-3"
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9938e7b7ae950e9922d_home-logo-linkedin.svg"
+              loading="lazy"
+              alt=""
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e99cef9192be59080443_home-logo-whatsapp.svg"
+              loading="lazy"
+              alt=""
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b3e9a5388e8b33fad8a14e_home-logo-mailchimp.svg"
+              loading="lazy"
+              alt=""
+            />
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <section class="section-hero">
+      <div class="container">
+        <h2 class="section-title">{{ $store.state.idioma.callHeadline }}</h2>
+        <p class="section-subtitle">
+          {{ $store.state.idioma.callSubheadline }}
+        </p>
 
-
-<section class="section-hero section-grey ">
-    <div class="container">
-        <h2 class="section-title">{{$store.state.idioma.productHead}}</h2>
-        <p class="section-subtitle">{{$store.state.idioma.productSubhead}}</p>
         <div class="columns">
-            <div class="column">
-                <div class="circle">
-                    <div class="numberM">1</div><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d52ebaa5c01_8-layout1.png"
-                        width="243px" alt="" class="frames">
-                </div>
-                <h3>{{$store.state.idioma.product1Head}}</h3>
-                <p>{{$store.state.idioma.product1Subhead}}</p>
+          <div class="column is-6">
+            <div class="div-block-18">
+              <div
+                style="padding-top: 56.17021276595745%"
+                class="video w-video w-embed"
+              >
+                <iframe
+                  class="embedly-embed"
+                  src="//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2F229GFEqDWrY%3Ffeature%3Doembed&amp;display_name=YouTube&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D229GFEqDWrY&amp;image=https%3A%2F%2Fi.ytimg.com%2Fvi%2F229GFEqDWrY%2Fhqdefault.jpg&amp;key=c4e54deccf4d4ec997a64902e9a30300&amp;type=text%2Fhtml&amp;schema=youtube"
+                  scrolling="no"
+                  title="YouTube embed"
+                  frameborder="0"
+                  allow="autoplay; fullscreen"
+                  allowfullscreen="true"
+                ></iframe>
+              </div>
             </div>
-            <div class="column">
-                <div class="circle">
-                    <div class="numberM">2</div><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d00ccaa5c00_8-layout2.png"
-                        width="243px" alt="" class="frames">
+          </div>
+          <div class="column is-6" style="padding-top: 79px; text-align: left">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d5919aa5c02_4-icon-chrome.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            />
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4db8aa5c05_4-icon-fire.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            />
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d8446aa5c0c_4-icon-ie.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            />
 
-                </div>
-                <h3>{{$store.state.idioma.product2Head}}</h3>
-                <p>{{$store.state.idioma.product2Subhead}}</p>
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d71f0aa5c0e_4-icon-safari.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            />
+            <h3>{{ $store.state.idioma.call2Headline }}</h3>
+            <p>{{ $store.state.idioma.call2Subheadline }}</p>
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4088aa5c10_5-icon-apple.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d02c7aa5c11_6-icon-android.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            /><img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4894aa5c14_7-icon-microsoft.png"
+              width="37px"
+              alt=""
+              class="grey-icon"
+            />
+            <h3>{{ $store.state.idioma.call3Headline }}</h3>
+            <p>{{ $store.state.idioma.call3Subheadline }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-hero">
+      <div class="container-3 w-container">
+        <h2 class="section-title">{{ $store.state.idioma.productHead }}</h2>
+        <p class="section-subtitle">{{ $store.state.idioma.productSubhead }}</p>
+        <div class="columns">
+          <div class="column">
+            <div class="div-block-21">
+              <div class="div-block-20">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c76a74e35ebe1099f30a16_circle-process-1.svg"
+                  loading="lazy"
+                  alt=""
+                />
+              </div>
+              <div class="circle">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c77014fd9ca59a5279d72a_space_dashboard_black_24dp.svg"
+                  width="243px"
+                  alt=""
+                  class="frames"
+                />
+              </div>
             </div>
-            <div class="column">
-                <div class="circle">
-                    <div class="numberM">3</div><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d1e59aa5bfe_8-layout3.png"
-                        width="243px" alt="" class="frames">
-                </div>
-                <h3>{{$store.state.idioma.product3Head}}</h3>
-                <p>{{$store.state.idioma.product3Subhead}}</p>
+            <h3>{{ $store.state.idioma.product1Head }}</h3>
+            <p>{{ $store.state.idioma.product1Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="div-block-21">
+              <div class="div-block-20">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c76c0adaee41c383931188_circle-process-3.svg"
+                  loading="lazy"
+                  alt=""
+                />
+              </div>
+              <div class="circle">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c771e0aa3f763951371c8b_style_black_24dp.svg"
+                  width="243px"
+                  alt=""
+                  class="frames"
+                />
+              </div>
+            </div>
+            <h3>{{ $store.state.idioma.product2Head }}</h3>
+            <p>{{ $store.state.idioma.product2Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="div-block-21">
+              <div class="div-block-20">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c76c37134b87456bcd8005_circle-process-2.svg"
+                  loading="lazy"
+                  alt=""
+                />
+              </div>
+              <div class="circle">
+                <img
+                  src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c77203b83f55690d562465_analytics_black_24dp.svg"
+                  width="243px"
+                  alt=""
+                  class="frames"
+                />
+              </div>
+            </div>
+            <h3>{{ $store.state.idioma.product3Head }}</h3>
+            <p>{{ $store.state.idioma.product3Subhead }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-hero">
+      <div class="container">
+        <h2 class="section-title">{{ $store.state.idioma.featureHead }}</h2>
+        <div class="columns">
+          <div class="column">
+            <div class="icons _1">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c77664f20c340b678642f4_palette_black_24dp.svg"
+                width="25"
+                alt=""
+              />
+            </div>
+            <h3>{{ $store.state.idioma.feature1Head }}</h3>
+            <p>{{ $store.state.idioma.feature1Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="icons _2">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c7768d4d2b063f1e7acf99_verified_user_black_24dp.svg"
+                width="25"
+                alt=""
+              />
             </div>
 
+            <h3>{{ $store.state.idioma.feature2Head }}</h3>
+            <p>{{ $store.state.idioma.feature2Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="icons _3">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c776f4febecf6d7f234e57_face_black_24dp.svg"
+                width="25"
+                alt=""
+              />
+            </div>
+            <h3>{{ $store.state.idioma.feature3Head }}</h3>
+            <p>L{{ $store.state.idioma.feature3Subhead }}</p>
+          </div>
         </div>
 
-    </div>
-</section>
-
-<section class="section-hero">
-    <div class="container">
-        <h2 class="section-title">{{$store.state.idioma.featureHead}}</h2>
         <div class="columns">
-            <div class="column">
-                <div class="icons"><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d6b93aa5c07_9-icon2-brush.png"
-                        width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature1Head}}</h3>
-                <p>{{$store.state.idioma.feature1Subhead}}</p>
+          <div class="column">
+            <div class="icons _4">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c77715c88a572f86715693_qr_code_2_black_24dp.svg"
+                width="25"
+                alt=""
+              />
             </div>
-            <div class="column">
-                <div class="icons"><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d9ae8aa5c08_9-icon2-chat.png"
-                        width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature2Head}}</h3>
-                <p>{{$store.state.idioma.feature2Subhead}}</p>
+            <h3>{{ $store.state.idioma.feature4Head }}</h3>
+            <p>{{ $store.state.idioma.feature4Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="icons _5">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c777bef0faa417cb3fa76d_video_library_black_24dp.svg"
+                width="25"
+                alt=""
+              />
             </div>
-            <div class="column">
-                <div class="icons"><img
-                        src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d4d93aa5c09_9-icon2-drops.png"
-                        width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature3Head}}</h3>
-                <p>L{{$store.state.idioma.feature3Subhead}}</p>
+            <h3>{{ $store.state.idioma.feature5Head }}</h3>
+            <p>{{ $store.state.idioma.feature5Subhead }}</p>
+          </div>
+          <div class="column">
+            <div class="icons _6">
+              <img
+                src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c777ebb00fa56123d58c2e_integration_instructions_black_24dp.svg"
+                width="25"
+                alt=""
+              />
             </div>
-
-        </div>
-
-
-        <div class="columns">
-            <div class="column">
-                <div class="icons"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d7e45aa5c0a_9-icon2-eye.png" width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature4Head}}</h3>
-                <p>{{$store.state.idioma.feature4Subhead}}</p>
-            </div>
-            <div class="column">
-                <div class="icons"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296daeccaa5c0b_9-icon2-phone.png" width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature5Head}}</h3>
-                <p>{{$store.state.idioma.feature5Subhead}}</p>
-            </div>
-            <div class="column">
-                <div class="icons"><img src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b13cec71296d716baa5c16_9-icon2-video.png" width="25" alt=""></div>
-                <h3>{{$store.state.idioma.feature6Head}}</h3>
-                <p>{{$store.state.idioma.feature6Subhead}}</p>
-            </div>
-
+            <h3>{{ $store.state.idioma.feature6Head }}</h3>
+            <p>{{ $store.state.idioma.feature6Subhead }}</p>
+          </div>
         </div>
 
         <div class="button-group">
-            <nuxt-link  v-if="login" to="/dashboard" class="buttonN blue ">{{$store.state.idioma.buttonHero}}</nuxt-link>
-            <nuxt-link v-else class="buttonN blue " to="/dashboard/not-registered">{{$store.state.idioma.buttonHero}}</nuxt-link>
-           
-            <a href="#" class="buttonN ">{{$store.state.idioma.buttonSubHero}}</a>
+          <nuxt-link to="/dashboard" class="buttonN blue">
+            <span>VER PRECIOS</span>
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78d0406a6de3f6ee384a9_credit_card_white_24dp.svg"
+              loading="lazy"
+              alt=""
+              class="image-7"
+            />
+          </nuxt-link>
+
+          <nuxt-link to="/signup" class="buttonN">
+            <img
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
+              loading="lazy"
+              alt=""
+              class="image-5"
+            />
+            <span>{{ $store.state.idioma.buttonHero }}</span>
+          </nuxt-link>
         </div>
-
-    </div>
-</section>
-
-</div>
+      </div>
+    </section>
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-		navBar: false, 
-	};
+      navBar: false,
+    };
   },
-computed: {
-    ...mapState(['login'])
+  computed: {
+    ...mapState(["login"]),
   },
   methods: {
     async getTest() {
@@ -296,8 +510,6 @@ computed: {
       console.log(response);
     },
   },
-  mounted() {
-     
-  },
+  mounted() {},
 };
 </script>

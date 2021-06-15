@@ -11,13 +11,14 @@
 
 
                         <input type="text" id="email" v-model="email"
-                        @keyup.enter="Login"
+                        @keyup.enter="userLogin"
+                        
                         class="text-field w-input" maxlength="50" 
                         :placeholder="$store.state.idioma.loginPlaceHolder1" required="">
                       
                         <input type="password" id="pass" v-model="pass"
                         class="text-field w-input" maxlength="50" 
-                        @keyup.enter="Login"
+                        @keyup.enter="userLogin"
                         :placeholder="$store.state.idioma.loginPlaceHolder2" required="">
                     </div>
                    
@@ -31,6 +32,19 @@
 </template>
 
 <script>
+const getResult = function (a1, a2) {
+   var i = a1.length;
+   if (i != a2.length) return false;
+
+   while (i--) {
+     if (JSON.stringify(a1[i]) !== JSON.stringify(a2[i])){
+       return false;
+     } else{
+       console.log(true)
+     }
+   }
+   return true;
+ };
 import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
@@ -42,7 +56,15 @@ export default {
     return {
         email:'', pass:'',
         idioma: {},
-        isLoading: false
+        isLoading: false, 
+        array1: [
+          {"id": 1, "opcion": "hola   q hace"}, 
+          {"id": 2, "opcion": "hola   q hace2"}, 
+        ], 
+        array2: [
+          {"id": 1, "opcion": "hola   q hace2"}, 
+          {"id": 2, "opcion": "hola   q hace2"}, 
+        ]
 	};
   },
   methods: {
@@ -60,7 +82,15 @@ export default {
             response.token,
             {
             path: "/",
-            maxAge: 60 * 60 * 24 * 7,
+            maxAge: 10000 * 60 * 24 * 7,
+            }
+            );
+         this.$cookies.set(
+            "r_user",
+            {"name": response.name, "email": response.email, "username": response.username},
+            {
+            path: "/",
+            maxAge: 10000 * 60 * 24 * 7,
             }
             );
             location.href="/dashboard"
@@ -84,6 +114,11 @@ export default {
   },
   mounted() {
  this.idioma = this.$store.state.idioma
+
+console.log("Comparing a1 and a2", JSON.stringify(this.array1) === JSON.stringify(this.array2));
+
+
+console.log("Comparing a1 and a2 con bucle", getResult(this.array1, this.array2));
   },
 };
 </script>
