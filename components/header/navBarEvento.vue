@@ -3,7 +3,7 @@
         <div class="container" style="max-width: 940px;">
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand mr-2 is-flex is-align-items-center">
-                   <nuxt-link to="/" class=" is-flex is-align-items-center">
+                   <nuxt-link to="/dashboard" class=" is-flex is-align-items-center">
                    <div class="logotipo"><div class="logotipo-fill">
                        </div>
                        </div>

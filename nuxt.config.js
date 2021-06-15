@@ -39,12 +39,12 @@ export default {
   modules: [
     '@nuxtjs/axios',
     'cookie-universal-nuxt',
-    'nuxt-sweetalert2'
+    'nuxt-sweetalert2', 
   ],
 
   axios: {
-         baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
-   // baseURL: 'http://127.0.0.1:5000/api/',
+    //     baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
+    baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

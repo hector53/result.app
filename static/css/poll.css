@@ -1282,6 +1282,21 @@ input[type="checkbox"], input[type="radio"] {
 .tabMia-content.active{
     background: #006AFF;
 }
+.linkEvent{
+    color: black
+}
+.linkEvent.active{
+    color: #59b1ff
+}
+.cubreResults{
+    max-width: 940px;
+    padding: 20px;
+    border-radius: 15px;
+    background-color: #fff;
+    box-shadow: -1px 1px 5px 1px rgb(152 163 179 / 50%);
+    margin: auto;
+    margin-bottom: 30px!important;
+}
 @media screen and (max-width: 767px)
 {
     .circle {
