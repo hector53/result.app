@@ -51,6 +51,28 @@ import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
    middleware: 'guest',
+    head(){
+    return {
+      title: "login", 
+       meta: [
+         {
+           property: 'og:title', 
+           content:"Como Saber el Origen de mi Apellido - Como Hacerlo Gratis"
+         },
+         {
+           property:"og:description", content:"Para saber cual es el origen de mi apellido solo debes entrar a la pagina forebears, luego introducir tu apellido y listo."
+         }, 
+         {
+            property:"og:image", content:"https://acceso.canalizados.com/wp-content/uploads/2021/06/3DE7AE98-7C01-45B9-89EF-37F0A2FF3DC0.jpeg"
+         }, 
+         {
+           name:"twitter:card" ,content:"summary_large_image"
+         }
+
+       ]
+
+    }
+  },
   data() {
     return {
       firstName: '', lastName: '', 
