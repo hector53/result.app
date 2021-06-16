@@ -1,4 +1,8 @@
 export default {
+  env: {
+   // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+   baseUrl: process.env.BASE_URL || 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
+  },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "TItulo de la app",

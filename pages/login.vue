@@ -65,7 +65,7 @@ export default {
            property:"og:description", content:"Para saber cual es el origen de mi apellido solo debes entrar a la pagina forebears, luego introducir tu apellido y listo."
          }, 
          {
-            property:"og:image", content:"https://cdn.canalizados.com/uploads/2021/06/C1E8423B-FB60-46F3-A332-A2804B8CC2A6.jpeg"
+            property:"og:image", content: process.env.baseUrl+"/img/C1E8423B-FB60-46F3-A332-A2804B8CC2A6.jpeg"
          }, 
          {
            name:"twitter:card" ,content:"summary_large_image"
