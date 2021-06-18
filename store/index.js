@@ -435,6 +435,9 @@ export const actions = {
               }
               );
               commit("setP", cod_u );
+           }else{
+            commit("setP", cookieLoginNotUser );
+             
            }
            
           

@@ -207,6 +207,7 @@ var cookieNotUser = this.$store.state.p
               
               this.actualizaVoto = false
               this.miVoto = 0
+              this.resultados = false
               this.getEncuestaById(this.codigoEncuesta)
             }else{
               this.$swal({

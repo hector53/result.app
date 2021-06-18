@@ -83,8 +83,8 @@ export default {
  
   methods: {
       
-    async getEncuestaById(){
-         await   this.$axios.$get("get_encuesta_by_id_result?id_encuesta="+this.id_encuesta)
+    async getEncuestaById(id){
+         await   this.$axios.$get("get_encuesta_by_id_result?id_encuesta="+id)
         .then((response) => {
                   this.opciones = response.opciones
                   this.totalVotos = response.totalVotos
@@ -92,7 +92,7 @@ export default {
     }
   },
   mounted() {
-        this.getEncuestaById()
+        this.getEncuestaById(this.id_encuesta)
   },
  
 };

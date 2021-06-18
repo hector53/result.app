@@ -40,9 +40,14 @@ export default {
     }
    
   },
+   head: {
+    script: [
+       {src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'},
+    ],
+  },
   data() {
     return {
-      tipoUsuario: this.userTipo
+      tipoUsuario: this.userTipo,
      
 	};
   },
@@ -53,7 +58,18 @@ export default {
    
   },
   mounted() {
-      
+    console.log("id usuario", this.$store.state.p)
+    var User = this.$store.state.p
+    var codigo = this.$route.params.cod
+           this.socket = this.$nuxtSocket({
+      channel: '/'
+    })
+
+     this.socket.emit('conectar', {
+        username: User,
+              room: codigo
+      }, (resp) => {
+      })
   },
 };
 </script>

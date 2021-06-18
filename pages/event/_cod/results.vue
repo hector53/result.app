@@ -2,9 +2,9 @@
 <div>
  <nav-bar-evento ></nav-bar-evento>
  <nav-bar-event v-if="eventT" :eventName="eventName"  ></nav-bar-event>
-
     <div class="cubreResults" v-for="(item, index) in encuestas" :key="index" >
         <multiple-choice-result
+         :ref="'encuestaFront_'+index"
         v-if="item.tipo == 1" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo"
         ></multiple-choice-result>
@@ -29,11 +29,19 @@ export default {
      eventT: false, 
      eventName: '', 
      encuestas: [], 
-     socket:''
 	};
   },
   
   methods: {
+    emitir(){
+      var User = this.$store.state.p
+    var codigo = this.$route.params.cod
+this.socket.emit('conectar', {
+        username: User,
+              room: codigo
+      }, (resp) => {
+      })
+    },
     async get_event(){
          await this.$axios
         .$get("get_event_by_cod?codigo=" + this.$route.params.cod)
@@ -47,18 +55,40 @@ export default {
     }
   },
   mounted() {
-    var socket = io("http://localhost:5000/", {
-      withCredentials: true,
-    });
-          socket.on('connect', function() {
+          this.socket = this.$nuxtSocket({
+      channel: '/'
+    })
 
-            socket.emit('conectar', {
-              username: "asdasd",
-              room: "adasdasd"
-            });
+      var User = this.$store.state.p
+    var codigo = this.$route.params.cod
+this.socket.emit('conectar', {
+        username: User,
+              room: codigo
+      }, (resp) => {
+      })
 
-            
-          })
+       this.socket
+    .on('join_room_announcement', (data) => {
+       console.log(`<b>${data.username}</b> has joined the room`)
+    })
+
+
+  this.socket
+    .on('respuestaDelVoto', (data) => {
+       console.log(data)
+       for(var i=0; i<this.encuestas.length; i++){
+         var idEncuestaM=this.$refs['encuestaFront_'+i][0].id_encuesta
+    //   console.log(this.$refs['encuestaFront_'+i][0].id_encuesta)
+          if(data.id_encuesta == idEncuestaM){
+              console.log("esta encuesta es la q debemos actualizar", data.id_encuesta)
+                this.$refs['encuestaFront_'+i][0].getEncuestaById(data.id_encuesta)
+              
+          }
+       }
+    })
+
+    
+   
         var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
       this.get_event()
