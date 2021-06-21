@@ -51,14 +51,14 @@ export default {
     // module options
     sockets: [{
       name: 'main',
-     // url: 'http://localhost:5000', 
-      url: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
+      url: 'http://localhost:5000', 
+     // url: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
     }]
   },
 
   axios: {
-        baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
-    //baseURL: 'http://127.0.0.1:5000/api/',
+      //  baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
+    baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

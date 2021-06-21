@@ -1,7 +1,7 @@
 <template>
 <div>
   <div v-if="statusEvent == 1">
-       <get-evento v-if="tipoUsuario != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
+       <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
         <get-evento-not-user v-else></get-evento-not-user>
   </div>
   <div v-else style="    margin-top: 50px;    margin-bottom: 50px;    text-align: center;">
@@ -29,6 +29,7 @@ export default {
     }else{
       var tipoUser;
       if(response.tipoUser == 0){
+        console.log("tipo usuaro sin regisrar")
         //usuario no registrado 
         tipoUser = 0
       }else{
@@ -47,7 +48,6 @@ export default {
   },
   data() {
     return {
-      tipoUsuario: this.userTipo,
      
 	};
   },
@@ -58,6 +58,7 @@ export default {
    
   },
   mounted() {
+    console.log("tipo usuario", this.userTipo)
     console.log("id usuario", this.$store.state.p)
     var User = this.$store.state.p
     var codigo = this.$route.params.cod
