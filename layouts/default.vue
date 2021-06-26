@@ -3,7 +3,7 @@
 
   <notify-bar v-if="$route.name == 'index'"></notify-bar>
   <nav-bar></nav-bar>
-  <nuxt />
+  <nuxt style="min-height: 100vh;" />
   <footer-t></footer-t>
   </div>
 </template>

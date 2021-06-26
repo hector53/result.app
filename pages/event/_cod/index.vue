@@ -10,6 +10,8 @@
       <div class="container">
         <loading :active="isLoading" color="#59b1ff" loader="dots" />
 
+        <tipos-encuestas-index v-if="opcionesPredeterminadas" @createPoll="createPoll" ></tipos-encuestas-index>
+
         <div v-for="(item, index) in arrayEncuestas" :key="index">
           <multiple-choice
             :ref="'encuesta_'+index"
@@ -37,11 +39,12 @@ import "vue-loading-overlay/dist/vue-loading.css";
 import MultipleChoice from "../../../components/encuestas/multipleChoice.vue";
 import FooterT from '../../../components/footer/footerT.vue';
 import NavBarEvento from '../../../components/header/navBarEvento.vue';
+import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIndex.vue';
 
 export default {
   layout: "dashboardEvent",
   middleware: "miauth",
-  components: { MultipleChoice, Loading, NavBarEvento, FooterT },
+  components: { MultipleChoice, Loading, NavBarEvento, FooterT, TiposEncuestasIndex },
   data() {
     return {
       dropdownAddPoll: false,
@@ -51,11 +54,15 @@ export default {
       isLoading: true,
       eventName: '', 
       eventStatus: 0, 
-      eventT: false
+      eventT: false, 
+      opcionesPredeterminadas: true
     };
   },
 
   methods: {
+    createPoll(id){
+      this.addNewEncuesta(id)
+    },
     guardarEvento(){
       console.log(this)
       for(var i=0; i<this.arrayEncuestas.length; i++){
@@ -138,6 +145,7 @@ export default {
       }
     },
     addNewEncuesta(val) {
+      this.opcionesPredeterminadas = false
       this.dropdownAddPoll = false;
       if (val == 1) {
         this.arrayEncuestas.push({
@@ -168,6 +176,9 @@ export default {
             this.eventT = true
           if (response.status == 1) {
             this.arrayEncuestas = response.misencuestas;
+            if(response.misencuestas.length > 0){
+                this.opcionesPredeterminadas = false
+            }
            
           }
         });
@@ -187,3 +198,6 @@ export default {
   }
 };
 </script>
+<style>
+
+</style>

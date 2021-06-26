@@ -1,11 +1,15 @@
 import cookieparser from "cookieparser";
 export const state = () => ({
- 
+ urlBase: 'http://localhost:3000',
  cookieLogin: false, 
  lang: 0,
  login: false,
  p:0,
  eventStatus: 0,
+ eventLiveMode: 0,
+ encuestaActiveLiveMode: 0,
+ arrayEncuestaActiveLiveMode: [],
+ candadoModoLive: 0,
  languajes: [
     {
     ////// HEAD
@@ -336,7 +340,18 @@ export const getters = {
 
 
 export const mutations = {
-  
+  setcandadoModoLive(state, val){
+    state.candadoModoLive = val
+  }, 
+  setarrayEncuestaActiveLiveMode(state, val){
+    state.arrayEncuestaActiveLiveMode = val
+  }, 
+  setEncuestaActiveLiveMode(state, val){
+    state.encuestaActiveLiveMode = val
+  }, 
+  seteventLiveMode(state, val){
+    state.eventLiveMode = val
+  }, 
     setIdioma(state, val){
       state.idioma = state.languajes[val];
     }, 

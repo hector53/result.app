@@ -1,7 +1,7 @@
 <template>
   <div>
       <nav-bar-evento></nav-bar-evento>
-  <nuxt />
+  <nuxt style="min-height: 100vh;" />
   <footer-t></footer-t>
   </div>
 </template>

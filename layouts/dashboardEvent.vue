@@ -1,6 +1,6 @@
 <template>
   <div>
-  <nuxt />
+  <nuxt style="min-height: 100vh;" />
   </div>
 </template>
 

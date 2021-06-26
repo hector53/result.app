@@ -199,7 +199,7 @@ export default {
       },
        async cancelarVoto(){
 var cookieNotUser = this.$store.state.p
-         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="+this.id_encuesta+"&u="+cookieNotUser)
+         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="+this.id_encuesta+"&u="+cookieNotUser+"&id_evento="+this.id_evento)
         .then((response) => {
 
          //   console.log(response)

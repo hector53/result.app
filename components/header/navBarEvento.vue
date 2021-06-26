@@ -65,14 +65,14 @@
 
                 <div class="navbar-menu">
                     <div class="navbar-end">
-                        <a class="navbar-item">
-                            #c0D 1g0
-                        </a>
+                        <nuxt-link class="navbar-item" :to="{name: 'p-cod', params: {cod:$route.params.cod} }">
+                            #{{$route.params.cod}}
+                        </nuxt-link>
                     <div class="navbar-item">
-                             <button class="button is-info play "><i class="fa fa-play" aria-hidden="true"></i></button>
-                        <div class="dropdown" :class="{'is-active': dropdownPublicar }" style="    margin-left: 10px;">
+                      <button class="button is-info play " @click="modoLiveClick"><i class="fa fa-play" aria-hidden="true"></i></button>
+                        <div class="dropdown is-hoverable" :class="{'is-active': dropdownPublicar }" style="    margin-left: 10px;">
                             <div class="dropdown-trigger">
-                            <button class="button blue" @click="dropdownPublicar = !dropdownPublicar" v-click-outside="clickHide" aria-haspopup="true" aria-controls="dropdown-menu2">
+                            <button class="button blue" @click="publicarEvento"  aria-haspopup="true" aria-controls="dropdown-menu2">
                             <span v-if="publicarDesactivar == 0">PUBLICAR</span>
                             <span v-if="publicarDesactivar == 1">DESACTIVAR</span>
                             <span class="icon is-small">
@@ -82,13 +82,6 @@
                             </div>
                                 <div class="dropdown-menu dropMover" id="dropdown-menu2" role="menu">
                                 <div class="dropdown-content">
-                                <a  @click="publicarEvento" class="dropdown-item" v-if="publicarDesactivar == 0">
-                                PUBLICAR
-                                </a>
-                                 <a  @click="publicarEvento" class="dropdown-item" v-if="publicarDesactivar== 1">
-                                DESACTIVAR
-                                </a>
-                                 <hr class="dropdown-divider">
                                 <a  @click="guardarEvent" class="dropdown-item">
                                 GUARDAR
                                 </a>
@@ -123,13 +116,27 @@ export default {
         languajeDrop: "Español", 
         idioma: {}, 
         dropdownPublicar: false, 
-        publicarDesactivar: this.eventStatus
+        publicarDesactivar: this.eventStatus, 
+        modoLive: 0
 	};
   },
     computed: {
     ...mapState(['login'])
   },
   methods: {
+      async modoLiveClick(){
+          if(this.modoLive == 0){
+                this.modoLive = 1
+          }else{
+              this.modoLive = 0
+          }
+          //pasar el modo del evento a 1 q seria el modo live activo 
+        const response = await this.$axios.$post("modo_live_evento", {
+        modoLive: this.modoLive, 
+        codigo: this.$route.params.cod
+        });
+        location.href="/event/"+this.$route.params.cod+"/live"
+      },
       verEvento(){
             // Abrir nuevo tab
         var win = window.open('/p/'+this.$route.params.cod, '_blank');

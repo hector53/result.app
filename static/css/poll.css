@@ -1,3 +1,7 @@
+html, body {
+    height: 100%;
+      margin: 0;
+  }
 body {
     font-family: 'Space Grotesk', sans-serif;
     color: #222;
@@ -370,6 +374,9 @@ p {
     text-align: left;
     padding-top: 65px;
     padding-bottom: 65px;
+    position: relative;
+    width: 100%;
+    bottom: 0;
     
 }
 .footer-text {
@@ -1285,6 +1292,9 @@ input[type="checkbox"], input[type="radio"] {
 .linkEvent{
     color: black
 }
+.linkEvent:hover{
+    color: #59b1ff;
+}
 .linkEvent.active{
     color: #59b1ff
 }
@@ -1297,6 +1307,211 @@ input[type="checkbox"], input[type="radio"] {
     margin: auto;
     margin-bottom: 30px!important;
 }
+.compartirModal{
+    width: 300px;
+    padding: 10px;
+}
+.compartirModal h1{
+    font-size: 30px;
+    margin-bottom: 30px;
+}
+.cubreTipoShare{
+    display: block;
+}
+.cubreTipoShare a{
+    display: flex;
+    align-items: center;
+    color: black;
+    margin-bottom: 20px;
+}
+.cubreTipoShare a:hover{
+    color: #59b1ff;
+}
+.cubreTipoShare span{
+    font-size: 16px;
+    margin-left: 16px;
+}
+.cubreTipoShare i{
+    color: #59b1ff;
+    font-size: 30px;
+}
+.cubreClicCopiar{
+    display: block;
+    cursor: pointer;
+}
+.cubreClicCopiar span{
+    color: #70757a;
+    font-size: 13px;
+    line-height: 16px;
+}
+.cubreInputClicCopiar{
+    border-bottom: 1px solid #dfe1e5;
+}
+.cubreInputClicCopiar input{
+    outline: 0;
+    color: #222;
+    font-size: 16px;
+    line-height: 18px;
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    box-shadow: none;
+}
+/*modo presentacion*/
+.cubreNavBarPresentacion{
+    height: 62px;
+    border-bottom: 2px solid #333;
+    background-color: #444;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.navBarLeft{
+    display: flex;
+}
+.listNavBarLeft{
+    display: flex;
+    height: 60px;
+    color: #fff;
+    font-size: 70px;
+    text-align: center;
+    list-style-type: none;
+    padding-left: 10px;
+}
+.list-item-navLeft{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    width: 60px;
+    height: 60px;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+    cursor: pointer;
+}
+.list-item-navLeft:hover{
+    background: #5b5a5a;
+}
+.list-item-navLeft.add{
+    background-color: #58b1ff;
+}
+.list-item-navLeft.add:hover{
+    background-color: #4a99df
+}
+
+.list-item-navLeft.play{
+    background-color: #658f53;
+}
+.list-item-navLeft.stop{
+    background-color: #f30e0e;
+}
+.list-item-navLeft.stop:hover{
+    background-color: #ff3737;
+}
+.list-item-navLeft.candado{
+    border-right: 2px solid hsla(0,0%,100%,0.15);
+}
+.list-item-navLeft.tareas{
+    border-right: 2px solid hsla(0,0%,100%,0.15);
+}
+
+.list-item-navLeft.config{
+    border-left: 2px solid hsla(0,0%,100%,0.15);
+}
+
+
+.imageNarBar {
+    height: 32px;
+    -webkit-align-self: center;
+    -ms-flex-item-align: center;
+    -ms-grid-row-align: center;
+    align-self: center;
+}
+.cubreContentLive{
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+        margin-top: 70px;
+}
+.contentColumnLive{
+    padding-right: 40px;
+    padding-left: 40px;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    color: #fff;
+    font-size: 60px;
+    line-height: 72px;
+    font-weight: 700;
+}
+.contentColumnLive h1{
+    margin-bottom: 20px;
+    font-size: 80px;
+    line-height: 100px;
+    text-align: right;
+}
+.imgQr{
+    border-radius: 20px!important;
+}
+.footerLive{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.centerFooter{
+    display: flex;
+    justify-content: center
+}
+.centerFooter h1{
+    color: hsla(0,0%,100%,0.5);
+    font-size: 30px;
+}
+.cubreModoLive{
+    background-color: #58b1ff;
+    background-image: linear-gradient( 
+94deg
+, rgba(0, 0, 0, 0.1), hsla(0, 0%, 100%, 0.1) );
+    font-family: "Space Grotesk", sans-serif;
+    min-height: 100vh;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+}
+.cubreIconDropdown{
+    display: flex;
+    width: 60px;
+    height: 60px;
+    justify-content: center;
+    align-items: center;
+}
+.dropdown-content.live{
+    background-color: #444;
+    display: block;
+    text-align: left;
+    margin-left: 30px;
+}
+.dropdown-content.live a{
+  color:white
+}
+.dropdown-content.live a:hover{
+    background: rgba(255,255,255,.16);
+  }
 @media screen and (max-width: 767px)
 {
     .circle {
@@ -1341,5 +1556,27 @@ input[type="checkbox"], input[type="radio"] {
 @media screen and (max-width: 991px){
     .circle {
         height: 226px;
+    }
+
+    .cubreContentLive{
+        display: block;
+    }
+    .contentColumnLive{
+        padding: 0; 
+        text-align: center;
+    }
+    .contentColumnLive h1 {
+        margin-bottom: 20px;
+        font-size: 70px;
+        line-height: 100px;
+        text-align: center;
+        padding-right: 10px;
+    }
+    .imgQr {
+        padding: 10px
+    }
+
+    .footerLive{
+        position: relative;
     }
 }

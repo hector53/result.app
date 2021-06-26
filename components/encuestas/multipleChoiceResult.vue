@@ -8,7 +8,7 @@
         <div class="w-form" style="padding: 10px;">
           <div 
           v-for="(item, index) in opciones" :key="index"
-          @click="votar(item['id'])"
+         
           >
             <div class="CubOption" v-if="resultados"
             :style="'border-color:'+colores[item['color']]"

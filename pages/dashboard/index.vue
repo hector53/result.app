@@ -1,7 +1,7 @@
 <template>
 <div>
   <loading :active="isLoading" color="#59b1ff"  />
-<section class="section-hero" style=" padding: 5px;"  >
+<section class="section-hero" style=" padding: 5px;     min-height: 100vh;"  >
     <div class="container">
       <div class="div-block-5"><a href="/" class="link">
         <i class="fa fa-arrow-left" aria-hidden="true"></i> {{$store.state.idioma.back}}</a>

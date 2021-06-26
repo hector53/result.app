@@ -19,11 +19,7 @@ import navBarEvento from '../../../components/header/navBarEvento.vue';
 export default {
       layout: "dashboardEvent",
   components: { navBarEvento, MultipleChoiceResult },
-   head: {
-    script: [
-      {src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js'},
-    ],
-  },
+
   data() {
     return {
      eventT: false, 

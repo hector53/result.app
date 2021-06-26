@@ -1,18 +1,14 @@
 <template>
 <div style="    min-height: 500px;">
-  
  <loading :active="isLoading" color="#59b1ff" loader="dots" />
   <div class="cubreEventoFron" v-show="isLoading== false">
-    
     <div class="navigationTab">
       <div class="tabMia " v-for="index in tabs" :key="index"  >
         <div class="tabMia-content " 
         @click="tabActive = index "
         :class="{'active': tabActive == index}"></div>
       </div>
-     
     </div>
-
     <div class="contentTab" v-for="(item, index) in encuestas" :key="index">
         <div v-if="tabActive == (index+1)" >
               <multiple-choice-front v-if="item.tipo == 1" :id_encuesta="item.id" 
@@ -23,7 +19,6 @@
     </div>
   </div>
 </div>
-  
 </template>
 
 <script>
