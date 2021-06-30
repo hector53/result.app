@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>{{ titulo_encuesta }}</h1>
-    <vue-word-cloud
+    <vue-word-cloud v-if="mostrar"
       style="height: 500px"
       :words="palabras"
       :color="wordsColor"
@@ -18,6 +18,7 @@ export default {
   data() {
     return {
       palabras: [],
+      mostrar: false
     };
   },
   components: { Loading },
@@ -35,7 +36,9 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
+
             this.palabras = response.palabras;
+            this.mostrar = true
           }
         });
     },
