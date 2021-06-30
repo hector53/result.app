@@ -19,7 +19,9 @@
     "nuxt-sweetalert2": "^1.0.0",
     "vue-click-outside": "^1.1.0",
     "vue-fullscreen": "^2.5.1",
-    "vue-loading-overlay": "3.0"
+    "vue-loading-overlay": "3.0",
+    "vue-qrcode": "^0.4.0",
+    "vuewordcloud": "^18.7.12"
   },
   "devDependencies": {
     "push-dir": "^0.4.1"

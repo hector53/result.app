@@ -1,6 +1,6 @@
 export default {
   env: {
- //  baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
    baseUrl: process.env.BASE_URL || 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -30,6 +30,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: "~/plugins/vueworldcloud", ssr: false }, 
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -57,8 +58,8 @@ export default {
   },
 
   axios: {
-      baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
- //  baseURL: 'http://127.0.0.1:5000/api/',
+     baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
+ // baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

@@ -1468,6 +1468,7 @@ input[type="checkbox"], input[type="radio"] {
 }
 .imgQr{
     border-radius: 20px!important;
+    width: 300px;
 }
 .footerLive{
     position: absolute;
@@ -1500,6 +1501,20 @@ input[type="checkbox"], input[type="radio"] {
     justify-content: center;
     align-items: center;
 }
+.dropdown-content.liveNew{
+    background-color: #444;
+    display: block;
+    text-align: left;
+    margin-left: 30px;
+}
+.dropdown-content.liveNew a{
+    color: white;
+    display: flex;
+    padding-right: 20px;
+}
+.dropdown-content.liveNew a:hover{
+    background: rgba(255,255,255,.16);
+  }
 .dropdown-content.live{
     background-color: #444;
     display: block;
@@ -1507,11 +1522,53 @@ input[type="checkbox"], input[type="radio"] {
     margin-left: 30px;
 }
 .dropdown-content.live a{
-  color:white
+    color: white;
+    display: flex;
+    padding-right: 20px;
 }
 .dropdown-content.live a:hover{
     background: rgba(255,255,255,.16);
   }
+  .irAtrasLive{
+    position: absolute;
+    left: 20px;
+    font-size: 30px;
+    color: white;
+    opacity: 0.5;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+.irAtrasLive:hover{
+    opacity: 1;
+}
+.button-group-live{
+    display: flex;
+    justify-content: center;
+}
+.editIconEncuestaLive{
+    margin-right: 10px;
+}
+.cubreEncuestaLiveFor{
+    display: flex;
+    width: 100%;
+    margin-right: 20px;
+}
+.tituloEncuestaLiveItem{
+    width: 200px;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.button.stop{
+    background-color: red;
+    padding: 10px;
+}
+.titleModalLive{
+    text-align: left;
+    font-size: 22px;
+    margin-bottom: 30px;
+}
 @media screen and (max-width: 767px)
 {
     .circle {
@@ -1573,10 +1630,19 @@ input[type="checkbox"], input[type="radio"] {
         padding-right: 10px;
     }
     .imgQr {
-        padding: 10px
+        padding: 10px; 
+        width: 100%;
     }
 
     .footerLive{
         position: relative;
+    }
+    .dropdown-content.live{
+    margin-left: -100px;
+    width: 300px;
+    }
+    
+    .cubreEncuestaLiveFor{
+        width: 200px;
     }
 }

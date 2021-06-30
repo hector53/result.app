@@ -4,10 +4,16 @@
  <nav-bar-event v-if="eventT" :eventName="eventName"  ></nav-bar-event>
     <div class="cubreResults" v-for="(item, index) in encuestas" :key="index" >
         <multiple-choice-result
-         :ref="'encuestaFront_'+index"
+         :ref="'encuestaFront_'+item.id"
         v-if="item.tipo == 1" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo"
         ></multiple-choice-result>
+
+         <nube-de-palabras-activa
+           :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 2 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          ></nube-de-palabras-activa>
     </div>
 
 </div>
@@ -25,6 +31,8 @@ export default {
      eventT: false, 
      eventName: '', 
      encuestas: [], 
+     id_evento: ''
+     
 	};
   },
   
@@ -46,6 +54,7 @@ this.socket.emit('conectar', {
                 this.eventName = response.titulo
                 this.eventT = true
                 this.encuestas = response.tipoEncuesta
+                this.id_evento = response.id
             }
         });
     }
@@ -72,15 +81,19 @@ this.socket.emit('conectar', {
   this.socket
     .on('respuestaDelVoto', (data) => {
        console.log(data)
-       for(var i=0; i<this.encuestas.length; i++){
-         var idEncuestaM=this.$refs['encuestaFront_'+i][0].id_encuesta
-    //   console.log(this.$refs['encuestaFront_'+i][0].id_encuesta)
-          if(data.id_encuesta == idEncuestaM){
-              console.log("esta encuesta es la q debemos actualizar", data.id_encuesta)
-                this.$refs['encuestaFront_'+i][0].getEncuestaById(data.id_encuesta)
+        console.log(this.$refs['encuestaFront_'+data.id_encuesta][0])
+         var idEncuestaM=this.$refs['encuestaFront_'+data.id_encuesta][0].id_encuesta
+          console.log("esta encuesta es la q debemos actualizar", data.id_encuesta)
               
+          if(data.id_encuesta == idEncuestaM){
+         
+             if(data.tipo == 1){
+                this.$refs['encuestaFront_'+data.id_encuesta][0].getEncuestaById(data.id_encuesta)
+             }
+              if(data.tipo == 2){
+                this.$refs['encuestaFront_'+data.id_encuesta][0].getRespuestaByIdEncuesta(data.id_encuesta)
+              }
           }
-       }
     })
 
     

@@ -1,5 +1,37 @@
 <template>
   <div>
+     <div id="modalAddEncuestaLive" class="modal">
+            <div class="modal-background" @click="closeModalAddLive"></div>
+            <div class="modal-content">
+            <div class="box" style="    text-align: left;">
+              <encuesta-simple @cerrarModal="cerrarModalEncuestaActiva" 
+              v-if="encuestaActive == 1"></encuesta-simple>
+
+              <nube-de-palabras @cerrarModal="cerrarModalEncuestaActiva"  v-if="encuestaActive == 2"></nube-de-palabras>
+            
+            </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close" @click="closeModalAddLive"></button>
+     </div>
+      <div id="modalEditEncuestaLive" class="modal">
+            <div class="modal-background" @click="closeModalEditLive"></div>
+            <div class="modal-content">
+            <div class="box" style="    text-align: left;">
+              <encuesta-simple-edit @cerrarModalEdit="cerrarModalEdit" v-if="encuestaEditId > 0 && tipoEncuestaEdit==1"
+                :id_encuesta="encuestaEditId" 
+                ></encuesta-simple-edit>
+              
+              <nube-de-palabras-edit
+              @cerrarModalEdit="cerrarModalEdit"
+               v-if="encuestaEditId > 0 && tipoEncuestaEdit==2"
+                :id_encuesta="encuestaEditId" 
+              ></nube-de-palabras-edit>
+            </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close" @click="closeModalEditLive"></button>
+     </div>
+
+
     <div class="cubreNavBarPresentacion">
       <div class="navBarLeft">
         <ul role="list" class="listNavBarLeft">
@@ -12,20 +44,17 @@
                                 </div>
                             </div>
                                 <div class="dropdown-menu dropMover" id="dropdown-menu2" role="menu">
-                                <div class="dropdown-content live">
-                                <a  class="dropdown-item" v-for="(item, index) in $store.state.arrayEncuestaActiveLiveMode" :key="index" @click="selectActiveEncuesta(item.id)">
-                                    <span style="margin-right: 10px;">{{index+1}}</span>
-                                    <span>{{item.titulo}}</span>
-                                    <i class="fa fa-check" aria-hidden="true" v-if="item.play == 1"></i>
+                                <div class="dropdown-content liveNew">
+                                <a  class="dropdown-item" @click="openModalAddLive(1)" >
+                                    <span>Encuesta Simple</span>
                                 </a>
-                               
+                                 <a  class="dropdown-item" @click="openModalAddLive(2)"  >
+                                    <span>Nube de Palabras</span>
+                                </a>
                                 </div>
                                 </div>
                         </div>
-
-
           </li>
-
           <li class="list-item-navLeft play" v-if="$store.state.eventLiveMode == 0" @click="activarEvento(1)">
             <img
               src="data:image/png;base64,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"
@@ -61,11 +90,23 @@
                                 </div>
                             </div>
                                 <div class="dropdown-menu dropMover" id="dropdown-menu2" role="menu">
-                                <div class="dropdown-content live">
-                                <a  class="dropdown-item" v-for="(item, index) in $store.state.arrayEncuestaActiveLiveMode" :key="index" @click="selectActiveEncuesta(item.id)">
+                                <div class="dropdown-content live" v-if="$store.state.arrayEncuestaActiveLiveMode.length > 0">
+                                <a  class="dropdown-item"
+                                 v-for="(item, index) in $store.state.arrayEncuestaActiveLiveMode" 
+                                 :key="index">
+                                 <div class="cubreEncuestaLiveFor"  @click="selectActiveEncuesta(item.id)">
                                     <span style="margin-right: 10px;">{{index+1}}</span>
-                                    <span>{{item.titulo}}</span>
+                                    <span class="tituloEncuestaLiveItem" >{{item.titulo}}</span>
                                     <i class="fa fa-check" aria-hidden="true" v-if="item.play == 1"></i>
+                                 </div>
+                                    
+
+                                    <div class="iconsOpcionesEncuestaLive">
+                                      <i class="fa fa-pencil-square-o editIconEncuestaLive" 
+                                    aria-hidden="true" @click="openModalEditLive(item.id, item.tipo)"></i>
+                                    <i class="fa fa-trash" aria-hidden="true" @click="deleteEncuestaByClickId(item.id)"></i>
+                                    </div>
+                                    
                                 </a>
                                
                                 </div>
@@ -101,17 +142,89 @@
 </template>
 
 <script>
+import encuestaSimple from './encuestas/encuestaSimple.vue';
+import EncuestaSimpleEdit from './encuestas/encuestaSimpleEdit.vue';
+import NubeDePalabras from './encuestas/nubeDePalabras/nubeDePalabras.vue';
 export default {
+  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras },
   
   data() {
     return {
-
+      encuestaActive: 0,
+      encuestaEditId: 0, 
+      tipoEncuestaEdit: 0, 
+     
     };
   },
 
   methods: {
+    deleteEncuestaByClickId(id){
+       this.$swal({
+                title: '¿Estas seguro que quieres borrar esta encuesta ? ',
+                html: 'Se perderan todas las votaciones realizadas en ella',
+                showCancelButton: true,
+                confirmButtonText: `Si borrar`,
+              }).then((result) => {
+                  if(result.value){
+                      this.deleteEncuestaById(id)
+                  }
+              })
+    },
+async deleteEncuestaById(id){
+    const response = await this.$axios.$post("delete_poll_simple_live_by_id", {
+                        id: id,
+                        codigo: this.$route.params.cod
+                        });
+                    console.log(response)
+                        this.$emit("recargarEncuestasByModal")
+},
+    closeModalEditLive(){
+      this.encuestaEditId = 0
+    this.tipoEncuestaEdit = 0
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalEditEncuestaLive').classList.remove('is-active')
+    },
+    openModalEditLive(id, tipo){
+    this.encuestaEditId = id
+    this.tipoEncuestaEdit = tipo
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+    root.classList.add('is-clipped');
+    document.getElementById('modalEditEncuestaLive').classList.add('is-active')
+    },
+    cerrarModalEncuestaActiva(){
+      this.encuestaActive = 0
+      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalAddEncuestaLive').classList.remove('is-active')
+      this.$emit("recargarEncuestasByModal")
+      
+    },
+    cerrarModalEdit(){
+ this.encuestaEditId = 0
+    this.tipoEncuestaEdit = 0
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalEditEncuestaLive').classList.remove('is-active')
+      this.$emit("recargarEncuestasByModal")
+    },
+    openModalAddLive(val){
+      this.encuestaActive = val
+      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.add('is-clipped');
+      document.getElementById('modalAddEncuestaLive').classList.add('is-active')
+    },
+    closeModalAddLive(){
+      this.encuestaActive = 0
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalAddEncuestaLive').classList.remove('is-active')
+    },
+   
    async cambiarStatus(){
-      var candadoViejo = this.$store.state.candadoModoLive
+
+      if(this.$store.state.arrayEncuestaActiveLiveMode.length > 0){
+           var candadoViejo = this.$store.state.candadoModoLive
       var candado = !this.$store.state.candadoModoLive
         this.$store.commit('setcandadoModoLive', candado);
              //y aparte cambiar el resultado en la db 
@@ -119,6 +232,8 @@ export default {
         publicarDesactivar: candadoViejo,
         codigo: this.$route.params.cod
         });
+      }
+    
     },
     activarFullScreen(){
       this.$emit("activarFullScreen")
@@ -133,7 +248,10 @@ export default {
         })
     },
     activarEvento(val){
-      this.$emit("activarEvento", val)
+      if(this.$store.state.arrayEncuestaActiveLiveMode.length > 0){
+         this.$emit("activarEvento", val)
+      }
+     
     }, 
  async   selectActiveEncuesta(id){
    
@@ -149,6 +267,8 @@ export default {
             this.getEventByCod()
     }
   },
+
+  
   mounted() {},
 };
 </script>

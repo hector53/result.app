@@ -18,6 +18,7 @@
                 <div class="hoverOpciones">
                     <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                     <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                     <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
                 </div>
                 <div class="form-block w-form has-text-left" style="margin: 0">
                 <div class="div-block-4">
@@ -62,6 +63,9 @@ export default {
   },
   
   methods: {
+    eliminar(){
+      this.$emit('eliminarEncuesta', this.id_encuesta)
+    },
     moverArriba(index){
       console.log("estoy en el componente")
       this.$emit("moverArriba", index);
@@ -140,7 +144,7 @@ const response = await this.$axios.$post("guardar_opciones_tipo_1", {
     setInterval(() => {
       
           //si no esta vacío comparo
-          console.log("no esta vacio entonces comparo")
+        
             if(this.preguntaEncuesta != this.preguntaEncuesta2){
               //son diferentes por lo tanto creo o actualizo 
               console.log("son diferentes por lo tanto creo o actualizo ")

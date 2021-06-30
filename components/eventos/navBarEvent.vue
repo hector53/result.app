@@ -26,7 +26,11 @@
             >
               <div class="dropdown-content">
                 <a href="#" @click="addNewEncuesta(1)" class="dropdown-item">
-                  Simple Poll
+                  Encuesta Simple
+                </a>
+
+                 <a href="#" @click="addNewEncuesta(2)" class="dropdown-item">
+                  Nube de Palabras
                 </a>
               </div>
             </div>

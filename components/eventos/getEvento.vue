@@ -15,6 +15,9 @@
               :titulo_encuesta="item.titulo" :id_evento="id_evento"
               @teclas="moverTab" @closeLoading="closeLoading"
               ></multiple-choice-front>
+
+            <nube-de-palabras-front @teclas="moverTab" v-if="item.tipo == 2" :id_encuesta="item.id" 
+              :titulo_encuesta="item.titulo" :id_evento="id_evento"></nube-de-palabras-front>
         </div>
     </div>
   </div>
@@ -25,14 +28,15 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
+import NubeDePalabrasFront from '../live/encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
 export default {
-  components: { multipleChoiceFront, Loading },
+  components: { multipleChoiceFront, Loading, NubeDePalabrasFront },
   props:['id_evento', 'encuestas'],
   data() {
     return {
       tabs: this.encuestas.length,
       tabActive: 1, 
-      isLoading: true,
+      isLoading: false,
     };
   },
 

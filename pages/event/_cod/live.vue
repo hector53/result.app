@@ -1,7 +1,9 @@
 <template>
   <div class="cubreModoLive">
-    <header-live  @activarFullScreen="toggle"  @activarEvento="activarEvento"></header-live>
-   <content-live-off ref="contentLive" ></content-live-off>
+    <header-live ref="headerLive" @recargarEncuestasByModal="getEventByCod" @activarFullScreen="toggle" 
+     @activarEvento="activarEvento"></header-live>
+    <i class="fa fa-arrow-left irAtrasLive" aria-hidden="true" @click="irAtras"></i>
+   <content-live-off ref="contentLive" v-if="content" :id_evento="id_evento" ></content-live-off>
 
     <div class="footerLive"> 
       <div class="centerFooter"> 
@@ -29,13 +31,22 @@ export default {
     if(response.status == 0){
        return redirect('/dashboard')
     }else{
-    
+
+      if(response.status == 2){
+        //desactivar el evento
+           app.store.commit("seteventLiveMode", 0 );
+          app.store.commit("setcandadoModoLive", 0 );
+          return{id_evento: response.id}
+      }else{
         app.store.commit("seteventLiveMode", response.modo );
         app.store.commit("setEncuestaActiveLiveMode", response.encuestaActiva );
          app.store.commit("setarrayEncuestaActiveLiveMode", response.tipoEncuesta );
  app.store.commit("setcandadoModoLive", response.statusEvent );
         //hacer un tipo encuesta live en el store para actualizarlo mas facil 
         return{id_evento: response.id}
+      }
+    
+        
     }
    
   },
@@ -44,10 +55,46 @@ export default {
     return {
       fullscreen: false,
       teleport: true,
+      content: true
 	};
   },
 
   methods: {
+detectaTecla(event){
+  if(this.$store.state.eventLiveMode == 1){
+       // console.log(event.keyCode)
+            //console.log(event.ctrlKey)
+             if(event.keyCode === 39){
+               var encuestaActiva = this.$store.state.encuestaActiveLiveMode
+               var arrayEncuestas = this.$store.state.arrayEncuestaActiveLiveMode
+               var cantidadEncuestas = this.$store.state.arrayEncuestaActiveLiveMode.length
+              var  index = arrayEncuestas.findIndex(x => x.id ===encuestaActiva);
+              if((index+1) < cantidadEncuestas){
+                  console.log("puedo ir pa alante")
+                  var idNueva = this.$store.state.arrayEncuestaActiveLiveMode[(index+1)].id
+                  console.log(this.$refs.headerLive.selectActiveEncuesta(idNueva))
+              }
+              // console.log(index)
+             }
+              if(event.keyCode === 37){
+                  var encuestaActiva = this.$store.state.encuestaActiveLiveMode
+               var arrayEncuestas = this.$store.state.arrayEncuestaActiveLiveMode
+               var cantidadEncuestas = this.$store.state.arrayEncuestaActiveLiveMode.length
+              var  index = arrayEncuestas.findIndex(x => x.id ===encuestaActiva);
+              if(index >0){
+                  console.log("puedo ir pa atras")
+                  var idNueva = this.$store.state.arrayEncuestaActiveLiveMode[(index-1)].id
+                  console.log(this.$refs.headerLive.selectActiveEncuesta(idNueva))
+              }
+             }
+  }
+          
+
+},
+
+    irAtras(){
+        this.$router.push({name: 'event-cod'})
+    }, 
     toggle () {
       fullscreen.toggle(this.$el.querySelector('.fullscreen-wrapper'), {
         teleport: this.teleport,
@@ -57,12 +104,21 @@ export default {
       })
     },
     async getEventByCod(){
+      this.content = false
          await   this.$axios.$get("get_event_by_cod?codigo="+this.$route.params.cod)
         .then((response) => {
           console.log(response)
           if(response.status == 1){
             this.$store.commit("setarrayEncuestaActiveLiveMode", response.tipoEncuesta );
             this.$store.commit("setEncuestaActiveLiveMode", response.encuestaActiva );
+            
+            this.content = true
+          }
+          if(response.status == 2){
+            this.$store.commit("seteventLiveMode", 0 );
+            this.$store.commit("setcandadoModoLive", 0 );
+            this.$store.commit("setarrayEncuestaActiveLiveMode", [] );
+            this.content = true
           }
         })
     },
@@ -90,6 +146,7 @@ export default {
     }
   },
   mounted() {
+     window.addEventListener('keyup', this.detectaTecla)  
   this.socket = this.$nuxtSocket({
       channel: '/'
     })
@@ -111,13 +168,22 @@ this.socket.emit('conectar', {
   this.socket
     .on('respuestaDelVoto', (data) => {
       if(data.id_evento == this.id_evento){
+        if(data.tipo == 1){
          this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getEncuestaById(data.id_encuesta)
+        }
+         if(data.tipo == 2){
+         this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getRespuestaByIdEncuesta(data.id_encuesta)
+        }
+
       }
     })
 
      var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
   },
+   destroyed () {
+   window.removeEventListener('keyup', this.detectaTecla)
+ },
 };
 </script>
 

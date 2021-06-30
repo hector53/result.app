@@ -1,17 +1,14 @@
 <template>
   <div>
-    <nav-bar-evento v-if="eventT" :eventStatus="eventStatus" @guardarEvento="guardarEvento"></nav-bar-evento>
+    <nav-bar-evento @activarLoader="activarLoader" v-if="eventT" :eventModo="eventModo" :eventStatus="eventStatus" @guardarEvento="guardarEvento"></nav-bar-evento>
     <nav-bar-event v-if="eventT" :eventName="eventName" @addNewEncuesta="addNewEncuesta" ></nav-bar-event>
-
     <section
       class="section-hero"
       style="padding: 5px; margin-bottom: 40px; min-height: 500px"
     >
       <div class="container">
         <loading :active="isLoading" color="#59b1ff" loader="dots" />
-
-        <tipos-encuestas-index v-if="opcionesPredeterminadas" @createPoll="createPoll" ></tipos-encuestas-index>
-
+        <tipos-encuestas-index v-if="opcionesPredeterminadas && eventT" @createPoll="createPoll" ></tipos-encuestas-index>
         <div v-for="(item, index) in arrayEncuestas" :key="index">
           <multiple-choice
             :ref="'encuesta_'+index"
@@ -23,7 +20,18 @@
             :opciones2="item['opciones2']"
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
           ></multiple-choice>
+          <nube-de-palabras-add
+          :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 2"
+            :numero="index"
+            :idEcuesta="item['idEcuesta']"
+            :pregunta="item['pregunta']"
+            @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+          ></nube-de-palabras-add>
         </div>
       </div>
     </section>
@@ -40,11 +48,12 @@ import MultipleChoice from "../../../components/encuestas/multipleChoice.vue";
 import FooterT from '../../../components/footer/footerT.vue';
 import NavBarEvento from '../../../components/header/navBarEvento.vue';
 import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIndex.vue';
+import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
 
 export default {
   layout: "dashboardEvent",
   middleware: "miauth",
-  components: { MultipleChoice, Loading, NavBarEvento, FooterT, TiposEncuestasIndex },
+  components: { MultipleChoice, Loading, NavBarEvento, FooterT, TiposEncuestasIndex, NubeDePalabrasAdd },
   data() {
     return {
       dropdownAddPoll: false,
@@ -53,6 +62,7 @@ export default {
       arrayMostrar: false,
       isLoading: true,
       eventName: '', 
+      eventModo: '',
       eventStatus: 0, 
       eventT: false, 
       opcionesPredeterminadas: true
@@ -60,6 +70,34 @@ export default {
   },
 
   methods: {
+    
+
+deleteEncuestaByClickId(id){
+       this.$swal({
+                title: '¿Estas seguro que quieres borrar esta encuesta ? ',
+                html: 'Se perderan todas las operaciones realizadas en ella',
+                showCancelButton: true,
+                confirmButtonText: `Si borrar`,
+              }).then((result) => {
+                  if(result.value){
+                      this.deleteEncuestaById(id)
+                  }
+              })
+    },
+async deleteEncuestaById(id){
+    const response = await this.$axios.$post("delete_poll_simple_live_by_id", {
+                        id: id,
+                        });
+                    if(response.status !='error'){
+                        this.getEncuestas()
+                    }else{
+                      alert("ocurrio un error quizas algo mal en tus datos")
+                    }
+},
+
+    activarLoader(){
+      this.isLoading = true
+    },
     createPoll(id){
       this.addNewEncuesta(id)
     },
@@ -162,9 +200,18 @@ export default {
           ],
         });
       }
+
+       if (val == 2) {
+        this.arrayEncuestas.push({
+          tipo: 2,
+          idEcuesta: 0,
+          pregunta: "",
+        });
+      }
     },
 
     async getEncuestas() {
+      this.arrayEncuestas = []
       await this.$axios
         .$get("get_encuestas_event?codigo=" + this.$route.params.cod)
         .then((response) => {
@@ -172,6 +219,7 @@ export default {
           this.isLoading = false;
            this.eventName = response.eventName
             this.eventStatus = response.eventStatus
+            this.eventModo = response.eventModo
             console.log(this.eventStatus)
             this.eventT = true
           if (response.status == 1) {

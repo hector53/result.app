@@ -1,14 +1,9 @@
 <template>
-<section class="section-hero">
+<section class="section-hero" style="padding-top: 20px;">
    <loading :active="isLoading" color="#59b1ff" loader="dots" 
                  />
         <div class="container">
-         
-
-            <div class="div-block-5"><a href="/" class="link">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i> {{$store.state.idioma.back}}</a></div>
-            <h1 class="headingM has-text-left">{{$store.state.idioma.pollTitle}}</h1>
-            <p class="hero-subhead has-text-left">{{$store.state.idioma.pollSubtitle}}</p>
+       
             <div class="form-block w-form has-text-left">
                     <div class="div-block-4">
                         <label for="name" class="field-label has-text-left">{{$store.state.idioma.questionLabel}}</label>
@@ -30,9 +25,11 @@
                     </div>
                    
                     <div class="text-block-5"  @click="addOpcion">+ {{$store.state.idioma.newOption}}</div>
-                    <div class="button-group">
-                        <button class="buttonN blue " @click="crearEncuesta">{{$store.state.idioma.submitButton}}</button>
-                        <button class="buttonN ">{{$store.state.idioma.advancedButton}}</button>
+                    <div class="button-group-live">
+                        <button class="buttonN blue " @click="crearEncuesta(0)">
+                            Guardar</button>
+                        <button class="buttonN play " @click="crearEncuesta(1)">
+                            <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar</button>
 
                     </div>
                    
@@ -42,16 +39,6 @@
 </template>
 
 <script>
-const  generateRandomString = (num) => {
-  const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result1= '';
-  const charactersLength = characters.length;
-  for ( let i = 0; i < num; i++ ) {
-      result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-
-  return result1;
-}
 
  import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
@@ -73,33 +60,16 @@ export default {
     ...mapState('auth', ['loggedIn', 'user'])
   },
   methods: {
-         wordsColor: function (word) {
-            var colors = ['#ffd077', '#3bc4c7', '#3a9eea', '#ff4e69', '#461e47'];
-            var getRandomInt = function(max) {
-                return Math.floor(Math.random() * Math.floor(max));
-            };
-            return colors[getRandomInt(5)];
-        },
 
-   async getIp(){
-       await   fetch('https://api.ipify.org?format=json')
-          .then(x => x.json())
-          .then(({ ip }) => {
-          this.ipWeb = ip;
-          });
-    },
-    
   
-    votar(id){
-      alert("votar por la "+id)
-    },
+  
       reducirOpciones(index) {
           this.opcionEncuesta.splice(index,1)
         },
         addOpcion() {
           this.opcionEncuesta.push('')
         },
-      async  crearEncuesta(){
+      async  crearEncuesta(val){
           if(this.preguntaEncuesta==''){
             this.$swal({
               type: 'error',
@@ -122,36 +92,33 @@ export default {
           }
           //aqui si enviar a guardar la encuesta 
           this.isLoading = true
-            var cookieNotUser = this.$cookies.get('_r_u') 
-          const response = await this.$axios.$post("create_poll_not_user", {
+          const response = await this.$axios.$post("create_poll_simple_live", {
                  pregunta:this.preguntaEncuesta, 
                  opciones: this.opcionEncuesta,
-                  miCodigo: generateRandomString(5), 
-                  cookieNotUser: cookieNotUser, 
-                  ipWeb: this.ipWeb
+                 codigo: this.$route.params.cod, 
+                 activar: val
                   });
-
+        console.log(response)
           if(response.status ==1){
-               location.href = '/p/'+response.codigo
+              this.isLoading = false
+              if(val == 1){
+                this.$store.commit("seteventLiveMode", 1 );
+                this.$store.commit("setcandadoModoLive", 1 );
+              }
+               this.$emit("cerrarModal")
               }else{
                 this.isLoading = false
                  this.$swal({
                   type: 'error',
                   title: 'Oops...',
-                  text: 'Ya tienes un usuario registrado en este dispositivo debes iniciar sesion',
+                  text: 'Error en los datos ingresados',
                   confirmButtonText: `OK`,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    location.href = '/login'
-                  }
                 })
               }
 
         }, 
   },
   mounted() {
-      this.$refs.pregunta.focus();
-      this.getIp()
   },
 };
 </script>

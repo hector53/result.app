@@ -4,13 +4,17 @@
 <multiple-choice-front v-if="arrayEncuesta[0].tipo == 1" :id_encuesta="arrayEncuesta[0].id" 
 :titulo_encuesta="arrayEncuesta[0].titulo" :id_evento="id_evento"
 ></multiple-choice-front>
+
+<nube-de-palabras-front v-if="arrayEncuesta[0].tipo == 2" :id_encuesta="arrayEncuesta[0].id" 
+:titulo_encuesta="arrayEncuesta[0].titulo" :id_evento="id_evento"></nube-de-palabras-front>
 </div>
 </template>
 
 <script>
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
+import NubeDePalabrasFront from './encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
 export default {
-  components: { multipleChoiceFront },
+  components: { multipleChoiceFront, NubeDePalabrasFront },
   props:['id_evento'],
   data() {
     return {

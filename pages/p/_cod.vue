@@ -27,7 +27,11 @@ export default {
     if(response.status == 0){
        return redirect('/')
     }else{
-      var tipoUser;
+      if(response.status == 2){
+        return {userTipo: tipoUser, id_evento: response.id_evento,
+       encuestas: response.encuestas, statusEvent: 0, modoLive: response.modo}
+      }else{
+         var tipoUser;
       if(response.tipoUser == 0){
         console.log("tipo usuaro sin regisrar")
         //usuario no registrado 
@@ -38,6 +42,8 @@ export default {
       }
       return {userTipo: tipoUser, id_evento: response.id_evento,
        encuestas: response.encuestas, statusEvent: response.statusEvent, modoLive: response.modo}
+      }
+     
     }
   },
    head: {
@@ -72,13 +78,19 @@ export default {
     .on('cambioDeEncuesta', (data) => {
       console.log(data)
       if(data.codigo == this.$route.params.cod){
-         var componenteEncuesta = this.$refs['modoLiveFront']
+
+        if(data.tipo == 5){
+              this.statusEvent = 0
+        }else{
+          var componenteEncuesta = this.$refs['modoLiveFront']
         if(componenteEncuesta == undefined){
              this.statusEvent = 1
           this.modoLive = 1
         } else{
             this.$refs['modoLiveFront'].getEncuestaByEventLive(data.codigo)
         }
+        }
+         
      
       }
 
@@ -95,6 +107,8 @@ export default {
 
         this.socket
     .on('cambiarStatusEvent', (data) => {
+      console.log("cambiar status")
+      console.log(data)
       if(data.codigo == this.$route.params.cod){
           this.statusEvent = data.status
       }

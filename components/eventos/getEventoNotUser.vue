@@ -255,7 +255,8 @@ var cookieNotUser = this.$cookies.get('_r_u')
         id_opcion: id, 
         id_encuesta: this.id_encuesta,
         cookieNotUser: cookieNotUser, 
-        id_evento: this.id_evento
+        id_evento: this.id_evento, 
+        login: false
       });
 
             if(response.result ==  1){
