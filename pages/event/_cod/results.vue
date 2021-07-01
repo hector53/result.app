@@ -15,6 +15,7 @@
           :titulo_encuesta="item.titulo" :id_evento="id_evento"
           ></nube-de-palabras-activa>
     </div>
+    
 
 </div>
 </template>
@@ -25,7 +26,12 @@ import navBarEvento from '../../../components/header/navBarEvento.vue';
 export default {
       layout: "dashboardEvent",
   components: { navBarEvento, MultipleChoiceResult },
-
+head() {
+      return {
+        title: 'Event Results - '+this.$route.params.cod+' - Resultapp',
+        
+      }
+    },
   data() {
     return {
      eventT: false, 

@@ -123,6 +123,12 @@ import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
 export default {
     middleware: 'miauth',
+     head() {
+      return {
+        title: 'Dashboard - Resultapp',
+        
+      }
+    },
   data() {
     return {
       misEventos: [], 

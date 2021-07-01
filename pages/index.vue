@@ -102,7 +102,7 @@
             
           </div>
           <div class="column is-3">
-            <a href="/sorteos">
+             <nuxt-link to="/giveaways">
 
             
                  <div class="evento">
@@ -119,7 +119,7 @@
               </div>
             </div>
             
-            </a>
+             </nuxt-link>
           </div>
           <div class="column is-3">
 
@@ -159,7 +159,7 @@
         </div>
 
         <div class="button-group">
-          <nuxt-link v-if="login" to="/dashboard" class="buttonN blue">
+          <nuxt-link v-if="!login" to="/signup" class="buttonN blue">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
               loading="lazy"
@@ -168,16 +168,17 @@
             />
             <span>{{ $store.state.idioma.buttonHero }}</span>
           </nuxt-link>
-          <nuxt-link v-else class="buttonN blue" to="/dashboard/not-registered">
+     
+          <nuxt-link to="/dashboard" v-if="login"  class="buttonN">
             <img
-              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
+              src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
               loading="lazy"
               alt=""
               class="image-5"
             />
-            <span>{{ $store.state.idioma.buttonHero }}</span>
+            <span>{{ $store.state.idioma.buttonSubHero }}</span>
           </nuxt-link>
-          <nuxt-link to="/dashboard" class="buttonN">
+           <nuxt-link  to="/dashboard/not-registered" v-else  class="buttonN">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
               loading="lazy"

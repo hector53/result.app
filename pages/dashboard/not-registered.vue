@@ -54,9 +54,7 @@
             <div class="column is-flex is-justify-content-space-between">
               <div class="cubreResult is-flex is-justify-content-space-between">
                 <span v-text="item['fecha']"></span>
-                <div>
-                  <span><a :href="'/p/'+item['codigo']+'/edit'" ><i class="fa fa-pencil-square" style="font-size: 20px;" aria-hidden="true"></i></a></span>
-                </div>
+            
               </div>
             </div>
           </div>

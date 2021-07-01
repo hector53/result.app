@@ -2,7 +2,7 @@
   <div class="cubreModoLive">
     <header-live ref="headerLive" @recargarEncuestasByModal="getEventByCod" @activarFullScreen="toggle" 
      @activarEvento="activarEvento"></header-live>
-    <i class="fa fa-arrow-left irAtrasLive" aria-hidden="true" @click="irAtras"></i>
+    <i class="fa fa-arrow-left irAtrasLive" aria-hidden="true" title="Ir Al Dashboard" alt="Ir Al Dashboard" @click="irAtras"></i>
    <content-live-off ref="contentLive" v-if="content" :id_evento="id_evento" ></content-live-off>
 
     <div class="footerLive"> 
@@ -19,7 +19,7 @@ import ContentLiveOff from '../../../components/live/contentLiveOff.vue';
 import HeaderLive from "../../../components/live/headerLive.vue";
 export default {
   middleware: "miauth",
-  layout: "dashboardEvent",
+  layout: "live",
   components: { HeaderLive, ContentLiveOff },
 
    async asyncData({ params, store, redirect, app }) {
@@ -50,7 +50,12 @@ export default {
     }
    
   },
-
+head() {
+      return {
+        title: 'Live - '+this.$route.params.cod+' - Resultapp',
+        
+      }
+    },
   data() {
     return {
       fullscreen: false,

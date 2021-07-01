@@ -45,8 +45,8 @@ export const state = () => ({
     "triviaHeadBlock": 'Trivia',
     "triviaSubBlock": 'Coming soon',
     
-    "buttonHero": 'Dashboard',
-    "buttonSubHero": 'Features',
+    "buttonHero": 'Register',
+    "buttonSubHero": 'Events',
     "tagGratis": 'FREE', 
     "tagRegistro": 'REGISTER', 
     "tagPro": 'PRO', 

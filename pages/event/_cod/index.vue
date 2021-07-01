@@ -1,14 +1,14 @@
 <template>
   <div>
     <nav-bar-evento @activarLoader="activarLoader" v-if="eventT" :eventModo="eventModo" :eventStatus="eventStatus" @guardarEvento="guardarEvento"></nav-bar-evento>
-    <nav-bar-event v-if="eventT" :eventName="eventName" @addNewEncuesta="addNewEncuesta" ></nav-bar-event>
+    <nav-bar-event v-if="eventT" :eventName="eventName" :eventFecha="eventFecha" @addNewEncuesta="addNewEncuesta" ></nav-bar-event>
     <section
       class="section-hero"
-      style="padding: 5px; margin-bottom: 40px; min-height: 500px"
+      style="padding: 5px; margin-bottom: 40px; min-height: 400px"
     >
       <div class="container">
         <loading :active="isLoading" color="#59b1ff" loader="dots" />
-        <tipos-encuestas-index v-if="opcionesPredeterminadas && eventT" @createPoll="createPoll" ></tipos-encuestas-index>
+        <tipos-encuestas-index @addNewEncuesta="addNewEncuesta" v-if="opcionesPredeterminadas && eventT" @createPoll="createPoll" ></tipos-encuestas-index>
         <div v-for="(item, index) in arrayEncuestas" :key="index">
           <multiple-choice
             :ref="'encuesta_'+index"
@@ -51,9 +51,15 @@ import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIn
 import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
 
 export default {
-  layout: "dashboardEvent",
+  layout: "live",
   middleware: "miauth",
   components: { MultipleChoice, Loading, NavBarEvento, FooterT, TiposEncuestasIndex, NubeDePalabrasAdd },
+  head() {
+      return {
+        title: 'Event - '+this.$route.params.cod+' - Resultapp',
+        
+      }
+    },
   data() {
     return {
       dropdownAddPoll: false,
@@ -65,7 +71,8 @@ export default {
       eventModo: '',
       eventStatus: 0, 
       eventT: false, 
-      opcionesPredeterminadas: true
+      opcionesPredeterminadas: true, 
+      eventFecha: ''
     };
   },
 
@@ -87,6 +94,7 @@ deleteEncuestaByClickId(id){
 async deleteEncuestaById(id){
     const response = await this.$axios.$post("delete_poll_simple_live_by_id", {
                         id: id,
+                        codigo: this.$route.params.cod
                         });
                     if(response.status !='error'){
                         this.getEncuestas()
@@ -220,6 +228,13 @@ async deleteEncuestaById(id){
            this.eventName = response.eventName
             this.eventStatus = response.eventStatus
             this.eventModo = response.eventModo
+            this.eventFecha = response.fecha
+
+
+
+
+
+            
             console.log(this.eventStatus)
             this.eventT = true
           if (response.status == 1) {

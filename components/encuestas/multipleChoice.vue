@@ -16,9 +16,11 @@
             <div class="column is-8">
                 <div class="container">
                 <div class="hoverOpciones">
+                  <a  @click="guardar()"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
                     <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
                     <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
                      <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                     
                 </div>
                 <div class="form-block w-form has-text-left" style="margin: 0">
                 <div class="div-block-4">
@@ -64,7 +66,10 @@ export default {
   
   methods: {
     eliminar(){
-      this.$emit('eliminarEncuesta', this.id_encuesta)
+      if(this.id_encuesta > 0){
+         this.$emit('eliminarEncuesta', this.id_encuesta)
+      }
+     
     },
     moverArriba(index){
       console.log("estoy en el componente")
@@ -120,7 +125,12 @@ const response = await this.$axios.$post("guardar_opciones_tipo_1", {
           this.opcion2 = response.opciones
         }
     },
+guardar(){
+  if(this.preguntaEncuesta != '' && this.opciones.length > 1){
+      this.guardarOpciones()
+  }
 
+},
     async guardarPregunta(){
          const response = await this.$axios.$post("guardar_pregunta_tipo_1", {
         id: this.id_encuesta,

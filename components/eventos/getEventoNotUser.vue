@@ -28,7 +28,7 @@
     <div class="container cubreEncuesta" >
       
       
-      <h1 class="headingM has-text-left">pregunta aqui </h1>
+      <h1 class="headingM has-text-left">{{preguntaGetEncuesta}} </h1>
       <p class="hero-subhead has-text-left" v-text="$store.state.idioma.createdAbout+' '+  fecha+' por Anonimo '+totalVotos+' votos'" ></p>
 
       <div style="padding: 10px;     text-align: left;" >
@@ -51,9 +51,8 @@
               <a href="#" class="compartir"><i class="fa fa-slack" aria-hidden="true"></i></a>
               <a href="#" class="compartir"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></div>
           </div>
-          <img
-          :src="qrImage"
-            loading="lazy" alt="" class="image-2">
+         
+             <vue-qrcode :value="urlActual" class="image-2"  />
         </div>
       </div>
 
@@ -157,7 +156,9 @@
 </template>
 
 <script>
+import VueQrcode from 'vue-qrcode'
 export default {
+  components:{VueQrcode},
   data() {
     return {
 
@@ -189,7 +190,8 @@ export default {
         qrImage: '', 
         id_evento: '', 
         codR: '', 
-        fecha:''
+        fecha:'', 
+        urlActual: ''
      
 	};
   },
@@ -333,7 +335,7 @@ console.log(id)
               if(response != 0){
                //   console.log("estoy")
                   this.opciones = response.opciones
-                  this.preguntaGetEncuesta = response.encuesta[1]
+                  this.preguntaGetEncuesta = response.encuesta[2]
                   this.id_encuesta = response.encuesta[0]
                   this.totalVotos = response.totalVotos
                   this.qrImage = response.qr
@@ -449,6 +451,8 @@ console.log(id)
           }
   },
  async  mounted() {
+   var URLactual = window.location;
+   this.urlActual = URLactual.href
        window.addEventListener('keyup', this.detectaTecla)  
       var pathname = window.location.pathname; 
       if(pathname != '/'){

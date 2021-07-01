@@ -4,38 +4,15 @@
         <div class="column is-6" style="padding: 0">
           <ul role="list" class="list-3">
             <li class="list-item-4" v-if="$route.name == 'event-cod'">
-               <div
-            class="dropdown"
-            :class="{ 'is-active': dropdownAddPoll }"
-            style="    margin-left: 10px;    padding: 0;    height: 100%;"  >
-            <div class="dropdown-trigger" style="    display: flex;    justify-content: center;    align-items: center;">
               <a
               class="addPoll"
-                @click="dropdownAddPoll = !dropdownAddPoll"
-                v-click-outside="clickHideNewEn"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu2"
+              @click="openModalNewEncuesta"
+              v-click-outside="clickHideNewEn"
+              aria-haspopup="true"
+              aria-controls="dropdown-menu2"
               >
                 <i class="fa fa-plus" aria-hidden="true"></i>
               </a>
-            </div>
-            <div
-              class="dropdown-menu dropMover"
-              id="dropdown-menu2"
-              role="menu"
-            >
-              <div class="dropdown-content">
-                <a href="#" @click="addNewEncuesta(1)" class="dropdown-item">
-                  Encuesta Simple
-                </a>
-
-                 <a href="#" @click="addNewEncuesta(2)" class="dropdown-item">
-                  Nube de Palabras
-                </a>
-              </div>
-            </div>
-          </div>
-            
             </li>
         <nuxt-link :to="{name: 'event-cod'}" v-if="$route.name == 'event-cod-results'" >
             <li class="list-item-4">
@@ -55,14 +32,14 @@
                  <li class="list-item-4">
               <div class="text-b4">
                 <span class="text-span">calendario:</span> 
-                <span>06/06/2021</span>
+                <span>{{eventFecha}}</span>
               </div>
             </li>
          </nuxt-link> 
             <li class="list-item-4" v-else>
               <div class="text-b4">
                 <span class="text-span">calendario:</span> 
-                <span>06/06/2021</span>
+                <span>{{eventFecha}}</span>
               </div>
             </li>
 
@@ -108,30 +85,38 @@
                 <i class="fa fa-envelope" aria-hidden="true"></i>
                   <span>Correo Electrónico</span>
                 </a>
-
-                  
-                 
-                
             </div>
             <div class="cubreClicCopiar" @click="copiarUrl">
             <span >{{copiarUrlText}}</span>
             <div class="cubreInputClicCopiar">
                 <input type="url" ref="inputCopy" readonly :value="$store.state.urlBase+'/p/'+$route.params.cod" />
             </div>
-          
             </div>
             </div>
             </div>
             <button class="modal-close is-large" aria-label="close" @click="closeModalCompartir"></button>
+          </div>
+
+           <div id="modalAddNewEncuesta" class="modal">
+            <div class="modal-background" @click="closeModalNewEncuesta"></div>
+            <div class="modal-content">
+            <div class="box" style="    text-align: center;">
+           <tipos-encuestas-modal @closeModal="closeModalNewEncuesta" @addNewEncuesta="addNewEncuesta"></tipos-encuestas-modal>
+       
+            </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close" @click="closeModalNewEncuesta"></button>
           </div>
     </div>
 </template>
 
 <script>
 import ClickOutside from 'vue-click-outside'
+import tiposEncuestasModal from '../indexComps/tiposEncuestasModal.vue';
 
 export default {
-    props:['eventName'],
+  components: { tiposEncuestasModal },
+    props:['eventName', 'eventFecha'],
   data() {
     return {
       dropdownAddPoll: false,
@@ -163,6 +148,20 @@ export default {
         this.$refs.inputCopy.select();
      
     },
+
+
+openModalNewEncuesta(){
+      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.add('is-clipped');
+      document.getElementById('modalAddNewEncuesta').classList.add('is-active')
+    },
+    closeModalNewEncuesta(){
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalAddNewEncuesta').classList.remove('is-active')
+    },
+
+
     openModalCompartir(){
       var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
       root.classList.add('is-clipped');

@@ -1,15 +1,15 @@
 export default {
   env: {
-  // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+ //  baseUrl: process.env.BASE_URL || 'http://localhost:3000'
    baseUrl: process.env.BASE_URL || 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "TItulo de la app",
+    title: "Resultapp - The best survey platform",
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: "descripcion de la app" }
+      { hid: 'description', name: 'description', content: "The best survey platform, with live responses " }
     ],
     link: [
       { rel: 'icon', type: 'image/png', href: '/img/faviconR.png' }, 
@@ -52,14 +52,14 @@ export default {
     // module options
     sockets: [{
       name: 'main',
-     // url: 'http://localhost:5000', 
+   //  url: 'http://localhost:5000', 
       url: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link'
     }]
   },
 
   axios: {
      baseURL: 'http://apiresult.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/api/',
- // baseURL: 'http://127.0.0.1:5000/api/',
+  //baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

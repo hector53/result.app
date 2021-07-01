@@ -76,7 +76,8 @@ export default {
 
         this.socket
     .on('cambioDeEncuesta', (data) => {
-      console.log(data)
+      
+      console.log("llego el cambio",data)
       if(data.codigo == this.$route.params.cod){
 
         if(data.tipo == 5){
@@ -87,6 +88,7 @@ export default {
              this.statusEvent = 1
           this.modoLive = 1
         } else{
+          console.log("aqui actualizo la pagina")
             this.$refs['modoLiveFront'].getEncuestaByEventLive(data.codigo)
         }
         }

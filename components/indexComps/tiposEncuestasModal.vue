@@ -1,7 +1,7 @@
 <template>
 <div>
- <div class="columns" style="margin-top: 60px;     padding-left: 10px;
-    padding-right: 10px;">
+ <div class="columns" style="margin-top: 10px;
+    margin-bottom: 10px;">
           <div class="column is-3">
             <div class="evento"  @click="addNewEncuesta(1)" >
               <div class="bloque-evento">
@@ -10,7 +10,6 @@
                       $store.state.idioma.pollHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2">  {{ $store.state.idioma.pollSubBlock }}</div>
               </div>
               <div class="tag is-danger">
                 <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
@@ -26,7 +25,6 @@
                       $store.state.idioma.qaHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #61060e;">  {{ $store.state.idioma.qaSubBlock }}</div>
               </div>
               <div class="tag is-danger">
                 <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
@@ -42,7 +40,6 @@
                       $store.state.idioma.dateHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" >  {{ $store.state.idioma.dateSubBlock }}</div>
               </div>
               <div class="tag is-danger">
                 <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
@@ -61,7 +58,6 @@
                       $store.state.idioma.cloudHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #0a674e;">  {{ $store.state.idioma.cloudSubBlock }}</div>
               </div>
               <div class="tag is-info">
                 <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
@@ -81,7 +77,6 @@
                       $store.state.idioma.rateHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #8f5702;">  {{ $store.state.idioma.rateSubBlock }}</div>
               </div>
               <div class="tag is-info">
                 <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
@@ -92,8 +87,6 @@
             
           </div>
           <div class="column is-3">
-
-            
                  <div class="evento">
               <div class="bloque-evento" style="background-color: rgba(203, 243, 248, 0.25)">
                 <div class="text-block">
@@ -101,7 +94,6 @@
                       $store.state.idioma.giveHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #0b676f;">  {{ $store.state.idioma.giveSubBlock }}</div>
               </div>
               <div class="tag is-info">
                 <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
@@ -118,7 +110,6 @@
                       $store.state.idioma.quizzHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #495a06;">  {{ $store.state.idioma.quizzSubBlock }}</div>
               </div>
               <div class="tag is-success">
                 <div class="text-block-3">{{ $store.state.idioma.tagPro }}</div>
@@ -136,7 +127,6 @@
                       $store.state.idioma.triviaHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #590647;">  {{ $store.state.idioma.triviaSubBlock }}</div>
               </div>
               <div class="tag is-success">
                 <div class="text-block-3">{{ $store.state.idioma.tagPro }}</div>
@@ -159,6 +149,7 @@ export default {
   methods: {
       addNewEncuesta(val) {
         this.$emit('addNewEncuesta', val)
+         this.$emit('closeModal')
     },
    createPoll(id){
      this.$emit("createPoll", id)
