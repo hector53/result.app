@@ -35,7 +35,7 @@
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
-    <vue-word-cloud
+    <vue-word-cloud 
       style="height: 400px"
       :words="palabras"
       :color="wordsColor"
@@ -192,6 +192,7 @@ export default {
      }
   },
   mounted() {
+    console.log(this.$store.state.mostrarEnMoLive)
     window.addEventListener('keyup', this.detectaTecla)  
     //consultar si el usuario ya escribío algo
     this.getRespuestaByIdEncuesta(this.id_encuesta);

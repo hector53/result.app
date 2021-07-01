@@ -9,7 +9,7 @@
     <h1>Evento No Disponible</h1>
   </div>
 <div v-if="statusEvent == 1 && modoLive == 1" style="    min-height: 500px;">
-      <modo-live-front ref="modoLiveFront" :id_evento="id_evento"></modo-live-front>
+      <modo-live-front ref="modoLiveFront" :id_evento="id_evento" :modoLive="modoLive"></modo-live-front>
   </div>
 </div>
 </template>

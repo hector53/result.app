@@ -226,7 +226,8 @@ export default {
       },
      async cancelarVoto(){
 var cookieNotUser = this.$cookies.get('_r_u') 
-         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="+this.id_encuesta+"&u="+cookieNotUser)
+         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="
+         +this.id_encuesta+"&u="+cookieNotUser+"&codigo="+this.$route.params.cod+"&modoLive=0")
         .then((response) => {
 
          //   console.log(response)
@@ -258,7 +259,9 @@ var cookieNotUser = this.$cookies.get('_r_u')
         id_encuesta: this.id_encuesta,
         cookieNotUser: cookieNotUser, 
         id_evento: this.id_evento, 
-        login: false
+        login: false, 
+          liveMode: 0,
+        codigo: this.$route.params.cod, 
       });
 
             if(response.result ==  1){

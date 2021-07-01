@@ -11,6 +11,7 @@ export const state = () => ({
  encuestaActiveLiveMode: 0,
  arrayEncuestaActiveLiveMode: [],
  candadoModoLive: 0,
+ mostrarEnMoLive: false,
  languajes: [
     {
     ////// HEAD
@@ -341,6 +342,12 @@ export const getters = {
 
 
 export const mutations = {
+
+  
+
+  setmostrarEnMoLive(state, val){
+    state.mostrarEnMoLive = val
+  }, 
   setcandadoModoLive(state, val){
     state.candadoModoLive = val
   }, 

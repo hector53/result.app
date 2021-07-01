@@ -106,7 +106,7 @@
 
 <script>
 export default {
-    props:['id_encuesta', 'titulo_encuesta', 'id_evento'],
+    props:['id_encuesta', 'titulo_encuesta', 'id_evento', 'modoLive'],
   data() {
     return {
       opciones: [], 
@@ -131,19 +131,24 @@ export default {
         miVoto: 0, 
         miVotoViejo: 0, 
         codR: '', 
-        codigoEncuesta: ''
+        codigoEncuesta: '', 
+        modoenVivo: 0
 	};
   },
  
   methods: {
        async votar(id){
+         console.log("modolivevotar", this.modoenVivo)
        var cookieNotUser = this.$store.state.p
       const response = await this.$axios.$post("_votar_user_not", {
         id_opcion: id, 
         id_encuesta: this.id_encuesta,
         cookieNotUser: cookieNotUser, 
         id_evento: this.id_evento, 
-        login: this.$store.state.login
+        login: this.$store.state.login, 
+        liveMode: this.modoenVivo,
+        codigo: this.$route.params.cod, 
+        
       });
 
             if(response.result ==  1){
@@ -186,7 +191,7 @@ export default {
 
           if(this.actualizaVoto){
             console.log("votare")
-            await this.getEncuestaById(this.codigoEncuesta)
+            await this.getEncuestaById(this.id_encuesta)
            // this.capture(2)
             this.$swal({
               position: 'center',
@@ -199,7 +204,8 @@ export default {
       },
        async cancelarVoto(){
 var cookieNotUser = this.$store.state.p
-         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="+this.id_encuesta+"&u="+cookieNotUser+"&id_evento="+this.id_evento)
+         await   this.$axios.$get("_cancelar_voto_not_registered?id_encuesta="+this.id_encuesta+"&u="+cookieNotUser+
+         "&id_evento="+this.id_evento+"&codigo="+this.$route.params.cod+"&modoLive="+this.modoenVivo)
         .then((response) => {
 
          //   console.log(response)
@@ -207,8 +213,13 @@ var cookieNotUser = this.$store.state.p
               
               this.actualizaVoto = false
               this.miVoto = 0
-              this.resultados = false
-              this.getEncuestaById(this.codigoEncuesta)
+              
+              if(this.modoLive == 1){
+              this.resultados = true
+              }else{
+                this.resultados = false
+              }
+              this.getEncuestaById(this.id_encuesta)
             }else{
               this.$swal({
                 position: 'center',
@@ -270,8 +281,8 @@ var cookieNotUser = this.$store.state.p
           
 
           }, 
-    async getEncuestaById(){
-         await   this.$axios.$get("get_encuesta_by_id?p="+this.$store.state.p+"&id_encuesta="+this.id_encuesta+"&codigo="+this.$route.params.cod)
+    async getEncuestaById(id){
+         await   this.$axios.$get("get_encuesta_by_id?p="+this.$store.state.p+"&id_encuesta="+id+"&codigo="+this.$route.params.cod)
         .then((response) => {
             this.$emit("closeLoading")
                   this.opciones = response.opciones
@@ -291,6 +302,12 @@ var cookieNotUser = this.$store.state.p
     }
   },
   mounted() {
+    if(this.modoLive == 1){
+        this.resultados = true
+        console.log("modolive", this.modoLive)
+        this.modoenVivo = this.modoLive
+    }
+  
       
        window.addEventListener('keyup', this.detectaTecla)  
       var pathname = window.location.pathname; 
@@ -303,7 +320,7 @@ var cookieNotUser = this.$store.state.p
             this.resultados = true
           }
           this.codigoEncuesta = param
-        this.getEncuestaById()
+        this.getEncuestaById(this.id_encuesta)
       }
   },
   destroyed () {
