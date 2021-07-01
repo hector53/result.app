@@ -1,5 +1,5 @@
 <template>
-<div>
+<div v-if="mostrar">
   <div v-if="statusEvent == 1 && modoLive == 0">
        <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
         <get-evento-not-user v-else></get-evento-not-user>
@@ -51,6 +51,7 @@ export default {
   },
   data() {
     return {
+      mostrar: true
 	};
   },
   computed: {
@@ -79,6 +80,7 @@ export default {
       
       console.log("llego el cambio",data)
       if(data.codigo == this.$route.params.cod){
+        
 
         if(data.tipo == 5){
               this.statusEvent = 0
@@ -102,8 +104,10 @@ export default {
       this.socket
     .on('activarModoPresentacion', (data) => {
       if(data.codigo == this.$route.params.cod){
+        this.mostrar = false
           this.statusEvent = data.modo
           this.modoLive = data.modo
+          this.mostrar = true
       }
     })
 
@@ -112,7 +116,9 @@ export default {
       console.log("cambiar status")
       console.log(data)
       if(data.codigo == this.$route.params.cod){
+        this.mostrar = false
           this.statusEvent = data.status
+          this.mostrar = true
       }
     })
   },
