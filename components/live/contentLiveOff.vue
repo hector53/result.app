@@ -6,7 +6,7 @@
       </div>
       <div class="contentColumnLive">
         
-         <vue-qrcode value="https://www.1stg.me" class="imgQr"   />
+         <vue-qrcode :value="urlQr" class="imgQr"   />
       </div>
     </div>
  <div v-else>
@@ -45,7 +45,9 @@ props:['id_evento'],
     };
   },
 
-  methods: {},
+  methods: {
+    urlQr: 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/p/'+this.$route.params.cod
+  },
   mounted() {
   
   },
