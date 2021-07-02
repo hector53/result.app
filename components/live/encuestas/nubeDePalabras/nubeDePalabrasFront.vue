@@ -16,12 +16,10 @@
                 @keyup.enter="enviarPalabra"
               />
             </div>
-
             <div class="button-group-live" style="margin-top: 50px">
               <button class="buttonN blue" @click="enviarPalabra">
                 Enviar
               </button>
-             
             </div>
           </div>
         </div>
@@ -53,13 +51,14 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
-  props: ["titulo_encuesta", "id_encuesta", "id_evento"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive"],
   data() {
     return {
       addPalabra: "",
       isLoading: false,
       abierto: 0,
       palabras: [],
+      modoenVivo: 0
     };
   },
   components: { Loading },
@@ -82,13 +81,19 @@ export default {
                  id_evento: this.id_evento, 
                  id_encuesta: this.id_encuesta, 
                  p: this.$store.state.p, 
-                 codigo: this.$route.params.cod
+                 codigo: this.$route.params.cod, 
+                  liveMode: this.modoenVivo,
                   });
         console.log(response)
           if(response.status != 0){
               this.isLoading = false
                this.closeModalAddPalabra()
-            //   this.getRespuestaByIdEncuesta(this.id_encuesta)
+               console.log("moodolive", this.modoLive)
+               if(this.modoLive != 1){
+                 console.log("estoy en undefined")
+                  this.getRespuestaByIdEncuesta(this.id_encuesta)
+               }
+            //   
             console.log("no estoy actualziando nada ")
               }else{
                 this.isLoading = false
@@ -192,6 +197,9 @@ export default {
      }
   },
   mounted() {
+    if(this.modoLive == 1){
+        this.modoenVivo = this.modoLive
+    }
     console.log(this.$store.state.mostrarEnMoLive)
     window.addEventListener('keyup', this.detectaTecla)  
     //consultar si el usuario ya escribío algo

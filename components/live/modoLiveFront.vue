@@ -6,7 +6,7 @@
 ></multiple-choice-front>
 
 <nube-de-palabras-front ref="nubeFront" v-if="tipo == 2" :id_encuesta="id" 
-:titulo_encuesta="titulo" :id_evento="id_evento" ></nube-de-palabras-front>
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></nube-de-palabras-front>
 </div>
 </template>
 
