@@ -7,14 +7,19 @@
 
 <nube-de-palabras-front ref="nubeFront" v-if="tipo == 2" :id_encuesta="id" 
 :titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></nube-de-palabras-front>
+
+<sorteos-front ref="sorteosFront" v-if="tipo == 3" :id_encuesta="id" 
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"></sorteos-front>
+
 </div>
 </template>
 
 <script>
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
 import NubeDePalabrasFront from './encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
+import SorteosFront from './encuestas/sorteos/sorteosFront.vue';
 export default {
-  components: { multipleChoiceFront, NubeDePalabrasFront },
+  components: { multipleChoiceFront, NubeDePalabrasFront, SorteosFront },
   props:['id_evento', 'modoLive'],
   data() {
     return {
@@ -50,6 +55,11 @@ export default {
 
                     if(response.tipoEncuesta[0].tipo == 2){
                         this.$refs['nubeFront'].getRespuestaByIdEncuesta(response.tipoEncuesta[0].id)
+                    }
+
+                    
+                    if(response.tipoEncuesta[0].tipo == 3){
+                        this.$refs['sorteosFront'].getSorteoByIdEncuesta(response.tipoEncuesta[0].id)
                     }
                      
 

@@ -15,9 +15,10 @@
               :titulo_encuesta="item.titulo" :id_evento="id_evento"
               @teclas="moverTab" @closeLoading="closeLoading"
               ></multiple-choice-front>
-
-            <nube-de-palabras-front @teclas="moverTab" v-if="item.tipo == 2" :id_encuesta="item.id" 
+              <nube-de-palabras-front @teclas="moverTab" v-if="item.tipo == 2" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo" :id_evento="id_evento"></nube-de-palabras-front>
+              <sorteos-front @teclas="moverTab" v-if="item.tipo == 3" :id_encuesta="item.id" 
+              :titulo_encuesta="item.titulo" :id_evento="id_evento"></sorteos-front>
         </div>
     </div>
   </div>

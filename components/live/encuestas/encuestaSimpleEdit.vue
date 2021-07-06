@@ -5,7 +5,7 @@
         <div class="container">
        
             <div class="form-block w-form has-text-left">
-                    <div class="div-block-4">
+                    <div class="div-block-4"  style="     padding-left: 0;   padding-right: 0">
                         <label for="name" class="field-label has-text-left">{{$store.state.idioma.questionLabel}}</label>
                         <input
                             type="text" class="text-field title w-input" maxlength="256" 
@@ -47,7 +47,11 @@
                     </div>
                    
                     <div class="text-block-5"  @click="addOpcion">+ {{$store.state.idioma.newOption}}</div>
-                    <div class="button-group-live">
+                     <label class="checkbox" style="    margin-top: 10px; margin-bottom: 10px">
+                <input type="checkbox" v-model="multiple">
+                    Permitir respuestas multiples
+                </label>
+                    <div class="button-group-live" style="margin-top: 20px;">
                         <button class="buttonN blue " @click="crearEncuesta(0)">
                             Guardar</button>
                       
@@ -72,7 +76,8 @@ export default {
       preguntaEncuesta: "",  
       isLoading: false, 
       opcionEncuestaNuevo: [], 
-      cantidadOpcionesViejas: 0
+      cantidadOpcionesViejas: 0, 
+      multiple: false
 
 	};
   },
@@ -91,6 +96,11 @@ export default {
                     this.preguntaEncuesta = response.encuesta[0].titulo
                     this.opcionEncuesta = response.opciones
                     this.cantidadOpcionesViejas = response.opciones.length
+                    if(response.encuesta[0].multiple == 1){
+                        this.multiple = true
+                    }else{
+                      this.multiple = false
+                    }
             }
 
             });
@@ -139,6 +149,11 @@ export default {
     }
           //aqui si enviar a guardar la encuesta 
           this.isLoading = true
+          if(this.multiple == true){
+            this.multiple = 1
+          }else{
+            this.multiple =0
+          }
           const response = await this.$axios.$post("edit_poll_simple_live", {
                  pregunta:this.preguntaEncuesta, 
                  opciones: this.opcionEncuesta,
@@ -146,6 +161,7 @@ export default {
                  opcionesNueva: this.opcionEncuestaNuevo,
                   modo: this.$store.state.eventLiveMode,
                   codigo: this.$route.params.cod, 
+                  multiple: this.multiple
                   });
         console.log(response)
           if(response.status ==1){

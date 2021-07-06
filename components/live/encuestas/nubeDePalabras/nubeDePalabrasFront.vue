@@ -1,5 +1,7 @@
 <template>
-  <section class="section-hero" style="padding-top: 20px">
+  <section class="section-hero" style="    margin-top: 60px;
+    border-radius: 20px;
+    padding: 20px;">
     <div id="modalAddPalabra" class="modal">
       <div class="modal-background" @click="closeModalAddPalabra"></div>
       <div class="modal-content">

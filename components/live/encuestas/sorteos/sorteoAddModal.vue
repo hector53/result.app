@@ -1,8 +1,9 @@
 <template>
-<section class="section-hero">
-        <div class="container">
-            <h1 class="headingM has-text-left">Sorteos</h1>
-
+<div class="container">
+            <h1 class="headingM has-text-left">Sorteo</h1>
+            <div class="control">
+                <input class="input" type="text" v-model="titulo" placeholder="Título del soreto">
+              </div>
             <h3 class="headingM has-text-left">Lista de participantes</h3>
             <textarea class="textarea" v-model="participantes" id="participantes" placeholder="Participantes linea por linea" rows="10"></textarea>
             <h3 class="headingM has-text-left mt-3">Número de Premios</h3>
@@ -10,49 +11,41 @@
                 <input class="input" type="number" v-model="premios" placeholder="Cantidad de Premios">
               </div>
               <div class="button-group">
-                <button class="buttonN blue " @click="Sortear">Sortear</button>
+                <button class="buttonN blue " @click="guardarSorteo(0)">Guardar</button>
                 <button class="buttonN  " @click="borrarNombres">Borrar Participantes</button>
             </div>
 
 
-            <nav class="panel" v-if="ganadores" style="    margin-bottom: 40px;">
-                <p class="panel-heading headingM">
-                    Resultados del Sorteo
-                </p>
-                <a class="panel-block is-active" v-for="(item, index) in arrayGanadores"
-                 :key="index"
-                 v-text="'Puesto '+(index+1)+': '+item"
-                 >
-                  
-                </a>
-              </nav>
         </div>
-    </section>
 </template>
 
 <script>
 export default {
-    head: {
+       head: {
    script: [
       { src: 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' },
     ]
 },
   data() {
     return {
-      participantes: "" , 
+       participantes: "" , 
         premios: 1, 
-        ganadores: false, 
-        arrayGanadores: []
+        titulo:''
 	};
   },
- 
   methods: {
-      
-      
-        borrarNombres(){
+         borrarNombres(){
             $("#participantes").val('')
         },
-      async  Sortear(){
+        async  guardarSorteo(val){
+             if(this.titulo == ''){
+            this.$swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Debes agregar un título',
+              })
+              return false
+          }
           if(this.participantes == ''){
             this.$swal({
                 type: 'error',
@@ -88,14 +81,30 @@ export default {
                   return false
               }
 
-                await   this.$axios.$get("_sortear1?participantes="+JSON.stringify(lines)+"&premios="+this.premios)
-                .then((response) => {
-                        console.log(response)
-                        this.ganadores = true
-                        this.arrayGanadores = response.ganadores
-                }
-                )
-  
+              const response = await this.$axios.$post("create_sorteo_live", {
+                 titulo:this.titulo, 
+                 participantes: JSON.stringify(lines),
+                 premios: this.premios, 
+                 codigo: this.$route.params.cod, 
+                 activar: val, 
+                  });
+
+                  console.log(response)
+          if(response.status ==1){
+              if(val == 1){
+                this.$store.commit("seteventLiveMode", 1 );
+                this.$store.commit("setcandadoModoLive", 1 );
+              }
+               this.$emit("cerrarModal")
+              }else{
+                this.isLoading = false
+                 this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Error en los datos ingresados',
+                  confirmButtonText: `OK`,
+                })
+              }
 
         }
   },

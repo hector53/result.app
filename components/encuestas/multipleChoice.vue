@@ -43,6 +43,11 @@
                 </div>
 
                 <div class="text-block-5" style="margin:0"  @click="addOpcion">+ {{$store.state.idioma.newOption}}</div>
+
+                <label class="checkbox" style="    margin-top: 20px;">
+                <input type="checkbox" v-model="multipleE" >
+                    Permitir respuestas multiples
+                </label>
                 </div>
                 </div>
             </div>
@@ -52,7 +57,7 @@
 
 <script>
 export default {
-  props: ['numero', 'idEcuesta', 'pregunta', 'opciones', 'opciones2'],
+  props: ['numero', 'idEcuesta', 'pregunta', 'opciones', 'opciones2', 'multiple'],
   data() {
     return {
       id_encuesta: this.idEcuesta,
@@ -60,7 +65,8 @@ export default {
       cantidadOpciones: 2,
       preguntaEncuesta: this.pregunta,  
       preguntaEncuesta2: this.pregunta,
-      opcion2: this.opciones2
+      opcion2: this.opciones2, 
+      multipleE: false
 	};
   },
   
@@ -110,11 +116,17 @@ export default {
     }, 
 
     async guardarOpciones(){
+      if(this.multipleE == true){
+        this.multipleE = 1
+      }else{
+        this.multipleE = 0
+      }
 const response = await this.$axios.$post("guardar_opciones_tipo_1", {
           id: this.id_encuesta,
           codigo: this.$route.params.cod, 
           pregunta: this.preguntaEncuesta,
-          opciones: this.opcionEncuesta
+          opciones: this.opcionEncuesta,
+          multiple: this.multipleE
           });
            console.log(response)
         if(response.status != 0){
@@ -147,7 +159,11 @@ guardar(){
   
   },
   mounted() {
-
+    if(this.multiple == 1){
+        this.multipleE = true
+    }else{
+      this.multipleE = false
+    }
 
 
     //crear evento q compare los arrays cada x time

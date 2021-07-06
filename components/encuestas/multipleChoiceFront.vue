@@ -1,6 +1,6 @@
 <template>
 <div>
-     <section class="section-hero" style="    min-height: 500px; padding: 5px;     margin-top: 50px;" >
+     <section class="section-hero choiceFrontLive" >
   
     <div class="container cubreEncuesta" >
       
@@ -89,11 +89,10 @@
 
             
             <div class="div-block-10">
-              <button class="buttonN blue">{{$store.state.idioma.notificationEmail}}</button>
-                
                 <a :href="codigoEncuesta+'+'"  class="link-2" v-if="resultados ==  false">
                   {{$store.state.idioma.toResult}}</a>
-                <a class="link-2" @click="cancelarVoto" v-if="resultados && yaVote ">{{$store.state.idioma.cancelVote}}</a>
+                <a class="link-2" @click="cancelarVoto" v-if="resultados && yaVote ">
+                  Cancelar Votos</a>
               </div>
           
         </div>

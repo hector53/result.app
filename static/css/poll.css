@@ -698,18 +698,11 @@ input[type="checkbox"], input[type="radio"] {
     background-color: #59b1ff;
 }
 .div-block-10 {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
-    -webkit-box-pack: justify;
-    -webkit-justify-content: space-between;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -webkit-align-items: center;
-    -ms-flex-align: center;
+    justify-content: flex-end;
     align-items: center;
+    padding-top: 20px;
+
 }
 .link-2 {
     color: #8a92a7;
@@ -1580,8 +1573,24 @@ input[type="checkbox"], input[type="radio"] {
     align-items: center;
     justify-content: space-between;
 }
+.positionAbsolute{
+    width: 100%;
+    position: absolute;
+}
+.choiceFrontLive{
+    min-height: 500px;
+    padding: 10px;
+    margin-top: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-radius: 20px;
+}
 @media screen and (max-width: 767px)
 {
+    .positionAbsolute{
+        width: 100%;
+        position: relative;
+    }
     .circle {
         display: inline-block;
         height: auto;

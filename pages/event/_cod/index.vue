@@ -18,6 +18,7 @@
             :pregunta="item['pregunta']"
             :opciones="item['opciones']"
             :opciones2="item['opciones2']"
+            :multiple="item['multiple']"
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
@@ -32,6 +33,34 @@
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
           ></nube-de-palabras-add>
+
+          <sorteos-add
+            :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 3 && item['participantes'].length == 0"
+            :numero="index"
+            :idEcuesta="item['idEcuesta']"
+            :titulo="item['pregunta']"
+            :integrantes="item['participantes']"
+            :ganadoresP="item['ganadores']"
+            @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+          ></sorteos-add>
+
+          <sorteos-front 
+          :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 3 && item['participantes'].length >0"
+            :numero="index"
+            :id_encuesta="item['idEcuesta']"
+            :id_evento="item['id_evento']"
+            :titulo_encuesta="item['pregunta']"
+            @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+          ></sorteos-front>
+
+
+
         </div>
       </div>
     </section>
@@ -49,11 +78,15 @@ import FooterT from '../../../components/footer/footerT.vue';
 import NavBarEvento from '../../../components/header/navBarEvento.vue';
 import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIndex.vue';
 import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
+import SorteosAdd from '../../../components/live/encuestas/sorteos/sorteosAdd.vue';
+import SorteosFront from '../../../components/live/encuestas/sorteos/sorteosFront.vue';
 
 export default {
   layout: "live",
   middleware: "miauth",
-  components: { MultipleChoice, Loading, NavBarEvento, FooterT, TiposEncuestasIndex, NubeDePalabrasAdd },
+  components: { MultipleChoice, Loading, NavBarEvento, FooterT,
+   TiposEncuestasIndex, NubeDePalabrasAdd, SorteosAdd,
+    SorteosFront },
   head() {
       return {
         title: 'Event - '+this.$route.params.cod+' - Resultapp',

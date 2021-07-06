@@ -147,6 +147,7 @@ detectaTecla(event){
           modoLive: 0, 
           codigo: this.$route.params.cod
           });
+          this.getEventByCod()
       }
     }
   },

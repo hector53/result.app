@@ -13,6 +13,9 @@
             @cerrarModal="cerrarModalEncuestaActiva"
             v-if="encuestaActive == 2"
           ></nube-de-palabras>
+
+          <sorteo-add-modal @cerrarModal="cerrarModalEncuestaActiva"
+            v-if="encuestaActive == 3"></sorteo-add-modal>
         </div>
       </div>
       <button
@@ -71,6 +74,9 @@
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(2)">
                     <span>Nube de Palabras</span>
+                  </a>
+                  <a class="dropdown-item" @click="openModalAddLive(3)">
+                    <span>Sorteos</span>
                   </a>
                 </div>
               </div>
@@ -238,8 +244,9 @@
 import encuestaSimple from "./encuestas/encuestaSimple.vue";
 import EncuestaSimpleEdit from "./encuestas/encuestaSimpleEdit.vue";
 import NubeDePalabras from "./encuestas/nubeDePalabras/nubeDePalabras.vue";
+import SorteoAddModal from './encuestas/sorteos/sorteoAddModal.vue';
 export default {
-  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras },
+  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal },
 
   data() {
     return {

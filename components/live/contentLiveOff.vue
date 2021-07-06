@@ -23,6 +23,12 @@
           v-if="item.tipo == 2 " :id_encuesta="item.id" 
           :titulo_encuesta="item.titulo" :id_evento="id_evento"
           ></nube-de-palabras-activa>
+
+          <sorteos-live-activo
+            :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 3 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          ></sorteos-live-activo>
        </div>
      
     </div>
@@ -36,8 +42,9 @@
 import VueQrcode from 'vue-qrcode'
 import MultipleChoiceResult from '../encuestas/multipleChoiceResult.vue';
 import nubeDePalabrasActiva from './encuestas/nubeDePalabras/nubeDePalabrasActiva.vue';
+import SorteosLiveActivo from './encuestas/sorteos/sorteosLiveActivo.vue';
 export default {
-  components: { nubeDePalabrasActiva, MultipleChoiceResult, VueQrcode },
+  components: { nubeDePalabrasActiva, MultipleChoiceResult, VueQrcode, SorteosLiveActivo },
 props:['id_evento'],
   data() {
     return {

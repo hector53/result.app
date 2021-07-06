@@ -1,5 +1,11 @@
 <template>
-<div v-if="mostrar">
+<div>
+
+<div  :class="{'cubreModoLive':modoLive == 1}">
+  <header-live-front v-if="modoLive == 1" ></header-live-front>
+  <nav-bar v-else></nav-bar>
+
+  <div v-if="mostrar">
   <div v-if="statusEvent == 1 && modoLive == 0">
        <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
         <get-evento-not-user v-else></get-evento-not-user>
@@ -9,8 +15,21 @@
     <h1>Evento No Disponible</h1>
   </div>
 <div v-if="statusEvent == 1 && modoLive == 1" style="    min-height: 500px;">
-      <modo-live-front ref="modoLiveFront" :id_evento="id_evento" :modoLive="modoLive"></modo-live-front>
+      <modo-live-front style="    margin-top: 60px;" ref="modoLiveFront" :id_evento="id_evento" :modoLive="modoLive"></modo-live-front>
   </div>
+</div>
+
+<div class="footerLive "  v-if="modoLive == 1"  > 
+      <div class="centerFooter"> 
+         <h1>Result</h1>
+      </div>
+    </div>
+</div> 
+  <footer-t :class="{'positionAbsolute': modoLive == 0 && statusEvent == 0}"  v-if="modoLive == 0"></footer-t>
+
+
+
+
 </div>
 </template>
 
@@ -20,6 +39,7 @@ import GetEventoNotUser from '../../components/eventos/getEventoNotUser.vue';
 import { mapState } from 'vuex'
 import ModoLiveFront from '../../components/live/modoLiveFront.vue';
 export default {
+  layout: 'live',
   components: { getEvento, GetEventoNotUser, ModoLiveFront },
   async asyncData({ params, store, redirect, app }) {
     const response =  await app.$axios.$get("get_event_by_cod_front?codigo="+params.cod)
@@ -121,6 +141,18 @@ export default {
           this.mostrar = true
       }
     })
+
+
+
+        this.socket
+    .on('generarGanadorSorteo', (data) => {
+      console.log("Generar ganadores")
+      console.log(data)
+      if(data.codigo == this.$route.params.cod){
+        this.$refs['modoLiveFront'].$refs['sorteosFront'].generarGanador(data.id_encuesta, data.ganadores)
+      }
+    })
+
   },
 };
 </script>
