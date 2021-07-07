@@ -1468,7 +1468,7 @@ input[type="checkbox"], input[type="radio"] {
     width: 300px;
 }
 .footerLive{
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
 }
@@ -1585,6 +1585,14 @@ input[type="checkbox"], input[type="radio"] {
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 20px;
+}
+.usersOnline{
+    position: absolute;
+    color: white;
+    margin-top: 20px;
+    right: 20px;
+    top: 60px;
+    font-size: 20px;
 }
 @media screen and (max-width: 767px)
 {

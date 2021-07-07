@@ -167,7 +167,18 @@ this.socket.emit('conectar', {
 
        this.socket
     .on('join_room_announcement', (data) => {
-       console.log(`<b>${data.username}</b> has joined the room`)
+        if(data.codigo == this.$route.params.cod){
+            console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
+         this.$refs['contentLive'].enLinea = data.conectados
+        }
+    })
+
+        this.socket
+    .on('join_room_disconect', (data) => {
+        if(data.codigo == this.$route.params.cod){
+            console.log(`<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`)
+         this.$refs['contentLive'].enLinea = data.conectados
+        }
     })
 
 

@@ -87,12 +87,24 @@ export default {
           this.fullscreen = isFullscreen
         },
       })
+   }, 
+   beforeWindowUnload(){
+
+      this.socket.emit('desconectar', {
+        username: this.$store.state.p,
+              room: this.$route.params.cod, 
+      }, (resp) => {
+      })
+
+    
    }
   },
   mounted() {
+    window.addEventListener('beforeunload', this.beforeWindowUnload)
     console.log("tipo usuario", this.userTipo)
     console.log("id usuario", this.$store.state.p)
     var User = this.$store.state.p
+    console.log("usuario", User)
     var codigo = this.$route.params.cod
            this.socket = this.$nuxtSocket({
       channel: '/'
@@ -163,5 +175,8 @@ export default {
     })
 
   },
+  destroyed () {
+   window.removeEventListener('beforeunload', this.beforeWindowUnload)
+ },
 };
 </script>

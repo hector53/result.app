@@ -39,6 +39,12 @@
             v-if="encuestaEditId > 0 && tipoEncuestaEdit == 2"
             :id_encuesta="encuestaEditId"
           ></nube-de-palabras-edit>
+
+        <sorteos-edit-modal
+        @cerrarModalEdit="cerrarModalEdit"
+            v-if="encuestaEditId > 0 && tipoEncuestaEdit == 3"
+            :id_encuesta="encuestaEditId"
+        ></sorteos-edit-modal>
         </div>
       </div>
       <button
@@ -245,8 +251,9 @@ import encuestaSimple from "./encuestas/encuestaSimple.vue";
 import EncuestaSimpleEdit from "./encuestas/encuestaSimpleEdit.vue";
 import NubeDePalabras from "./encuestas/nubeDePalabras/nubeDePalabras.vue";
 import SorteoAddModal from './encuestas/sorteos/sorteoAddModal.vue';
+import SorteosEditModal from './encuestas/sorteos/sorteosEditModal.vue';
 export default {
-  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal },
+  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal, SorteosEditModal },
 
   data() {
     return {

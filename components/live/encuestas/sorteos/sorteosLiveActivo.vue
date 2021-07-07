@@ -61,6 +61,9 @@ export default {
   },
   components: { Loading },
   methods: {
+    editar(){
+      alert("editar")
+    },
     async sortear() {
       const response = await this.$axios.$post("sortear_sorteo_live", {
         participantes: JSON.stringify(this.participantes),

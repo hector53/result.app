@@ -10,7 +10,17 @@
       </div>
     </div>
  <div v-else>
-    <div   v-for="(item, index) in $store.state.arrayEncuestaActiveLiveMode" :key="index"  style="margin-top: 70px;">
+      <span class="usersOnline">Usuarios en linea: {{enLinea}}</span>
+
+
+<div class="columns"  style="margin-top: 50px; padding:20px">
+  <div class="column is-4"  style="text-align: center; color: white;">
+    <h1>Entrá a <br />result.app <br />#{{$route.params.cod}}</h1>
+    <vue-qrcode :value="urlQr" class="imgQr"   />
+  </div>
+
+   <div class="column is-8">
+     <div   v-for="(item, index) in $store.state.arrayEncuestaActiveLiveMode" :key="index" >
        <div class="cubreResults"  v-if="$store.state.encuestaActiveLiveMode == item.id" >
           <multiple-choice-result
           :ref="'encuestaFront_'+item.id"
@@ -30,8 +40,17 @@
           :titulo_encuesta="item.titulo" :id_evento="id_evento"
           ></sorteos-live-activo>
        </div>
-     
     </div>
+   </div>
+</div>
+
+    
+    
+    
+    
+
+
+    
  </div>
  
 </div>
@@ -48,14 +67,17 @@ export default {
 props:['id_evento'],
   data() {
     return {
-       urlQr: 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/p/'+this.$route.params.cod
+       urlQr: 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/p/'+this.$route.params.cod, 
+       enLinea: 0
     };
   },
 
   methods: {
-  
+
   },
   mounted() {
+
+   
   
   },
 };
