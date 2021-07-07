@@ -72,18 +72,15 @@ export default {
   
   methods: {
     eliminar(){
-      if(this.id_encuesta > 0){
-         this.$emit('eliminarEncuesta', this.id_encuesta)
-      }
-     
+
+            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
+    
     },
     moverArriba(index){
-      console.log("estoy en el componente")
-      this.$emit("moverArriba", index);
+      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
     },
      moverAbajo(index){
-         console.log("estoy en el componente")
-      this.$emit("moverAbajo", index);
+      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
     },
   reducirOpciones(index) {
           this.opcionEncuesta.splice(index,1)
@@ -135,11 +132,13 @@ const response = await this.$axios.$post("guardar_opciones_tipo_1", {
           //ahora debo cargar las opciones nuevas 
           this.opcionEncuesta = response.opciones
           this.opcion2 = response.opciones
+          
         }
     },
-guardar(){
+async guardar(){
   if(this.preguntaEncuesta != '' && this.opciones.length > 1){
-      this.guardarOpciones()
+    await  this.guardarOpciones()
+      this.$emit('actualizarArray')
   }
 
 },

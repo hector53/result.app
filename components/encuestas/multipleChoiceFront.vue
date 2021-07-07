@@ -89,9 +89,8 @@
 
             
             <div class="div-block-10">
-                <a :href="codigoEncuesta+'+'"  class="link-2" v-if="resultados ==  false">
-                  {{$store.state.idioma.toResult}}</a>
-                <a class="link-2" @click="cancelarVoto" v-if="resultados && yaVote ">
+       
+                <a class="link-2" @click="cancelarVoto" v-if="resultados && yaVote && statusEvent==1 ">
                   Cancelar Votos</a>
               </div>
           
@@ -105,7 +104,7 @@
 
 <script>
 export default {
-    props:['id_encuesta', 'titulo_encuesta', 'id_evento', 'modoLive'],
+    props:['id_encuesta', 'titulo_encuesta', 'id_evento', 'modoLive', 'statusEvent'],
   data() {
     return {
       opciones: [], 
@@ -137,8 +136,9 @@ export default {
  
   methods: {
        async votar(id){
-         console.log("modolivevotar", this.modoenVivo)
-       var cookieNotUser = this.$store.state.p
+         console.log(this.statusEvent)
+         if(this.statusEvent == 1){
+ var cookieNotUser = this.$store.state.p
       const response = await this.$axios.$post("_votar_user_not", {
         id_opcion: id, 
         id_encuesta: this.id_encuesta,
@@ -200,6 +200,8 @@ export default {
               timer: 1500
             })
           }
+         }
+      
       },
        async cancelarVoto(){
 var cookieNotUser = this.$store.state.p
@@ -301,6 +303,7 @@ var cookieNotUser = this.$store.state.p
     }
   },
   mounted() {
+    console.log("status evento", this.statusEvent)
     if(this.modoLive == 1){
         this.resultados = true
         console.log("modolive", this.modoLive)

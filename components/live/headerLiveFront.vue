@@ -5,7 +5,7 @@
           
     
 
-          <li class="list-item-navLeft tareas" title="Lista de Encuestas" alt="Lista de Encuestas">
+           <li class="list-item-navLeft tareas" title="Lista de Encuestas" alt="Lista de Encuestas">
             <div class="dropdown is-hoverable" style="margin-left: 10px">
               <div class="dropdown-trigger">
                 <div class="cubreIconDropdown">
@@ -22,7 +22,28 @@
                 id="dropdown-menu2"
                 role="menu"
               >
-            
+                <div
+                  class="dropdown-content live"
+                  v-if="$store.state.arrayEncuestaActiveLiveMode.length > 0"
+                >
+                  <a
+                    class="dropdown-item"
+                    v-for="(item, index) in $store.state
+                      .arrayEncuestaActiveLiveMode"
+                    :key="index"
+                  >
+                    <div
+                      class="cubreEncuestaLiveFor"
+                    >
+                      <span style="margin-right: 10px">{{ index + 1 }}</span>
+                      <span class="tituloEncuestaLiveItem">{{
+                        item.titulo
+                      }}</span>
+                  
+                    </div>
+                    
+                  </a>
+                </div>
               </div>
             </div>
           </li>
@@ -31,13 +52,13 @@
 
       <div class="navBarLeft">
         <ul role="list" class="listNavBarLeft">
-          <li class="list-item-navLeft config" title="Compartir"
+          <li class="list-item-navLeft config" title="Compartir" @click="openModalCompartir"
            alt="Compartir" >
             <i class="fa fa-share" aria-hidden="true" style="font-size: 35px"></i>
           </li>
 
           <li class="list-item-navLeft config"  title="Pantalla Completa"
-           alt="Pantalla Completa" >
+           alt="Pantalla Completa" @click="activarFullScreen" >
             <img
               src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAEAQAAABQ8GUWAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAAmJLR0QAAKqNIzIAAAAJcEhZcwAAAGAAAABgAPBrQs8AAAAHdElNRQflBgYXASOCY38rAAABFUlEQVR42u3bQQ6CMBCF4SkhXKMbvYmeWm8CG67RBePChSvDlIBP0v9bt/X1JSREx+TuboeYppSu1z1Och9Hs8vliJTdMZc/DwpQB1CjAHUANQpQB1BrvoAUehHy+91snuuOLiV1tXu+fPySs9kw1O3K2dLjsbaqjx02z6kbxz0us8WWIn2JrWv+EaAAdQA1ClAHUKMAdQA1ClAHUKMAdQC13mya1peVog5ar5TY3QAAAAAAANCW9B5CXOG3216/9f+KLzlbej7X1vWxCcza4YR/MAyRuzX/rTAFqAOoUYA6gBoFqAOoUYA6gBoFqAOoBWeFc47O3n78wbB0QGxafBP+NncKFKAOoEYB6gBqFKAOoNZ8AS/OFEW/caRO3gAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAyMS0wNi0wNlQyMzowMTozNSswMDowMLooi9wAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMjEtMDYtMDZUMjM6MDE6MzUrMDA6MDDLdTNgAAAAAElFTkSuQmCC"
               loading="lazy"
@@ -47,6 +68,36 @@
           </li>
         </ul>
       </div>
+      <div id="modalCompartir" class="modal">
+            <div class="modal-background" @click="closeModalCompartir"></div>
+            <div class="modal-content compartirModal">
+            <div class="box" style="    text-align: left;">
+            <h1 class="has-text-left">Compartir</h1>
+            <div class="cubreTipoShare">
+                <a :href="shareFacebook" target="_blank">
+                  <i class="fa fa-facebook-official " aria-hidden="true"></i>
+                  <span>Facebook</span>
+                </a>
+                 <a :href="shareTwitter" target="_blank">
+                  <i class="fa fa-twitter-square" aria-hidden="true"></i>
+                  <span>Twitter</span>
+                </a>
+
+                <a :href="shareEmail">
+                <i class="fa fa-envelope" aria-hidden="true"></i>
+                  <span>Correo Electrónico</span>
+                </a>
+            </div>
+            <div class="cubreClicCopiar" @click="copiarUrl">
+            <span >{{copiarUrlText}}</span>
+            <div class="cubreInputClicCopiar">
+                <input type="url" ref="inputCopy" readonly :value="$store.state.urlBase+'/p/'+$route.params.cod" />
+            </div>
+            </div>
+            </div>
+            </div>
+            <button class="modal-close is-large" aria-label="close" @click="closeModalCompartir"></button>
+          </div>
     </div>
 </template>
 
@@ -54,10 +105,41 @@
 export default {
   data() {
     return {
-     
+       copiarUrlText: "Haz clic para copiar la Url", 
+      shareTwitter: "https://twitter.com/intent/tweet?text=Resultapp&amp;url="+this.$store.state.urlBase+'/p/'+this.$route.params.cod,
+      shareFacebook: "https://www.facebook.com/sharer/sharer.php?u="+this.$store.state.urlBase+'/p/'+this.$route.params.cod,
+      shareEmail: "mailto:?subject=Resultapp&amp;body=Participa en la siguiente encuesta "+this.$store.state.urlBase
+   
 	};
   },
   methods: {
+      copiarUrl(){
+ const el = document.createElement('textarea');
+        el.value = this.$store.state.urlBase+'/p/'+this.$route.params.cod;
+        el.setAttribute('readonly', '');
+        el.style.position = 'absolute';
+        el.style.left = '-9999px';
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        this.copiarUrlText = "Url Copiada"
+        this.$refs.inputCopy.select();
+     
+    },
+    openModalCompartir(){
+      var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.add('is-clipped');
+      document.getElementById('modalCompartir').classList.add('is-active')
+    },
+    closeModalCompartir(){
+    var root = document.getElementsByTagName( 'html' )[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove('is-clipped');
+      document.getElementById('modalCompartir').classList.remove('is-active')
+    },
+     activarFullScreen() {
+      this.$emit("activarFullScreen");
+    },
   },
   mounted() {
   },

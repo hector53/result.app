@@ -42,7 +42,7 @@
       font-family="Roboto"
     />
     <div class="container">
-      <button class="buttonN blue" @click="openModalAddPalabra">
+      <button class="buttonN blue" @click="openModalAddPalabra" v-if="statusEvent==1">
         Agregar Palabra
       </button>
     </div>
@@ -53,7 +53,7 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
-  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive", "statusEvent"],
   data() {
     return {
       addPalabra: "",

@@ -2,14 +2,14 @@
 <div  >
 
 <multiple-choice-front   ref="simpleFront" v-if="tipo == 1" :id_encuesta="id" 
-:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"  :statusEvent="1"
 ></multiple-choice-front>
 
 <nube-de-palabras-front ref="nubeFront" v-if="tipo == 2" :id_encuesta="id" 
-:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></nube-de-palabras-front>
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"  :statusEvent="1" ></nube-de-palabras-front>
 
 <sorteos-front ref="sorteosFront" v-if="tipo == 3" :id_encuesta="id" 
-:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"></sorteos-front>
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></sorteos-front>
 
 </div>
 </template>

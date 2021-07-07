@@ -2,17 +2,18 @@
 <div>
 
 <div  :class="{'cubreModoLive':modoLive == 1}">
-  <header-live-front v-if="modoLive == 1" ></header-live-front>
+  <header-live-front v-if="modoLive == 1" @activarFullScreen="activarFullScreen" ></header-live-front>
   <nav-bar v-else></nav-bar>
 
   <div v-if="mostrar">
   <div v-if="statusEvent == 1 && modoLive == 0">
-       <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas"></get-evento>
+       <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas" :statusEvent="statusEvent"></get-evento>
         <get-evento-not-user v-else></get-evento-not-user>
   </div>
   <div v-if="statusEvent == 0" style="    margin-top: 50px;    margin-bottom: 50px;    text-align: center;">
 
-    <h1>Evento No Disponible</h1>
+    <h1>Evento Cerrado</h1>
+     <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas" :statusEvent="statusEvent"></get-evento>
   </div>
 <div v-if="statusEvent == 1 && modoLive == 1" style="    min-height: 500px;">
       <modo-live-front style="    margin-top: 60px;" ref="modoLiveFront" :id_evento="id_evento" :modoLive="modoLive"></modo-live-front>
@@ -25,7 +26,7 @@
       </div>
     </div>
 </div> 
-  <footer-t :class="{'positionAbsolute': modoLive == 0 && statusEvent == 0}"  v-if="modoLive == 0"></footer-t>
+  <footer-t  v-if="modoLive == 0"></footer-t>
 
 
 
@@ -36,7 +37,7 @@
 <script>
 import getEvento from '../../components/eventos/getEvento.vue';
 import GetEventoNotUser from '../../components/eventos/getEventoNotUser.vue';
-import { mapState } from 'vuex'
+import { api as fullscreen } from 'vue-fullscreen'
 import ModoLiveFront from '../../components/live/modoLiveFront.vue';
 export default {
   layout: 'live',
@@ -60,6 +61,8 @@ export default {
         //usuario registrado
         tipoUser = response.tipoUser
       }
+
+      app.store.commit("setarrayEncuestaActiveLiveMode", response.encuestas );
       return {userTipo: tipoUser, id_evento: response.id_evento,
        encuestas: response.encuestas, statusEvent: response.statusEvent, modoLive: response.modo}
       }
@@ -71,14 +74,20 @@ export default {
   },
   data() {
     return {
-      mostrar: true
+      mostrar: true, 
+        fullscreen: false,
 	};
   },
-  computed: {
-    ...mapState(['login'])
-  },
+
   methods: {
-   
+   activarFullScreen(){
+      fullscreen.toggle(this.$el.querySelector('.fullscreen-wrapper'), {
+        teleport: this.teleport,
+        callback: (isFullscreen) => {
+          this.fullscreen = isFullscreen
+        },
+      })
+   }
   },
   mounted() {
     console.log("tipo usuario", this.userTipo)

@@ -1,7 +1,7 @@
 import cookieparser from "cookieparser";
 export const state = () => ({
 // urlBase: 'http://localhost:3000',
- urlBase: 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link',
+ urlBase: 'https://result.app',
  cookieLogin: false, 
  lang: 0,
  login: false,

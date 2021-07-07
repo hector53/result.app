@@ -22,6 +22,7 @@
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
+             @actualizarArray="actualizarArray"
           ></multiple-choice>
           <nube-de-palabras-add
           :ref="'encuesta_'+index"
@@ -32,33 +33,25 @@
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
+            @actualizarArray="actualizarArray"
           ></nube-de-palabras-add>
 
           <sorteos-add
             :ref="'encuesta_'+index"
-            v-if="item['tipo'] == 3 && item['participantes'].length == 0"
+            v-if="item['tipo'] == 3"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
-            :titulo="item['pregunta']"
+            :tituloP="item['pregunta']"
             :integrantes="item['participantes']"
             :ganadoresP="item['ganadores']"
+            :premiosP="item['premios']"
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
+             @actualizarArray="actualizarArray"
           ></sorteos-add>
 
-          <sorteos-front 
-          :ref="'encuesta_'+index"
-            v-if="item['tipo'] == 3 && item['participantes'].length >0"
-            :numero="index"
-            :id_encuesta="item['idEcuesta']"
-            :id_evento="item['id_evento']"
-            :titulo_encuesta="item['pregunta']"
-            @moverArriba="moverArriba"
-            @moverAbajo="moverAbajo"
-            @eliminarEncuesta="deleteEncuestaByClickId"
-          ></sorteos-front>
-
+       
 
 
         </div>
@@ -110,19 +103,29 @@ export default {
   },
 
   methods: {
-    
+    actualizarArray(){  
+      this.getEncuestas()
+      },
 
-deleteEncuestaByClickId(id){
-       this.$swal({
+deleteEncuestaByClickId(val){
+    if(val.id_encuesta == 0){
+      this.arrayEncuestas.splice(val.index,1)
+      if(this.arrayEncuestas.length == 0){
+        this.opcionesPredeterminadas = true
+      }
+    }else{
+           this.$swal({
                 title: '¿Estas seguro que quieres borrar esta encuesta ? ',
                 html: 'Se perderan todas las operaciones realizadas en ella',
                 showCancelButton: true,
                 confirmButtonText: `Si borrar`,
               }).then((result) => {
                   if(result.value){
-                      this.deleteEncuestaById(id)
+                      this.deleteEncuestaById(val.id_encuesta)
                   }
               })
+    }
+  
     },
 async deleteEncuestaById(id){
     const response = await this.$axios.$post("delete_poll_simple_live_by_id", {
@@ -163,7 +166,16 @@ async deleteEncuestaById(id){
       arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
       return arr;
     },
-    async moverArriba(index) {
+    async moverArriba(val) {
+      if(val.id_encuesta == 0){
+          this.$swal({
+          type: "error",
+          title: "Oops...",
+          text: "Debes guardar primero la encuesta",
+        });
+        return false;
+      }
+      var index = val.index
       if (index > 0) {
         var posicionVieja = index;
         var posicionNueva = index - 1;
@@ -204,7 +216,16 @@ async deleteEncuestaById(id){
         this.getEncuestas();
       }
     },
-    moverAbajo(index) {
+    moverAbajo(val) {
+       if(val.id_encuesta == 0){
+          this.$swal({
+          type: "error",
+          title: "Oops...",
+          text: "Debes guardar primero la encuesta",
+        });
+        return false;
+      }
+      var index = val.index
       if (index + 1 < this.arrayEncuestas.length) {
         var posicionVieja = index;
         var posicionNueva = index + 1;
@@ -249,6 +270,18 @@ async deleteEncuestaById(id){
           pregunta: "",
         });
       }
+
+      if (val == 3) {
+        this.arrayEncuestas.push({
+          tipo: 3,
+          idEcuesta: 0,
+          pregunta: "",
+          participantes: [], 
+          ganadores: [], 
+          premios: 1
+        });
+
+      }
     },
 
     async getEncuestas() {
@@ -274,6 +307,8 @@ async deleteEncuestaById(id){
             this.arrayEncuestas = response.misencuestas;
             if(response.misencuestas.length > 0){
                 this.opcionesPredeterminadas = false
+            }else{
+              this.opcionesPredeterminadas = true
             }
            
           }

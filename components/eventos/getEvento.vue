@@ -12,13 +12,13 @@
     <div class="contentTab" v-for="(item, index) in encuestas" :key="index">
         <div v-if="tabActive == (index+1)" >
               <multiple-choice-front v-if="item.tipo == 1" :id_encuesta="item.id" 
-              :titulo_encuesta="item.titulo" :id_evento="id_evento"
+              :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent"
               @teclas="moverTab" @closeLoading="closeLoading"
               ></multiple-choice-front>
               <nube-de-palabras-front @teclas="moverTab" v-if="item.tipo == 2" :id_encuesta="item.id" 
-              :titulo_encuesta="item.titulo" :id_evento="id_evento"></nube-de-palabras-front>
+              :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></nube-de-palabras-front>
               <sorteos-front @teclas="moverTab" v-if="item.tipo == 3" :id_encuesta="item.id" 
-              :titulo_encuesta="item.titulo" :id_evento="id_evento"></sorteos-front>
+              :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></sorteos-front>
         </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
 import NubeDePalabrasFront from '../live/encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
 export default {
   components: { multipleChoiceFront, Loading, NubeDePalabrasFront },
-  props:['id_evento', 'encuestas'],
+  props:['id_evento', 'encuestas', 'statusEvent'],
   data() {
     return {
       tabs: this.encuestas.length,
@@ -67,6 +67,7 @@ export default {
     }, 
   },
   mounted() {
+    console.log("get evento status", this.statusEvent)
   },
  
 };

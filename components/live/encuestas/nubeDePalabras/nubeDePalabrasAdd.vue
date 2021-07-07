@@ -29,7 +29,7 @@
                 maxlength="256"
                 ref="addPalabra"
                 v-model="preguntaEncuesta"
-                placeholder="Introduzca una palabra"
+                placeholder="Introduzca una pregunta"
               />
             </div>
 
@@ -53,18 +53,15 @@ export default {
   
   methods: {
       eliminar(){
-        if(this.id_encuesta > 0){
-            this.$emit('eliminarEncuesta', this.id_encuesta)
-        }
+
+            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
     
     },
     moverArriba(index){
-      console.log("estoy en el componente")
-      this.$emit("moverArriba", index);
+      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
     },
      moverAbajo(index){
-         console.log("estoy en el componente")
-      this.$emit("moverAbajo", index);
+      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
     },
   reducirOpciones(index) {
           this.opcionEncuesta.splice(index,1)
@@ -96,9 +93,10 @@ export default {
         return true;
     }, 
 
-    guardar(){
+   async guardar(){
   if(this.preguntaEncuesta != '' ){
-      this.guardarOpciones()
+   await   this.guardarOpciones()
+       this.$emit('actualizarArray')
   }
     },
 
@@ -112,6 +110,8 @@ export default {
         if(response.status != 0){
           console.log("guardado con exito")
           this.id_encuesta = response.id
+          //emit para actualizar array general
+         
         }
     }
   
