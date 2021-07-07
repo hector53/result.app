@@ -95,8 +95,6 @@ export default {
               room: this.$route.params.cod, 
       }, (resp) => {
       })
-
-    
    }
   },
   mounted() {

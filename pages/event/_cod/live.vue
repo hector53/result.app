@@ -149,9 +149,18 @@ detectaTecla(event){
           });
           this.getEventByCod()
       }
-    }
+    }, 
+       beforeWindowUnload(){
+
+      this.socket.emit('desconectar', {
+        username: this.$store.state.p,
+              room: this.$route.params.cod, 
+      }, (resp) => {
+      })
+   }
   },
   mounted() {
+    window.addEventListener('beforeunload', this.beforeWindowUnload)
      window.addEventListener('keyup', this.detectaTecla)  
   this.socket = this.$nuxtSocket({
       channel: '/'
@@ -200,6 +209,7 @@ this.socket.emit('conectar', {
   },
    destroyed () {
    window.removeEventListener('keyup', this.detectaTecla)
+    window.removeEventListener('beforeunload', this.beforeWindowUnload)
  },
 };
 </script>
