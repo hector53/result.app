@@ -98,6 +98,11 @@ detectaTecla(event){
 },
 
     irAtras(){
+       this.socket.emit('desconectar', {
+        username: this.$store.state.p,
+              room: this.$route.params.cod, 
+      }, (resp) => {
+      })
         this.$router.push({name: 'event-cod'})
     }, 
     toggle () {
