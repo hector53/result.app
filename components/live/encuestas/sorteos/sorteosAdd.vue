@@ -156,8 +156,11 @@ export default {
     },
  async    guardar(){
   if(this.preguntaEncuesta != '' && this.participantesV.length == 0 ){
-    await  this.guardarOpciones()
+ var guardar =   await  this.guardarOpciones()
+      if(guardar != false){
         this.$emit('actualizarArray')
+      }
+        
   }
     },
      async sortear() {

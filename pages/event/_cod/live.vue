@@ -186,8 +186,8 @@ this.socket.emit('conectar', {
     .on('join_room_announcement', (data) => {
         if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
-         this.$refs['contentLive'].enLinea = data.conectados
-          this.conectados = data.conectados
+
+          this.$store.commit('setusersOnline', data.conectados);
         }
     })
 
@@ -195,8 +195,7 @@ this.socket.emit('conectar', {
     .on('join_room_disconect', (data) => {
         if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`)
-         this.$refs['contentLive'].enLinea = data.conectados
-         this.conectados = data.conectados
+        this.$store.commit('setusersOnline', data.conectados);
         }
     })
 

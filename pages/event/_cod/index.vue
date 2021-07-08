@@ -182,7 +182,10 @@ async deleteEncuestaById(id){
                         codigo: this.$route.params.cod
                         });
                     if(response.status !='error'){
-                        this.getEncuestas()
+                      await  this.getEncuestas()
+                      if(this.arrayEncuestas.length == 0){
+        this.opcionesPredeterminadas = true
+      }
                     }else{
                       alert("ocurrio un error quizas algo mal en tus datos")
                     }
@@ -367,14 +370,30 @@ async deleteEncuestaById(id){
         });
     },
   },
-  mounted() {
-     
+  async mounted() {
+   
     var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
     this.eventCod = this.$route.params.cod;
     console.log(this.eventCod);
 
-    this.getEncuestas();
+  await  this.getEncuestas();
+
+   var type = this.$route.query.type
+    if(type){
+        console.log("existe type")
+        if(type == 1){
+            this.addNewEncuesta(1)
+        }
+         if(type == 2){
+            this.addNewEncuesta(2)
+        }
+         if(type == 3){
+            this.addNewEncuesta(3)
+        }
+    }else{
+      console.log("no existe type")
+    }
   },
     directives: {
     ClickOutside

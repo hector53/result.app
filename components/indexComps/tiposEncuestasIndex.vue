@@ -1,5 +1,6 @@
 <template>
 <div>
+    <loading :active="isLoading" color="#59b1ff" />
  <div class="columns" style="margin-top: 60px;     padding-left: 10px;
     padding-right: 10px;">
           <div class="column is-3">
@@ -149,23 +150,84 @@
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 export default {
+  components: {Loading},
   data() {
     return {
-     
+     isLoading : false
 	};
   },
 
   methods: {
+
+     async crearEvento(val) {
+      var dataUser = this.$cookies.get("r_user");
+      var nameEvento = dataUser.username 
+
+      this.isLoading = true;
+
+      const response = await this.$axios.$post("crear_evento", {
+        titulo: nameEvento,
+        descripcion: "",
+      });
+      this.isLoading = false;
+      if (response.status != 0) {
+        this.$router.push("/event/" + response.codigo+"?type="+val);
+      } else {
+        this.$swal({
+          type: "error",
+          title: "Oops...",
+          text: "Estas haciendo trampa xD",
+        });
+      }
+    },
       addNewEncuesta(val) {
-        this.$emit('addNewEncuesta', val)
+        if(this.$route.name == 'index'){
+
+          
+              if(val == 1){
+                 if(this.$store.state.login){
+                   this.crearEvento(1)
+                 }else{
+                   this.$router.push("/create")
+                 }
+              
+              }
+
+              if(val == 2){
+                if(this.$store.state.login){
+                      this.crearEvento(2)
+                }else{
+                  //enviar a registrarse
+                  this.$router.push("/signup")
+                }
+              }
+
+                if(val == 3){
+                if(this.$store.state.login){
+                      this.crearEvento(3)
+                }else{
+                  //enviar a registrarse
+                  this.$router.push("/signup")
+                }
+              }
+          
+           
+
+
+        }else{
+                this.$emit('addNewEncuesta', val)
+        }
+  
     },
    createPoll(id){
      this.$emit("createPoll", id)
    }
   },
   mounted() {
-  
+    console.log(this.$route)
   },
 };
 </script>

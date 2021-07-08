@@ -10,7 +10,7 @@
       </div>
     </div>
  <div v-else>
-      <span class="usersOnline">Usuarios en linea: {{enLinea}}</span>
+      <span class="usersOnline">Usuarios en linea: {{$store.state.usersOnline}}</span>
 
 
 <div class="columns"  style="margin-top: 50px; padding:20px">
