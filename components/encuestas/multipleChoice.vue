@@ -165,11 +165,9 @@ async guardar(){
     }
 
 
-    //crear evento q compare los arrays cada x time
+    /*
     setInterval(() => {
-      
           //si no esta vacío comparo
-        
             if(this.preguntaEncuesta != this.preguntaEncuesta2){
               //son diferentes por lo tanto creo o actualizo 
               console.log("son diferentes por lo tanto creo o actualizo ")
@@ -180,13 +178,8 @@ async guardar(){
             }else{
                   this.compararArrays(this.opcionEncuesta, this.opcion2)
             }
-          
-          
-          
-
-         
     }, 10000);
-
+*/
 
    
   },

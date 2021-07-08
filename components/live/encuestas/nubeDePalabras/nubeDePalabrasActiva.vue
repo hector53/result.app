@@ -2,7 +2,7 @@
   <div>
     <h1>{{ titulo_encuesta }}</h1>
     <vue-word-cloud v-if="mostrar"
-      style="height: 500px"
+      style="height: 300px"
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"

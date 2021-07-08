@@ -79,12 +79,15 @@
         <span style="font-size: 20px">Premios: {{ premios }}</span>
       </h1>
       <p class="panel-heading" style="margin: 0">Participantes : {{participantes.length }}</p>
-      <a
+    <div class="scrollSorteo">
+       <a
         class="panel-block"
         v-for="(item, index) in participantes"
         :key="index"
         v-text="item.value"
       ></a>
+    </div>
+     
 
       <div v-if="ganadores.length > 0">
         <p
@@ -106,6 +109,7 @@
         style="margin: 0; margin-top: 30px"
       >
         <button class="buttonN blue" @click="sortear">Sortear</button>
+        <button class="buttonN blue" @click="openModalEdit">Editar</button>
       </div>
   </div>
 
@@ -136,6 +140,9 @@ export default {
     };
   },
   methods: {
+    openModalEdit(){
+      this.$emit("openModalEdit", this.id_encuesta)
+    },
        eliminar(){
 
             this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
@@ -148,7 +155,7 @@ export default {
       this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
     },
  async    guardar(){
-  if(this.preguntaEncuesta != '' ){
+  if(this.preguntaEncuesta != '' && this.participantesV.length == 0 ){
     await  this.guardarOpciones()
         this.$emit('actualizarArray')
   }

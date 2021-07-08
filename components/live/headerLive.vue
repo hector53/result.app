@@ -374,8 +374,12 @@ export default {
     async cambiarStatus() {
       if (this.$store.state.arrayEncuestaActiveLiveMode.length > 0) {
         var candadoViejo = this.$store.state.candadoModoLive;
+        
         var candado = !this.$store.state.candadoModoLive;
         this.$store.commit("setcandadoModoLive", candado);
+        if(candadoViejo == 1){
+             this.$store.commit('seteventLiveMode', 0);
+        }
         //y aparte cambiar el resultado en la db
         const response = await this.$axios.$post("publicar_evento", {
           publicarDesactivar: candadoViejo,

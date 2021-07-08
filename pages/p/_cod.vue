@@ -124,10 +124,19 @@ export default {
         if(data.tipo == 5){
               this.statusEvent = 0
         }else{
+          console.log("borre y ahora voy a pasar a modo live")
           var componenteEncuesta = this.$refs['modoLiveFront']
         if(componenteEncuesta == undefined){
-             this.statusEvent = 1
-          this.modoLive = 1
+          if(data.tipo == 3){
+            if(this.statusEvent == 1){
+            this.modoLive = 1
+            }
+          }else{
+              this.modoLive = 1
+               this.statusEvent = 1
+          }
+          
+             
         } else{
           console.log("aqui actualizo la pagina")
             this.$refs['modoLiveFront'].getEncuestaByEventLive(data.codigo)
@@ -155,6 +164,9 @@ export default {
       console.log("cambiar status")
       console.log(data)
       if(data.codigo == this.$route.params.cod){
+        if(data.status == 0){
+            this.modoLive = 0
+        }
         this.mostrar = false
           this.statusEvent = data.status
           this.mostrar = true

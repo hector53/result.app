@@ -60,7 +60,8 @@ head() {
     return {
       fullscreen: false,
       teleport: true,
-      content: true
+      content: true, 
+      conectados: 0
 	};
   },
 
@@ -142,7 +143,7 @@ detectaTecla(event){
           modoLive: 1, 
           codigo: this.$route.params.cod
           });
-          this.getEventByCod()
+   await       this.getEventByCod()
           
       }
       if(val == 2){
@@ -152,8 +153,10 @@ detectaTecla(event){
           modoLive: 0, 
           codigo: this.$route.params.cod
           });
-          this.getEventByCod()
+       await   this.getEventByCod()
       }
+
+      this.$refs['contentLive'].enLinea = this.conectados
     }, 
        beforeWindowUnload(){
 
@@ -184,6 +187,7 @@ this.socket.emit('conectar', {
         if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
          this.$refs['contentLive'].enLinea = data.conectados
+          this.conectados = data.conectados
         }
     })
 
@@ -192,6 +196,7 @@ this.socket.emit('conectar', {
         if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`)
          this.$refs['contentLive'].enLinea = data.conectados
+         this.conectados = data.conectados
         }
     })
 

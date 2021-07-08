@@ -16,13 +16,17 @@
         <span style="font-size: 20px">Premios: {{ premios }}</span>
       </h1>
       <p class="panel-heading" style="margin: 0">Participantes : {{participantes.length }}</p>
-      <a
+      <div class="scrollSorteo">
+          <a
         class="panel-block"
         v-for="(item, index) in participantes"
         :key="index"
         v-text="item.value"
       ></a>
 
+
+      </div>
+    
       <div v-if="ganadores.length > 0">
         <p
           class="panel-heading"

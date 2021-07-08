@@ -119,7 +119,7 @@ export default {
   mounted() {
 
     //crear evento q compare los arrays cada x time
-    setInterval(() => {
+ /*   setInterval(() => {
           //si no esta vacío comparo
         if(this.preguntaEncuesta != ''){
             console.log("nube de palabras no esta vacia")
@@ -131,7 +131,7 @@ export default {
             this.guardarOpciones()
             }
         }
-        }, 10000);
+        }, 10000);*/
 
    
   },

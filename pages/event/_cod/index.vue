@@ -49,6 +49,7 @@
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
              @actualizarArray="actualizarArray"
+             @openModalEdit="openModalEdit"
           ></sorteos-add>
 
        
@@ -57,8 +58,24 @@
         </div>
       </div>
     </section>
-
-      <footer-t></footer-t>
+  
+<div id="modalEditEncuestaLive" class="modal">
+      <div class="modal-background" @click="closeModalEditLive"></div>
+      <div class="modal-content">
+        <div class="box" style="text-align: left">
+        <sorteos-edit-modal v-if="encuestaEditId != 0"
+        @cerrarModalEdit="cerrarModalEdit"
+            :id_encuesta="encuestaEditId"
+        ></sorteos-edit-modal>
+        </div>
+      </div>
+      <button
+        class="modal-close is-large"
+        aria-label="close"
+        @click="closeModalEditLive"
+      ></button>
+    </div>
+      <footer-t id="scrollAqui"></footer-t>
   </div>
 </template>
 
@@ -72,18 +89,19 @@ import NavBarEvento from '../../../components/header/navBarEvento.vue';
 import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIndex.vue';
 import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
 import SorteosAdd from '../../../components/live/encuestas/sorteos/sorteosAdd.vue';
-import SorteosFront from '../../../components/live/encuestas/sorteos/sorteosFront.vue';
+import SorteosEditModal from '../../../components/live/encuestas/sorteos/sorteosEditModal.vue';
 
 export default {
   layout: "live",
   middleware: "miauth",
   components: { MultipleChoice, Loading, NavBarEvento, FooterT,
    TiposEncuestasIndex, NubeDePalabrasAdd, SorteosAdd,
-    SorteosFront },
+    SorteosEditModal,
+     },
   head() {
       return {
         title: 'Event - '+this.$route.params.cod+' - Resultapp',
-        
+       
       }
     },
   data() {
@@ -98,11 +116,42 @@ export default {
       eventStatus: 0, 
       eventT: false, 
       opcionesPredeterminadas: true, 
-      eventFecha: ''
+      eventFecha: '',
+       encuestaEditId: 0
     };
   },
 
   methods: {
+  scrollTo(){
+    let element = document.getElementById("scrollAqui");
+    element.scrollIntoView(false);
+
+  },
+    cerrarModalEdit(){
+this.encuestaEditId = 0;
+      var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove("is-clipped");
+      document
+        .getElementById("modalEditEncuestaLive")
+        .classList.remove("is-active");
+        this.getEncuestas()
+    },
+    openModalEdit(id){
+      this.encuestaEditId = id;
+      var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.add("is-clipped");
+      document
+        .getElementById("modalEditEncuestaLive")
+        .classList.add("is-active");
+    },
+    closeModalEditLive(){
+this.encuestaEditId = 0;
+      var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove("is-clipped");
+      document
+        .getElementById("modalEditEncuestaLive")
+        .classList.remove("is-active");
+    },
     actualizarArray(){  
       this.getEncuestas()
       },
@@ -282,6 +331,9 @@ async deleteEncuestaById(id){
         });
 
       }
+
+          let element = document.getElementById("scrollAqui");
+    element.scrollIntoView(false);
     },
 
     async getEncuestas() {
@@ -316,7 +368,7 @@ async deleteEncuestaById(id){
     },
   },
   mounted() {
-      console.log(this.$route)
+     
     var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
     this.eventCod = this.$route.params.cod;

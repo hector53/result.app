@@ -36,7 +36,7 @@
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
     <vue-word-cloud 
-      style="height: 400px"
+      style="height: 300px"
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"
