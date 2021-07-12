@@ -11,7 +11,7 @@
       <tipos-encuestas-index></tipos-encuestas-index>
 
         <div class="button-group">
-          <nuxt-link v-if="!login" to="/signup" class="buttonN blue">
+          <nuxt-link v-if="!login" to="/signup" class="buttonN blue heartbeat ">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
               loading="lazy"
@@ -21,7 +21,7 @@
             <span>{{ $store.state.idioma.buttonHero }}</span>
           </nuxt-link>
      
-          <nuxt-link to="/dashboard" v-if="login"  class="buttonN">
+          <nuxt-link to="/dashboard" v-if="login"  class="buttonN ">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
               loading="lazy"
@@ -41,7 +41,7 @@
           </nuxt-link>
         </div>
 
-        <div class="div-block-23">
+        <div class="div-block-23 pulsate-bck">
           <img
             src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png"
             width="940"
@@ -91,7 +91,7 @@
       </div>
     </section>
 
-    <section class="section-hero">
+    <section class="section-hero" style="background-color: inherit;">
       <div class="container">
         <h2 class="section-title">{{ $store.state.idioma.callHeadline }}</h2>
         <p class="section-subtitle">
@@ -240,7 +240,7 @@
       </div>
     </section>
 
-    <section class="section-hero">
+    <section class="section-hero " style="background-color: inherit;" >
       <div class="container">
         <h2 class="section-title">{{ $store.state.idioma.featureHead }}</h2>
         <div class="columns">

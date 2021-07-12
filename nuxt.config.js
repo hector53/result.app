@@ -1,6 +1,6 @@
 export default {
   env: {
-  //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+ // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -24,7 +24,6 @@ export default {
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    '~/static/css/bulma.css',
     '~/static/css/poll.css',
   ],
 
@@ -46,13 +45,14 @@ export default {
     'cookie-universal-nuxt',
     'nuxt-sweetalert2', 
     'nuxt-socket-io',
+    'nuxt-buefy',
   ],
 
   io: {
     // module options
     sockets: [{
       name: 'main',
-   // url: 'http://localhost:5000', 
+    //url: 'http://localhost:5000', 
       url: 'https://api.result.app'
     }]
   },

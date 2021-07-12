@@ -17,10 +17,10 @@ export const state = () => ({
     {
     ////// HEAD
     "idioma": "en",
-   "signupMenu": 'Sign up', 
-    "productMenu": 'Products',
-    "priceMenu": 'Price',
-    "loginMenu": 'Log in',
+   "signupMenu": 'SIGN UP', 
+    "productMenu": 'PRODUCTS',
+    "priceMenu": 'PRICE',
+    "loginMenu": 'LOG IN',
     "notificationBar": 'Join an event?',
      "dashboardTitle": 'Dashboard',
      "salirTitle": 'Log out',
@@ -167,17 +167,18 @@ export const state = () => ({
 {
     ////// HEAD
     "idioma": "es",
-    "signupMenu": 'Registro', 
-    "productMenu": 'Productos',
-    "priceMenu": 'Precio',
-    "loginMenu": 'Entrar',
+    "signupMenu": 'REGISTRO', 
+    "productMenu": 'PRODUCTOS',
+    "priceMenu": 'PRECIOS',
+    "loginMenu": 'ENTRAR',
     "notificationBar": 'Entrar a un evento?',
         "dashboardTitle": 'Panel',
      "salirTitle": 'Salir',
     
     ////// INDEX
     
-    "headlineHero": 'Creá preguntas gratis, obtené respuestas en tiempo real',
+    "headlineHero": 'Creá preguntas gratis, ',
+    "headlineHero2": 'obtené respuestas en tiempo real',
     "subheadHero": 'Encuestas, Q&A, AMA, Quizzes y más. Sin registro, es 100% gratuito and toma menos de un minuto.',
     "tagGratis": 'GRATIS', 
     "tagRegistro": 'REGISTRO', 

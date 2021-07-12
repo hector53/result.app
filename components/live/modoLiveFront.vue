@@ -11,15 +11,19 @@
 <sorteos-front ref="sorteosFront" v-if="tipo == 3" :id_encuesta="id" 
 :titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></sorteos-front>
 
+<dia-hora-live-activo  ref="diaHoraFront" v-if="tipo == 4" :id_encuesta="id" 
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" ></dia-hora-live-activo>
+
 </div>
 </template>
 
 <script>
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
+import DiaHoraLiveActivo from './encuestas/diaHora/diaHoraLiveActivo.vue';
 import NubeDePalabrasFront from './encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
 import SorteosFront from './encuestas/sorteos/sorteosFront.vue';
 export default {
-  components: { multipleChoiceFront, NubeDePalabrasFront, SorteosFront },
+  components: { multipleChoiceFront, NubeDePalabrasFront, SorteosFront, DiaHoraLiveActivo },
   props:['id_evento', 'modoLive'],
   data() {
     return {
