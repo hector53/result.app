@@ -168,7 +168,7 @@
       </div>
     </section>
 
-    <section class="section-hero">
+    <section class="section-hero shake-lr " style="background-color: inherit;">
       <div class="container-3 w-container">
         <h2 class="section-title">{{ $store.state.idioma.productHead }}</h2>
         <p class="section-subtitle">{{ $store.state.idioma.productSubhead }}</p>
