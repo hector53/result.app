@@ -41,7 +41,7 @@
           </nuxt-link>
         </div>
 
-        <div class="div-block-23 pulsate-bck">
+        <div class="div-block-23">
           <img
             src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png"
             width="940"
@@ -56,7 +56,7 @@
               https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png        3333w
             "
             alt=""
-            class="image"
+            class="image  pulsate-bck"
           />
         </div>
 

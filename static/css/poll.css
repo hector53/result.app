@@ -2113,16 +2113,16 @@ kbd{
   .large-12 {width: 100%}
 }
 .pulsate-bck {
-	-webkit-animation: pulsate-bck 4s ease-in-out infinite both;
-	        animation: pulsate-bck 4s ease-in-out infinite both;
+	-webkit-animation: pulsate-bck 10s linear infinite both;
+	        animation: pulsate-bck 10s linear infinite both;
 }
 .heartbeat {
-	-webkit-animation: heartbeat 2s ease-in-out 1.05s infinite both;
-	        animation: heartbeat 2s ease-in-out 1.05s infinite both;
+	-webkit-animation: heartbeat 5s ease-in-out 0.5s infinite both;
+	        animation: heartbeat 5s ease-in-out 0.5s infinite both;
 }
 .shake-lr {
-    -webkit-animation: shake-lr 10s cubic-bezier(0.455, 0.030, 0.515, 0.955) 2.5s infinite both;
-    animation: shake-lr 10s cubic-bezier(0.455, 0.030, 0.515, 0.955) 2.5s infinite both;
+	-webkit-animation: shake-lr 20s ease-in-out infinite both;
+	        animation: shake-lr 20s ease-in-out infinite both;
 }
 @-webkit-keyframes shake-lr {
     0%,
@@ -2133,28 +2133,28 @@ kbd{
               transform-origin: 50% 50%;
     }
     10% {
-      -webkit-transform: rotate(8deg);
-              transform: rotate(8deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
     20%,
     40%,
     60% {
-      -webkit-transform: rotate(-10deg);
-              transform: rotate(-10deg);
+      -webkit-transform: rotate(-4deg);
+              transform: rotate(-4deg);
     }
     30%,
     50%,
     70% {
-      -webkit-transform: rotate(10deg);
-              transform: rotate(10deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
     80% {
-      -webkit-transform: rotate(-8deg);
-              transform: rotate(-8deg);
+      -webkit-transform: rotate(-4deg);
+              transform: rotate(-4deg);
     }
     90% {
-      -webkit-transform: rotate(8deg);
-              transform: rotate(8deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
   }
   @keyframes shake-lr {
@@ -2166,28 +2166,28 @@ kbd{
               transform-origin: 50% 50%;
     }
     10% {
-      -webkit-transform: rotate(8deg);
-              transform: rotate(8deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
     20%,
     40%,
     60% {
-      -webkit-transform: rotate(-10deg);
-              transform: rotate(-10deg);
+      -webkit-transform: rotate(-4deg);
+              transform: rotate(-4deg);
     }
     30%,
     50%,
     70% {
-      -webkit-transform: rotate(10deg);
-              transform: rotate(10deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
     80% {
-      -webkit-transform: rotate(-8deg);
-              transform: rotate(-8deg);
+      -webkit-transform: rotate(-4deg);
+              transform: rotate(-4deg);
     }
     90% {
-      -webkit-transform: rotate(8deg);
-              transform: rotate(8deg);
+      -webkit-transform: rotate(4deg);
+              transform: rotate(4deg);
     }
   }
   
