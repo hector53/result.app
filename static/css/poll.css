@@ -1942,19 +1942,50 @@ kbd{
     border-radius: 10px;
     text-align: center;
     padding: 20px;
+    width: 100%;
+}
+.decor{
+    padding: 20px;
+    border-radius: 10px;
 }
 .diaCalendario{
     font-size: 40px;
 }
 .horaCalendario{
     margin-bottom: 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
 }
-.horaCalendario.active{
-    background-color: #32b132;
+.horaCalendario:hover{
+   background-color: #f3f2f2
+    
+}
+.horaCalendario.ganador{
+    background-color: #32b132!important;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
     color: white;
+}
+.horaCalendario.active{
+    background-color: #32b132!important;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    color: white;
+}
+.cantVotosHoras{
+    background: #2196f3;
+    padding-left: 5px;
+    padding-right: 5px;
+    border-radius: 100px;
+    height: 23px;
+    width: 23px;
+    color: white;
+    font-weight: bold;
 }
 @media screen and (max-width: 600px) {
     .buscadorCodigo{
@@ -2062,7 +2093,13 @@ kbd{
     max-width:960px;
     margin: 0 auto;
 }
-
+.rowHec.flex-stretch{
+    display: flex;
+    align-items: stretch;
+}
+.columnFlex{
+    display: flex;
+}
 .rowHec:after {
   content: "";
   display: table;
@@ -2079,6 +2116,9 @@ kbd{
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  overflow: auto;
+  white-space: nowrap;
+  padding-bottom: 50px;
 }
 
 /*Media Queries*/
@@ -2100,7 +2140,7 @@ kbd{
 @media (min-width: 768px) {
   .large-1 {width: 8.333%;}
   .large-2 {width: 16.666%;}
-  .large-2-5 {width: 20%;}
+  .large-2-5 {width: 20%;     flex: 0 0 20%;}
   .large-3 {width: 25%;}
   .large-4 {width: 33.333%;}
   .large-5 {width: 41.666%;}

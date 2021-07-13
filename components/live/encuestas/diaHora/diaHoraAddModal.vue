@@ -71,7 +71,6 @@
         Guardar
       </button>
     </div>
-    {{time}}
   </div>
 </template>
 
@@ -102,7 +101,7 @@ export default {
         var second2 = oldValues;
         var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
         var d = new Date();
-
+          d.setHours(7, 0, 0, 0);
         this.time.push({
           id: this.convertDate(difference2),
           horas: [{ ini: d, fin: d }],
@@ -228,7 +227,7 @@ export default {
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
       var d = new Date();
-      //d.setHours(0, 0, 0, 0);
+      d.setHours(7, 0, 0, 0);
       this.time[index].horas.push({ ini: d, fin: d });
     },
     unselectableDates(day) {

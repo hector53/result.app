@@ -9,7 +9,7 @@
             <h3 class="diaCalendario">{{ item.dia }}</h3>
             <p>{{ item.mes }}</p>
             <h4 class="horaCalendario"  v-for="(itemh, index2) in item.horas" :key="index2 + 1000"
-            
+            @click="votarHora(itemh.id)"
             :class="{'active': itemh.siVote }"
             >
               <span>{{ itemh.hora }}:{{ itemh.minutos }} </span>
@@ -29,17 +29,35 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
-  props: ["titulo_encuesta", "id_encuesta", "id_evento"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive", "statusEvent"],
   data() {
     return {
       dias: [],
       isLoading: true,
+      modoenVivo: 0, 
       votosTotales: 0
     };
   },
   components: { Loading },
   methods: {
-  
+ 
+    async votarHora(id){
+        if(this.statusEvent == 1){
+
+                  const response = await this.$axios.$post("votar_encuesta_dia_y_hora_front", {
+        hora: id,
+        codigo: this.$route.params.cod,
+        id_evento: this.id_evento,
+        id_encuesta: this.id_encuesta,
+         p: this.$store.state.p, 
+         liveMode: this.modoenVivo,
+      });
+      console.log("id del voto", response)
+          this.getDiayHoraByIdEncuesta(this.id_encuesta)
+        }
+      
+    },
+    
     async getDiayHoraByIdEncuesta(id) {
       this.isLoading = true;
       await this.$axios
@@ -55,13 +73,16 @@ export default {
           console.log(response);
           if (response.status == 1) {
             //asdasd
-                      this.dias = response.dias;
+            this.dias = response.dias;
             this.votosTotales = response.votosTotales
           }
         });
     },
   },
   mounted() {
+       if(this.modoLive == 1){
+        this.modoenVivo = this.modoLive
+    }
     this.getDiayHoraByIdEncuesta(this.id_encuesta);
   },
 };

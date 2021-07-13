@@ -43,7 +43,7 @@
                       $store.state.idioma.dateHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="color:#3c1b82" >  {{ $store.state.idioma.dateSubBlock }}</div>
+                <div class="text-block-2"  >  {{ $store.state.idioma.dateSubBlock }}</div>
               </div>
               <div class="tag is-danger">
                 <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>

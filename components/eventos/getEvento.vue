@@ -19,6 +19,12 @@
               :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></nube-de-palabras-front>
               <sorteos-front @teclas="moverTab" v-if="item.tipo == 3" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></sorteos-front>
+
+              <dia-hora-front
+               @teclas="moverTab" v-if="item.tipo == 4" :id_encuesta="item.id" 
+              :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent"
+              ></dia-hora-front>
+        
         </div>
     </div>
   </div>
@@ -29,9 +35,10 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
+import DiaHoraFront from '../live/encuestas/diaHora/diaHoraFront.vue';
 import NubeDePalabrasFront from '../live/encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
 export default {
-  components: { multipleChoiceFront, Loading, NubeDePalabrasFront },
+  components: { multipleChoiceFront, Loading, NubeDePalabrasFront, DiaHoraFront },
   props:['id_evento', 'encuestas', 'statusEvent'],
   data() {
     return {
