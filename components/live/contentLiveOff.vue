@@ -64,13 +64,14 @@
 </template>
 
 <script>
-import VueQrcode from 'vue-qrcode'
+
 import MultipleChoiceResult from '../encuestas/multipleChoiceResult.vue';
 import DiaHoraLiveActivo from './encuestas/diaHora/diaHoraLiveActivo.vue';
 import nubeDePalabrasActiva from './encuestas/nubeDePalabras/nubeDePalabrasActiva.vue';
 import SorteosLiveActivo from './encuestas/sorteos/sorteosLiveActivo.vue';
+import VueQrcode from 'vue-qrcode'
 export default {
-  components: { nubeDePalabrasActiva, MultipleChoiceResult, VueQrcode, SorteosLiveActivo, DiaHoraLiveActivo },
+  components: { nubeDePalabrasActiva, MultipleChoiceResult, SorteosLiveActivo, DiaHoraLiveActivo, VueQrcode },
 props:['id_evento'],
   data() {
     return {
