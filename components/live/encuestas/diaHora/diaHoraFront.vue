@@ -20,7 +20,13 @@
         </div>
       </div>
     </div>
-    <h4 class="pt-5 pb-5 has-text-right ">Total Votos: {{votosTotales}} </h4>
+    <div style="    display: flex;
+    justify-content: space-between;">
+      <h4>Total Votos: {{votosTotales}} </h4>
+    <h4 >Total Usuarios: {{usuariosTotales}} </h4>
+    </div>
+    
+    
     </section>
   </div>
 </template>
@@ -35,7 +41,8 @@ export default {
       dias: [],
       isLoading: true,
       modoenVivo: 0, 
-      votosTotales: 0
+      votosTotales: 0, 
+      usuariosTotales: 0
     };
   },
   components: { Loading },
@@ -75,6 +82,7 @@ export default {
             //asdasd
             this.dias = response.dias;
             this.votosTotales = response.votosTotales
+            this.usuariosTotales = response.usuariosTotales
           }
         });
     },
