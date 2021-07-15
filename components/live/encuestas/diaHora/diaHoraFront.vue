@@ -20,8 +20,7 @@
         </div>
       </div>
     </div>
-    <div style="    display: flex;
-    justify-content: space-between;">
+    <div style="    display: flex;    justify-content: space-between;">
       <h4>Total Votos: {{votosTotales}} </h4>
     <h4 >Total Usuarios: {{usuariosTotales}} </h4>
     </div>
