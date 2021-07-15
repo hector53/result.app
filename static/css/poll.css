@@ -1950,7 +1950,7 @@ kbd{
     box-shadow: -1px 1px 10px 0 rgb(0 0 0 / 20%);
     border-radius: 10px;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     width: 100%;
 }
 .decor{
@@ -1967,6 +1967,7 @@ kbd{
     padding: 10px;
     display: flex;
     justify-content: space-between;
+    width: 100px;
 }
 .horaCalendario:hover{
    background-color: #f3f2f2
