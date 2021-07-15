@@ -1967,7 +1967,8 @@ kbd{
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    width: 100px;
+    width: 120px;
+    margin: auto;
 }
 .horaCalendario:hover{
    background-color: #f3f2f2

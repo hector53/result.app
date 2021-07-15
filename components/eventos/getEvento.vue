@@ -2,7 +2,7 @@
 <div style="    min-height: 500px;">
  <loading :active="isLoading" color="#59b1ff" loader="dots" />
   <div class="cubreEventoFron" v-show="isLoading== false">
-    <div class="navigationTab">
+    <div class="navigationTab" v-if="encuestas.length>1">
       <div class="tabMia " v-for="index in tabs" :key="index"  >
         <div class="tabMia-content " 
         @click="tabActive = index "
