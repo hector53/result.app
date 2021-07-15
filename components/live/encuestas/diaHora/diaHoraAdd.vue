@@ -15,6 +15,13 @@
             </div>
             <div class="column is-8">
                  <div class="container">
+                           <div class="hoverOpciones" style="margin-bottom: 20px;">
+                       <a  @click="guardarEncuesta(0)"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
+                    <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
+                    <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
+                    <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                
+                </div>
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
@@ -152,6 +159,17 @@ export default {
   
   methods: {
   
+       eliminar(){
+
+            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
+    
+    },
+    moverArriba(index){
+      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
+    },
+     moverAbajo(index){
+      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
+    },
    async  guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({

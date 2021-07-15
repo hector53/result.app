@@ -55,6 +55,7 @@
           <dia-hora-add
             :ref="'encuesta_'+index"
             v-if="item['tipo'] == 4 && item['idEcuesta']==0"
+            :idEcuesta="item['idEcuesta']"
              :numero="index"
              @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
