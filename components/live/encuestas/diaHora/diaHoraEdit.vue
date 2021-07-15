@@ -19,42 +19,44 @@
       </div>
       <div class="column" v-if="date.length > 0">
         <div v-for="(item, index) in date" :key="index">
-          <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
-          <div class="cubreHoras">
-            <div
-              class="columns"
-              v-for="(item2, index2) in time[index].horas"
-              :key="index2"
-              style="
-                padding-left: 10px;
-                padding-right: 10px;
-                margin: 0;
-                margin-bottom: 10px;
-                display: flex;
-              "
-            >
-              <b-field label="Hora" style="padding-top: 10px; width: 100%">
-                <b-timepicker
-                  :time-formatter="formatoHora"
-                  icon="clock"
-                  hour-format="12"
-                  placeholder="Hora"
-                  :id="'tiempo_' + index"
-                  v-model="time[index].horas[index2].ini"
-                  inline
-                  :locale="locale"
-                ></b-timepicker>
-              </b-field>
-              <a
-                v-if="index2 > 0"
-                class="close close_option"
-                style="margin-top: 55px"
-                @click="quitarHoras(index, index2)"
-              ></a>
+          <div v-if="activarW">
+            <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
+            <div class="cubreHoras">
+              <div
+                class="columns"
+                v-for="(item2, index2) in time[index].horas"
+                :key="index2"
+                style="
+                  padding-left: 10px;
+                  padding-right: 10px;
+                  margin: 0;
+                  margin-bottom: 10px;
+                  display: flex;
+                "
+              >
+                <b-field label="Hora" style="padding-top: 10px; width: 100%">
+                  <b-timepicker
+                    :time-formatter="formatoHora"
+                    icon="clock"
+                    hour-format="12"
+                    placeholder="Hora"
+                    :id="'tiempo_' + index"
+                    v-model="time[index].horas[index2].ini"
+                    inline
+                    :locale="locale"
+                  ></b-timepicker>
+                </b-field>
+                <a
+                  v-if="index2 > 0"
+                  class="close close_option"
+                  style="margin-top: 55px"
+                  @click="quitarHoras(index, index2)"
+                ></a>
+              </div>
+              <button @click="agregarHoras(index)" class="btnAddHoras">
+                Agregar +Horas
+              </button>
             </div>
-            <button @click="agregarHoras(index)" class="btnAddHoras">
-              Agregar +Horas
-            </button>
           </div>
         </div>
       </div>
@@ -71,13 +73,6 @@
       >
         Guardar
       </button>
-      <button
-        class="buttonN play"
-        style="display: inline"
-        @click="guardarEncuesta(1)"
-      >
-       <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar
-      </button>
     </div>
   </div>
 </template>
@@ -93,50 +88,84 @@ var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
   watch: {
-    time: function (values, oldValues) {
-      console.log("valor colocado: ", values);
-    },
+   
     date: function (values, oldValues) {
-      var first = oldValues;
-      var second = values;
-
-      var difference = first.filter((x) => second.indexOf(x) === -1);
-
-      if (difference.length == 0) {
-        console.log("es nuevo");
-        //buscar el valor nuevo
-        var first2 = values;
-        var second2 = oldValues;
-        var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
-        var d = new Date();
+      if (this.activarW) {
+        var first = oldValues;
+        var second = values;
+        var difference = first.filter((x) => second.indexOf(x) === -1);
+        if (difference.length == 0) {
+          console.log("es nuevo");
+          //buscar el valor nuevo
+          var first2 = values;
+          var second2 = oldValues;
+          var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
+          var d = new Date();
           d.setHours(7, 0, 0, 0);
-        this.time.push({
-          id: this.convertDate(difference2),
-          horas: [{ ini: d, fin: d }],
-        });
-        console.log(this.convertDate(difference2));
-      } else {
-        console.log("quito la selecciion", this.convertDate(difference));
-        const index = this.time.findIndex(
-          (fruta) => fruta.id === this.convertDate(difference)
-        );
-        console.log("resultado", index);
-        this.time.splice(index, 1);
+          this.time.push({
+            id: this.convertDate(difference2),
+            idDb: 0,
+            horas: [{id:0, ini: d, fin: d }],
+          });
+          console.log(this.convertDate(difference2));
+          console.log("new time", this.time)
+        } else {
+          console.log("quito la selecciion", this.convertDate(difference));
+          const index = this.time.findIndex(
+            (fruta) => fruta.id === this.convertDate(difference)
+          );
+          console.log("resultado", index);
+          this.time.splice(index, 1);
+        }
       }
     },
   },
+  props: ["id_encuesta"],
   data() {
     return {
       date: [],
       time: [],
       mostarHora: true,
+      activarW: false,
       horarios: false,
       locale: undefined, // Browser locale
       titulo: "",
     };
   },
   methods: {
-   async  guardarEncuesta(val) {
+     
+    async getEncuestaById(id) {
+      await this.$axios
+        .$get("get_encuestas_by_id_live?id=" + id)
+        .then((response) => {
+          console.log(response);
+          if (response.status == 1) {
+           // this.time = response.dias;
+            //  this.date = response.date
+          this.titulo = response.encuesta[0].titulo
+           response.date.map((item) => { 
+             console.log("fecha convertida", new Date(item+ "T00:00:00"))
+                  this.date.push(new Date(item+ "T00:00:00"))
+                  })
+
+               response.dias.map((item) => { 
+                 console.log("console log item dias", item)
+                    var arrayHoras = []
+                    item.horas.map((h) => { 
+                              arrayHoras.push({id: h.id, ini: new Date(h.ini), fin: new Date(h.ini)})
+                    })
+                  this.time.push({id: item.dia, idDb: item.id, horas: arrayHoras})
+                  })
+   
+        console.log("time acomodado", this.time)
+          }
+        });
+    },
+ convertUTCDateToLocalDate(date) {
+    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+    return date;
+},
+    async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
           type: "error",
@@ -171,12 +200,13 @@ export default {
         }
       }
       //ahora si enviar a la db encuesta
-      const response = await this.$axios.$post("create_diayhora_live", {
+      const response = await this.$axios.$post("edit_diayhora_live", {
         titulo: this.titulo,
         dias: JSON.stringify(this.date),
         horas: JSON.stringify(this.time),
         codigo: this.$route.params.cod,
         activar: val,
+        id_encuesta: this.id_encuesta
       });
       console.log(response);
       if (response.status == 1) {
@@ -184,7 +214,7 @@ export default {
           this.$store.commit("seteventLiveMode", 1);
           this.$store.commit("setcandadoModoLive", 1);
         }
-        this.$emit("cerrarModal");
+        this.$emit("cerrarModalEdit");
       } else {
         this.isLoading = false;
         this.$swal({
@@ -236,7 +266,7 @@ export default {
       console.log("hola", this.time[index].horas);
       var d = new Date();
       d.setHours(7, 0, 0, 0);
-      this.time[index].horas.push({ ini: d, fin: d });
+      this.time[index].horas.push({ id:0, ini: d, fin: d });
     },
     unselectableDates(day) {
       // console.log(day)
@@ -258,7 +288,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt ;
+      return year + "-" + month + "-" + dt;
     },
     convertDateTime(val) {
       var date = new Date(val);
@@ -275,7 +305,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt + " " + hora+":"+min+":"+seg
+      return year + "-" + month + "-" + dt + " " + hora + ":" + min + ":" + seg;
     },
     convertTZ(date, tzString) {
       return new Date(
@@ -286,7 +316,7 @@ export default {
       );
     },
   },
-  mounted() {
+  async mounted() {
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     console.log(timeZone);
 
@@ -298,6 +328,9 @@ export default {
     var horaServer = "2021-07-12T08:00:00.000Z";
     var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
     console.log(horaVenezuela);
+
+ await    this.getEncuestaById(this.id_encuesta);
+        this.activarW = true
   },
 };
 </script>

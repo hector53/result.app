@@ -48,6 +48,11 @@
             v-if="encuestaEditId > 0 && tipoEncuestaEdit == 3"
             :id_encuesta="encuestaEditId"
         ></sorteos-edit-modal>
+        <dia-hora-edit
+         @cerrarModalEdit="cerrarModalEdit"
+            v-if="encuestaEditId > 0 && tipoEncuestaEdit == 4"
+            :id_encuesta="encuestaEditId"
+        ></dia-hora-edit>
         </div>
       </div>
       <button

@@ -17,7 +17,7 @@
   <div class="column">
   <div v-for="(item, index) in date" :key="index">
          <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
-         <div class="cubreHoras" >
+         <div class="cubreHoras" v-if="activarW" >
             <div class="columns"
             v-for="(item2, index2) in time[index].horas" :key="index2"
              style="padding-left: 10px;    padding-right: 10px;    margin: 0; margin-bottom: 10px; display: flex;">
@@ -60,7 +60,9 @@ export default {
         
       },
          date: function (values, oldValues) {
-             var first = oldValues
+           if(this.activarW){
+             console.log("esta activo")
+ var first = oldValues
 var second = values
  
 var difference = first.filter(x => second.indexOf(x) === -1);
@@ -83,6 +85,8 @@ d.setHours(0,0,0,0);
      this.time.splice(index,1)
 }
 
+           }
+            
          
 
 
@@ -95,15 +99,32 @@ d.setHours(0,0,0,0);
   data() {
      
     return {
-        
+          date2: ['2021-07-15T04:00:00.000Z', '2021-07-16T04:00:00.000Z'],
       date: [],
       time: [], 
+      activarW: false,
       mostarHora : true, 
       horarios: false, 
       locale: undefined // Browser locale
 	};
   },
   methods: {
+    async cargarDate(){
+
+      await this.$axios
+      .$get("get_encuestas_by_id_live?id="+66)
+      .then((response) => {
+        console.log(response);
+        if(response.status == 1){
+                  response.date.map((item) => { 
+                  this.date.push(new Date(item))
+                  })
+        }
+
+      });
+
+         
+    },
     formatoHora(dt){
       console.log("hoa", dt)
           var dateoptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -164,6 +185,10 @@ return dt+'-'+month+'-'+year;
 }
   },
   mounted() {
+       var tokenUser = this.$cookies.get("r_auth");
+    this.$axios.setToken(tokenUser, "Bearer");
+ this.cargarDate()
+
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log(timeZone);
 

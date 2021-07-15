@@ -1,6 +1,20 @@
 <template>
-  <div>
-    <h1 class="headingM has-text-left">Encuesta Día y Hora</h1>
+<div class="cubreEncuesta1">
+ <div class="columns">
+            <div class="column is-4">
+                <div class="cubreNumber"> 
+                    <h4 class="titleEncuesta">Nube de Palabras</h4>
+                <div class="cubreLogoNumber">
+                    <div class="logotipo-copy">
+                        <div class="logotipo-fill-copy">
+                            <div class="numberTipeEncuesta">{{numero+1}}</div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </div>
+            <div class="column is-8">
+                 <div class="container">
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
@@ -71,18 +85,16 @@
       >
         Guardar
       </button>
-      <button
-        class="buttonN play"
-        style="display: inline"
-        @click="guardarEncuesta(1)"
-      >
-       <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar
-      </button>
+     
     </div>
-  </div>
+          </div>
+            </div>
+        </div>
+</div>
 </template>
 
 <script>
+
 var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
@@ -92,6 +104,7 @@ console.log(timeZone);
 var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
+  props: ['numero', 'idEcuesta'],
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -127,15 +140,18 @@ export default {
   },
   data() {
     return {
-      date: [],
+      titulo: '',
+      id_encuesta: this.idEcuesta,
+       date: [],
       time: [],
       mostarHora: true,
       horarios: false,
       locale: undefined, // Browser locale
-      titulo: "",
-    };
+	};
   },
+  
   methods: {
+  
    async  guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
@@ -180,11 +196,7 @@ export default {
       });
       console.log(response);
       if (response.status == 1) {
-        if (val == 1) {
-          this.$store.commit("seteventLiveMode", 1);
-          this.$store.commit("setcandadoModoLive", 1);
-        }
-        this.$emit("cerrarModal");
+        this.$emit('actualizarArray')
       } else {
         this.isLoading = false;
         this.$swal({
@@ -287,17 +299,7 @@ export default {
     },
   },
   mounted() {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log(timeZone);
-
-    var d = new Date();
-    console.log(d.toLocaleString("en-US", { timeZone }));
-    var d = new Date();
-    var n = d.getTimezoneOffset();
-    console.log("zona horaria: ", n);
-    var horaServer = "2021-07-12T08:00:00.000Z";
-    var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
-    console.log(horaVenezuela);
+   
   },
 };
 </script>

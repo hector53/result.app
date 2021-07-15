@@ -1258,6 +1258,8 @@ input[type="checkbox"], input[type="radio"] {
 }
 .navigationTab{
     display: flex;
+    max-width: 300px;
+    margin: auto;
 }
 
 .tabMia{
@@ -1601,6 +1603,13 @@ input[type="checkbox"], input[type="radio"] {
     overflow-y: auto;
     text-align: justify;
 }
+.scrollDiayHora{
+    padding: 4px;
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
 .cubreHoras{
     background: #fff;
     border-radius: 2px;
@@ -1635,7 +1644,7 @@ input[type="checkbox"], input[type="radio"] {
     margin-bottom: 10px;
 }
 .modal .modal-content {
-    width: 640px!important;
+    width: 740px!important;
     /* padding-left: 20px; */
     max-width: 100%;
 }
@@ -1964,14 +1973,14 @@ kbd{
     
 }
 .horaCalendario.ganador{
-    background-color: #32b132!important;
+    background-color: #53e6538c!important;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
     color: white;
 }
 .horaCalendario.active{
-    background-color: #32b132!important;
+    background-color: #53e6538c!important;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 20px;
@@ -1986,6 +1995,11 @@ kbd{
     width: 23px;
     color: white;
     font-weight: bold;
+}
+.timepicker .dropdown-content .control .select select{
+    padding: 0;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 @media screen and (max-width: 600px) {
     .buscadorCodigo{

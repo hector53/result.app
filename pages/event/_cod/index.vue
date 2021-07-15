@@ -52,6 +52,29 @@
              @openModalEdit="openModalEdit"
           ></sorteos-add>
 
+          <dia-hora-add
+            :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 4 && item['idEcuesta']==0"
+             :numero="index"
+             @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+             @actualizarArray="actualizarArray"
+             @openModalEdit="openModalEdit"
+          ></dia-hora-add>
+
+          <dia-hora-edit-dashboard
+           :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 4 && item['idEcuesta']>0"
+             :numero="index"
+              :id_encuesta="item['idEcuesta']"
+            :tituloP="item['pregunta']"
+             @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+            
+          ></dia-hora-edit-dashboard>
+
        
 
 
@@ -90,6 +113,7 @@ import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIn
 import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
 import SorteosAdd from '../../../components/live/encuestas/sorteos/sorteosAdd.vue';
 import SorteosEditModal from '../../../components/live/encuestas/sorteos/sorteosEditModal.vue';
+import DiaHoraAdd from '../../../components/live/encuestas/diaHora/diaHoraAdd.vue';
 
 export default {
   layout: "live",
@@ -97,6 +121,7 @@ export default {
   components: { MultipleChoice, Loading, NavBarEvento, FooterT,
    TiposEncuestasIndex, NubeDePalabrasAdd, SorteosAdd,
     SorteosEditModal,
+    DiaHoraAdd,
      },
   head() {
       return {
@@ -331,6 +356,15 @@ async deleteEncuestaById(id){
           participantes: [], 
           ganadores: [], 
           premios: 1
+        });
+
+      }
+
+       if (val == 4) {
+        this.arrayEncuestas.push({
+          tipo: 4,
+          idEcuesta: 0,
+          pregunta: "",
         });
 
       }
