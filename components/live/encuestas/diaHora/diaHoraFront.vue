@@ -1,6 +1,8 @@
 <template>
   <div>
-       <section class="section-hero decor" >
+     <loading :active="isLoading" color="#59b1ff" loader="dots" />
+       <section class="section-hero decor" v-if="isLoading == false" >
+         
     <h1 class="pb-5" >{{ titulo_encuesta }}</h1>
     <div class="containerHec">
       <div class="rowHec flex-stretch">
@@ -82,6 +84,7 @@ export default {
             this.dias = response.dias;
             this.votosTotales = response.votosTotales
             this.usuariosTotales = response.usuariosTotales
+            this.isLoading = false
           }
         });
     },
