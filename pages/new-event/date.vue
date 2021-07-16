@@ -87,10 +87,8 @@ var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-console.log(timeZone);
 
 var d = new Date();
-console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
   components: {Loading},
   watch: {
@@ -135,6 +133,7 @@ export default {
       horarios: false,
       locale: undefined, // Browser locale
       titulo: "",
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone
     };
   },
   methods: {
@@ -180,7 +179,8 @@ export default {
         dias: JSON.stringify(this.date),
         horas: JSON.stringify(this.time),
         cookieNotUser: cookieNotUser, 
-        ipWeb: this.ipWeb
+        ipWeb: this.ipWeb, 
+        zonaHoraria: this.zonaHoraria
       });
       console.log(response);
       if(response.status ==1){
@@ -299,17 +299,7 @@ export default {
   },
   mounted() {
     this.getIp()
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log(timeZone);
-
-    var d = new Date();
-    console.log(d.toLocaleString("en-US", { timeZone }));
-    var d = new Date();
-    var n = d.getTimezoneOffset();
-    console.log("zona horaria: ", n);
-    var horaServer = "2021-07-12T08:00:00.000Z";
-    var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
-    console.log(horaVenezuela);
+    console.log("zona horaria", this.zonaHoraria)
   },
 };
 </script>

@@ -154,6 +154,7 @@ export default {
       mostarHora: true,
       horarios: false,
       locale: undefined, // Browser locale
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone
 	};
   },
   
@@ -211,6 +212,7 @@ export default {
         horas: JSON.stringify(this.time),
         codigo: this.$route.params.cod,
         activar: val,
+        zonaHoraria: this.zonaHoraria
       });
       console.log(response);
       if (response.status == 1) {
