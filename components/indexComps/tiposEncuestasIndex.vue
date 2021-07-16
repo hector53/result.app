@@ -168,20 +168,29 @@ export default {
 
       this.isLoading = true;
 
-      const response = await this.$axios.$post("crear_evento", {
+      await this.$axios.$post("crear_evento", {
         titulo: nameEvento,
         descripcion: "",
-      });
-      this.isLoading = false;
-      if (response.status != 0) {
-        this.$router.push("/event/" + response.codigo+"?type="+val);
-      } else {
-        this.$swal({
+      }).then((response) => {
+          this.isLoading = false;
+          if (response.status != 0) {
+          this.$router.push("/event/" + response.codigo+"?type="+val);
+          } else {
+          this.$swal({
           type: "error",
           title: "Oops...",
           text: "Estas haciendo trampa xD",
-        });
-      }
+          });
+          }
+      }).catch(({ response }) => {
+    console.log('fail');
+    console.log(response.status)
+    if(response.status == 401){
+      this.$cookies.remove('r_auth')
+      location.href="/login"
+    }
+  })
+      
     },
       addNewEncuesta(val) {
         if(this.$route.name == 'index'){
