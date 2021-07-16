@@ -2020,12 +2020,17 @@ kbd{
     padding: 2px
 }
 .closeDate{
-    margin-top: 55px;
+    margin-top: 20px;
     right: unset;
-    margin-left: 125px;
+    margin-left: 90px;
+    width: 10px!important;
+    height: 10px!important;
+}
+.closeDate:after, .closeDate:before{
+    height: 10px;
 }
 .horaT{
-    width: 110px;
+    width: 100px;
 }
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{
