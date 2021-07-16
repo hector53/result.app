@@ -131,7 +131,8 @@ export default {
       horarios: false,
       locale: undefined, // Browser locale
       titulo: "",
-      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone, 
+      ipWeb: ''
     };
   },
   methods: {

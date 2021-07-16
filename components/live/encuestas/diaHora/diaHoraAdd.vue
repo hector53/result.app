@@ -25,8 +25,8 @@
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
-    <div class="columns mt-2" st>
-      <div class="column">
+      <div class="cubreEncuestaCalendario mt-5 mb-5">
+        <div class="cubreCalendario">
         <b-datepicker
           v-model="date"
           inline
@@ -38,12 +38,12 @@
         >
         </b-datepicker>
       </div>
-      <div class="column" v-if="date.length > 0">
-        <div v-for="(item, index) in date" :key="index">
+      <div class="CubreHorarios" v-if="date.length > 0">
+        <div v-for="(item, index) in date" :key="index" class="cubreColumnH">
           <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
           <div class="cubreHoras">
             <div
-              class="columns"
+              class="xxx"
               v-for="(item2, index2) in time[index].horas"
               :key="index2"
               style="
@@ -54,22 +54,20 @@
                 display: flex;
               "
             >
-              <b-field label="Hora" style="padding-top: 10px; width: 100%">
-                <b-timepicker
-                  :time-formatter="formatoHora"
-                  icon="clock"
-                  hour-format="12"
-                  placeholder="Hora"
+                <b-timepicker class="mt-3 horaT" 
+                 
                   :id="'tiempo_' + index"
                   v-model="time[index].horas[index2].ini"
-                  inline
-                  :locale="locale"
+                  hour-format="24"
+                placeholder="Hora... "
+                icon="clock"
+                editable
+                
                 ></b-timepicker>
-              </b-field>
               <a
                 v-if="index2 > 0"
-                class="close close_option"
-                style="margin-top: 55px"
+                class="close close_option closeDate"
+               
                 @click="quitarHoras(index, index2)"
               ></a>
             </div>
@@ -266,8 +264,10 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      var d = new Date();
-      d.setHours(7, 0, 0, 0);
+      console.log("tamaño;", this.time[index].horas.length)
+      var lenHoras = this.time[index].horas.length
+      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
     unselectableDates(day) {
