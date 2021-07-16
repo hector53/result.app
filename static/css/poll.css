@@ -2024,6 +2024,9 @@ kbd{
     right: unset;
     margin-left: 125px;
 }
+.horaT{
+    width: 110px;
+}
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{
         flex-wrap: wrap;

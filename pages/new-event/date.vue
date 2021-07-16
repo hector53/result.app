@@ -35,18 +35,16 @@
                 display: flex;
               "
             >
-              <b-field label="Hora" style="padding-top: 10px; width: 100%">
-                <b-timepicker
-                  :time-formatter="formatoHora"
-                  icon="clock"
-                  hour-format="12"
-                  placeholder="Hora"
+                <b-timepicker class="mt-3 horaT" 
+                 
                   :id="'tiempo_' + index"
                   v-model="time[index].horas[index2].ini"
-                  inline
-                  :locale="locale"
+                  hour-format="24"
+                placeholder="Hora... "
+                icon="clock"
+                editable
+                
                 ></b-timepicker>
-              </b-field>
               <a
                 v-if="index2 > 0"
                 class="close close_option closeDate"
@@ -245,8 +243,10 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      var d = new Date();
-      d.setHours(7, 0, 0, 0);
+      console.log("tamaño;", this.time[index].horas.length)
+      var lenHoras = this.time[index].horas.length
+      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
     unselectableDates(day) {
