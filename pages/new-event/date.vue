@@ -1,32 +1,11 @@
 <template>
-<div class="cubreEncuesta1">
- <div class="columns">
-            <div class="column is-4">
-                <div class="cubreNumber"> 
-                    <h4 class="titleEncuesta">Nube de Palabras</h4>
-                <div class="cubreLogoNumber">
-                    <div class="logotipo-copy">
-                        <div class="logotipo-fill-copy">
-                            <div class="numberTipeEncuesta">{{numero+1}}</div>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-            <div class="column is-8">
-                 <div class="container">
-                           <div class="hoverOpciones" style="margin-bottom: 20px;">
-                       <a  @click="guardarEncuesta(0)"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-                    <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                    <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                
-                </div>
+  <div >
     <div class="control mt-2">
-      <input class="input" type="text" v-model="titulo" placeholder="Título" />
+      <input class="input" style="max-width:600px" type="text" v-model="titulo" placeholder="Título" />
     </div>
-    <div class="columns mt-2" st>
-      <div class="column">
+
+     <div class="cubreEncuestaCalendario mt-5">
+        <div class="cubreCalendario">
         <b-datepicker
           v-model="date"
           inline
@@ -38,12 +17,12 @@
         >
         </b-datepicker>
       </div>
-      <div class="column" v-if="date.length > 0">
-        <div v-for="(item, index) in date" :key="index">
+      <div class="CubreHorarios" v-if="date.length > 0">
+        <div v-for="(item, index) in date" :key="index" class="cubreColumnH">
           <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
           <div class="cubreHoras">
             <div
-              class="columns"
+              class="xxx"
               v-for="(item2, index2) in time[index].horas"
               :key="index2"
               style="
@@ -68,8 +47,8 @@
               </b-field>
               <a
                 v-if="index2 > 0"
-                class="close close_option"
-                style="margin-top: 55px"
+                class="close close_option closeDate"
+               
                 @click="quitarHoras(index, index2)"
               ></a>
             </div>
@@ -90,18 +69,14 @@
         style="display: inline"
         @click="guardarEncuesta(0)"
       >
-        Guardar
+        Crear
       </button>
      
     </div>
-          </div>
-            </div>
-        </div>
-</div>
+  </div>
 </template>
 
 <script>
-
 var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
@@ -111,7 +86,6 @@ console.log(timeZone);
 var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
-  props: ['numero', 'idEcuesta'],
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -147,29 +121,15 @@ export default {
   },
   data() {
     return {
-      titulo: '',
-      id_encuesta: this.idEcuesta,
-       date: [],
+      date: [],
       time: [],
       mostarHora: true,
       horarios: false,
       locale: undefined, // Browser locale
-	};
+      titulo: "",
+    };
   },
-  
   methods: {
-  
-       eliminar(){
-
-            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
-    
-    },
-    moverArriba(index){
-      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
-    },
-     moverAbajo(index){
-      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
-    },  
    async  guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
@@ -205,25 +165,37 @@ export default {
         }
       }
       //ahora si enviar a la db encuesta
-      const response = await this.$axios.$post("create_diayhora_live", {
+       var cookieNotUser = this.$cookies.get('_r_u') 
+      const response = await this.$axios.$post("create_diayhora_not_user", {
         titulo: this.titulo,
         dias: JSON.stringify(this.date),
         horas: JSON.stringify(this.time),
-        codigo: this.$route.params.cod,
-        activar: val,
+        cookieNotUser: cookieNotUser, 
+        ipWeb: this.ipWeb
       });
       console.log(response);
-      if (response.status == 1) {
-        this.$emit('actualizarArray')
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
-        });
-      }
+      if(response.status ==1){
+               location.href = '/p/'+response.codigo
+              }else{
+                this.isLoading = false
+                 this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Ya tienes un usuario registrado en este dispositivo debes iniciar sesion',
+                  confirmButtonText: `OK`,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    location.href = '/login'
+                  }
+                })
+              }
+    },
+    async getIp(){
+       await   fetch('https://api.ipify.org?format=json')
+          .then(x => x.json())
+          .then(({ ip }) => {
+          this.ipWeb = ip;
+          });
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -317,7 +289,18 @@ export default {
     },
   },
   mounted() {
-   
+    this.getIp()
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    console.log(timeZone);
+
+    var d = new Date();
+    console.log(d.toLocaleString("en-US", { timeZone }));
+    var d = new Date();
+    var n = d.getTimezoneOffset();
+    console.log("zona horaria: ", n);
+    var horaServer = "2021-07-12T08:00:00.000Z";
+    var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
+    console.log(horaVenezuela);
   },
 };
 </script>

@@ -2000,10 +2000,39 @@ kbd{
 }
 .timepicker .dropdown-content .control .select select{
     padding: 0;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.cubreEncuestaCalendario{
+    display: flex;
+}
+.cubreCalendario{
+    display: flex;
+    margin-right: 10px;
+}
+.CubreHorarios{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+    justify-content: center;
+}
+.cubreColumnH{
+    padding: 2px
+}
+.closeDate{
+    margin-top: 55px;
+    right: unset;
+    margin-left: 125px;
 }
 @media screen and (max-width: 600px) {
+    .cubreEncuestaCalendario{
+        flex-wrap: wrap;
+    }
+    .CubreHorarios{
+        padding: 0; 
+        margin-top: 15px;
+        margin-bottom: 30px;
+    }
     .buscadorCodigo{
         display: block;
         width: 350px;

@@ -191,7 +191,7 @@ export default {
                  if(this.$store.state.login){
                    this.crearEvento(1)
                  }else{
-                   this.$router.push("/create")
+                   this.$router.push("/new-event/multiple-choice")
                  }
               
               }
@@ -211,6 +211,15 @@ export default {
                 }else{
                   //enviar a registrarse
                   this.$router.push("/signup")
+                }
+              }
+
+              if(val == 4){
+                if(this.$store.state.login){
+                      this.crearEvento(4)
+                }else{
+                  //enviar a registrarse
+                    this.$router.push("/new-event/date")
                 }
               }
           

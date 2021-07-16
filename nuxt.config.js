@@ -1,7 +1,7 @@
 export default {
   env: {
   //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
- baseUrl: process.env.BASE_URL || 'https://api.result.app'
+  baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {

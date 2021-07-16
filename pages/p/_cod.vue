@@ -8,7 +8,9 @@
   <div v-if="mostrar">
   <div v-if="statusEvent == 1 && modoLive == 0">
        <get-evento v-if="userTipo != 0" :id_evento="id_evento" :encuestas="encuestas" :statusEvent="statusEvent"></get-evento>
-        <get-evento-not-user v-else></get-evento-not-user>
+        <get-evento-not-user  :id_evento="id_evento" :encuestas="encuestas"
+         :statusEvent="statusEvent"
+          v-else></get-evento-not-user>
   </div>
   <div v-if="statusEvent == 0" style="    margin-top: 50px;    margin-bottom: 50px;    text-align: center;">
 
