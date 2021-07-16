@@ -52,7 +52,7 @@
                        
                             <div class="navbar-item is-hidden-desktop" v-if="$store.state.login">
                                 <nuxt-link to="/dashboard" class="button is-light is-fullwidth title is-5">{{$store.state.idioma.dashboardTitle}}</nuxt-link>
-                                <a  class="button is-light is-fullwidth title is-5">{{$store.state.idioma.salirTitle}}</a>
+                                <a  class="button is-light is-fullwidth title is-5"  @click="logout">{{$store.state.idioma.salirTitle}}</a>
                             </div>
 
                             <div class="navbar-item is-hidden-desktop" v-else>
