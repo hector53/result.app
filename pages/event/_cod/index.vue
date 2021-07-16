@@ -426,6 +426,9 @@ async deleteEncuestaById(id){
          if(type == 3){
             this.addNewEncuesta(3)
         }
+        if(type == 4){
+            this.addNewEncuesta(4)
+        }
     }else{
       console.log("no existe type")
     }

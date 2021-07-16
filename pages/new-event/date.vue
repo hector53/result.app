@@ -1,6 +1,8 @@
 <template>
   <div >
-    <div class="control mt-2">
+    <loading :active="isLoading" color="#59b1ff" loader="dots" />
+    <div  style="    max-width: 940px;    margin: auto;">
+<div class="control mt-2">
       <input class="input" style="max-width:600px" type="text" v-model="titulo" placeholder="Título" />
     </div>
 
@@ -73,10 +75,14 @@
       </button>
      
     </div>
+    </div>
+    
   </div>
 </template>
 
 <script>
+import Loading from "vue-loading-overlay";
+import "vue-loading-overlay/dist/vue-loading.css";
 var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
@@ -86,6 +92,7 @@ console.log(timeZone);
 var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
+  components: {Loading},
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -121,6 +128,7 @@ export default {
   },
   data() {
     return {
+       isLoading: false,
       date: [],
       time: [],
       mostarHora: true,
@@ -164,6 +172,7 @@ export default {
           }
         }
       }
+      this.isLoading = true
       //ahora si enviar a la db encuesta
        var cookieNotUser = this.$cookies.get('_r_u') 
       const response = await this.$axios.$post("create_diayhora_not_user", {
