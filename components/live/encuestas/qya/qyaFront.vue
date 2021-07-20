@@ -1,7 +1,7 @@
 <template>
   <section
     class="section-hero"
-    style="margin-top: 60px; border-radius: 20px; padding: 20px"
+    style=" border-radius: 20px; padding: 20px"
   >
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
