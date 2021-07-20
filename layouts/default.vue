@@ -6,7 +6,7 @@
   <nuxt style="padding-bottom: 50px;
     padding-left: 10px;
     padding-right: 10px;" />
-  <footer-t></footer-t>
+  <footer-t :class="{'positionAbsolute': $route.name == 'login' ||  $route.name == 'new-event-qya'  ||  $route.name == 'new-event-cloud-words' }"></footer-t>
   </div>
 </template>
 

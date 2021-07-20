@@ -35,12 +35,14 @@
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
+    <client-only>
     <vue-word-cloud 
-      style="height: 300px"
+      style="height: 400px"
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"
     />
+    </client-only>
     <div class="container">
       <button class="buttonN blue" @click="openModalAddPalabra" v-if="statusEvent==1">
         Agregar Palabra
@@ -57,7 +59,7 @@ export default {
   data() {
     return {
       addPalabra: "",
-      isLoading: false,
+      isLoading: true,
       abierto: 0,
       palabras: [],
       modoenVivo: 0
@@ -184,6 +186,7 @@ export default {
           if (response.status == 1) {
             this.palabras = response.palabras;
           }
+          this.isLoading = false
         });
     },
 

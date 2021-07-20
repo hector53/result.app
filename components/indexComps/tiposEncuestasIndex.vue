@@ -19,21 +19,25 @@
             </div>
           </div>
 
-          <div class="column is-3">
-            <div class="evento">
-              <div class="bloque-evento" style="background-color: rgba(251, 198, 202, 0.25);">
+           <div class="column is-3">
+
+                <div class="evento" @click="addNewEncuesta(2)">
+              <div class="bloque-evento" style="background-color: rgba(251, 198, 202, 0.25);" >
                 <div class="text-block">
-                  <strong class="bold-text-6" style="    color: #61060e;">{{
-                      $store.state.idioma.qaHeadBlock
+                  <strong class="bold-text-6"  style="    color: #61060e;" >{{
+                      $store.state.idioma.cloudHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #61060e;">  {{ $store.state.idioma.qaSubBlock }}</div>
+                <div class="text-block-2"  style="    color: #61060e;" >  {{ $store.state.idioma.cloudSubBlock }}</div>
               </div>
               <div class="tag is-danger">
                 <div class="text-block-3">{{ $store.state.idioma.tagGratis }}</div>
               </div>
             </div>
+            
           </div>
+
+         
           <div class="column is-3">
 
              <div class="evento" @click="addNewEncuesta(4)">
@@ -53,23 +57,23 @@
             
           </div>
 
-          <div class="column is-3">
-
-                <div class="evento" @click="addNewEncuesta(2)">
+           <div class="column is-3">
+            <div class="evento" @click="addNewEncuesta(5)">
               <div class="bloque-evento" style="background-color: rgba(192, 235, 223, 0.25);">
                 <div class="text-block">
                   <strong class="bold-text-6" style="    color: #0a674e;">{{
-                      $store.state.idioma.cloudHeadBlock
+                      $store.state.idioma.qaHeadBlock
                     }}<br /></strong>
                 </div>
-                <div class="text-block-2" style="    color: #0a674e;">  {{ $store.state.idioma.cloudSubBlock }}</div>
+                <div class="text-block-2" style="    color: #0a674e;">  {{ $store.state.idioma.qaSubBlock }}</div>
               </div>
               <div class="tag is-info">
                 <div class="text-block-3">{{ $store.state.idioma.tagRegistro }}</div>
               </div>
             </div>
-            
           </div>
+
+         
         </div>
         <div class="columns" style="   padding-left: 10px;
     padding-right: 10px;">
@@ -210,7 +214,7 @@ export default {
                       this.crearEvento(2)
                 }else{
                   //enviar a registrarse
-                  this.$router.push("/signup")
+                      this.$router.push("/new-event/cloud-words")
                 }
               }
 
@@ -232,6 +236,14 @@ export default {
                 }
               }
           
+           if(val == 5){
+                if(this.$store.state.login){
+                      this.crearEvento(5)
+                }else{
+                  //enviar a registrarse
+                  this.$router.push("/signup")
+                }
+              }
            
 
 

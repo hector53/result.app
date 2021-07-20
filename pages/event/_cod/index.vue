@@ -4,7 +4,8 @@
     <nav-bar-event v-if="eventT" :eventName="eventName" :eventFecha="eventFecha" @addNewEncuesta="addNewEncuesta" ></nav-bar-event>
     <section
       class="section-hero"
-      style="padding: 5px; margin-bottom: 40px; min-height: 400px"
+      style="padding: 5px; margin-bottom: 40px; "
+      :class="{'minAltoLoading': isLoading}"
     >
       <div class="container">
         <loading :active="isLoading" color="#59b1ff" loader="dots" />
@@ -76,6 +77,18 @@
             
           ></dia-hora-edit-dashboard>
 
+
+          <qya-add
+          :ref="'encuesta_'+index"
+            v-if="item['tipo'] == 5"
+            :numero="index"
+            :idEcuesta="item['idEcuesta']"
+            :pregunta="item['pregunta']"
+            @moverArriba="moverArriba"
+            @moverAbajo="moverAbajo"
+            @eliminarEncuesta="deleteEncuestaByClickId"
+             @actualizarArray="actualizarArray"
+          ></qya-add>
        
 
 
@@ -99,7 +112,7 @@
         @click="closeModalEditLive"
       ></button>
     </div>
-      <footer-t id="scrollAqui"></footer-t>
+      <footer-t id="scrollAqui" :class="{'positionAbsolute':arrayEncuestas.length==0}" ></footer-t>
   </div>
 </template>
 
@@ -115,6 +128,7 @@ import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras
 import SorteosAdd from '../../../components/live/encuestas/sorteos/sorteosAdd.vue';
 import SorteosEditModal from '../../../components/live/encuestas/sorteos/sorteosEditModal.vue';
 import DiaHoraAdd from '../../../components/live/encuestas/diaHora/diaHoraAdd.vue';
+import QyaAdd from '../../../components/live/encuestas/qya/qyaAdd.vue';
 
 export default {
   layout: "live",
@@ -123,6 +137,7 @@ export default {
    TiposEncuestasIndex, NubeDePalabrasAdd, SorteosAdd,
     SorteosEditModal,
     DiaHoraAdd,
+    QyaAdd,
      },
   head() {
       return {
@@ -367,8 +382,17 @@ async deleteEncuestaById(id){
           idEcuesta: 0,
           pregunta: "",
         });
-
+        
       }
+
+      
+            if (val == 5) {
+            this.arrayEncuestas.push({
+              tipo: 5,
+              idEcuesta: 0,
+              pregunta: "",
+            });
+          }
 
           let element = document.getElementById("scrollAqui");
     element.scrollIntoView(false);
@@ -428,6 +452,9 @@ async deleteEncuestaById(id){
         }
         if(type == 4){
             this.addNewEncuesta(4)
+        }
+         if(type == 5){
+            this.addNewEncuesta(5)
         }
     }else{
       console.log("no existe type")

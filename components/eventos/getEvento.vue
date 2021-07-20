@@ -24,6 +24,9 @@
                @teclas="moverTab" v-if="item.tipo == 4" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent"
               ></dia-hora-front>
+
+              <qya-front @teclas="moverTab" v-if="item.tipo == 5" :id_encuesta="item.id" 
+              :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></qya-front>
         
         </div>
     </div>
@@ -37,8 +40,9 @@ import "vue-loading-overlay/dist/vue-loading.css";
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
 import DiaHoraFront from '../live/encuestas/diaHora/diaHoraFront.vue';
 import NubeDePalabrasFront from '../live/encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
+import QyaFront from '../live/encuestas/qya/qyaFront.vue';
 export default {
-  components: { multipleChoiceFront, Loading, NubeDePalabrasFront, DiaHoraFront },
+  components: { multipleChoiceFront, Loading, NubeDePalabrasFront, DiaHoraFront, QyaFront },
   props:['id_evento', 'encuestas', 'statusEvent'],
   data() {
     return {

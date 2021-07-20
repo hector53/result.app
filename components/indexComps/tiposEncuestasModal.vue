@@ -18,7 +18,7 @@
           </div>
 
           <div class="column is-3">
-            <div class="evento">
+            <div class="evento" @click="addNewEncuesta(5)">
               <div class="bloque-evento" style="background-color: rgba(251, 198, 202, 0.25);">
                 <div class="text-block">
                   <strong class="bold-text-6" style="    color: #61060e;">{{

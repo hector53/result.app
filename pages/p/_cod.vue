@@ -28,7 +28,7 @@
       </div>
     </div>
 </div> 
-  <footer-t  v-if="modoLive == 0"></footer-t>
+  <footer-t  v-if="modoLive == 0" ></footer-t>
 
 
 
@@ -119,11 +119,12 @@ export default {
         this.socket
     .on('cambioDeEncuesta', (data) => {
       
-      console.log("llego el cambio",data)
+      console.log("llego el cambio desde el socket ",data)
       if(data.codigo == this.$route.params.cod){
         
 
         if(data.tipo == 5){
+          console.log("data tipo 5")
               this.statusEvent = 0
         }else{
           console.log("borre y ahora voy a pasar a modo live")
@@ -176,7 +177,7 @@ export default {
     })
 
 
-
+console.log("routename", this.$route)
         this.socket
     .on('generarGanadorSorteo', (data) => {
       console.log("Generar ganadores")

@@ -19,6 +19,9 @@
 
             <dia-hora-add-modal @cerrarModal="cerrarModalEncuestaActiva"
             v-if="encuestaActive == 4"></dia-hora-add-modal>
+
+           <qya-add-modal @cerrarModal="cerrarModalEncuestaActiva"
+            v-if="encuestaActive == 5" ></qya-add-modal>
         </div>
       </div>
       <button
@@ -85,6 +88,9 @@
                 <div class="dropdown-content liveNew">
                   <a class="dropdown-item" @click="openModalAddLive(1)">
                     <span>Encuesta Simple</span>
+                  </a>
+                  <a class="dropdown-item" @click="openModalAddLive(5)">
+                    <span>Q & A</span>
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(2)">
                     <span>Nube de Palabras</span>
@@ -262,10 +268,11 @@ import DiaHoraAddModal from './encuestas/diaHora/diaHoraAddModal.vue';
 import encuestaSimple from "./encuestas/encuestaSimple.vue";
 import EncuestaSimpleEdit from "./encuestas/encuestaSimpleEdit.vue";
 import NubeDePalabras from "./encuestas/nubeDePalabras/nubeDePalabras.vue";
+import QyaAddModal from './encuestas/qya/qyaAddModal.vue';
 import SorteoAddModal from './encuestas/sorteos/sorteoAddModal.vue';
 import SorteosEditModal from './encuestas/sorteos/sorteosEditModal.vue';
 export default {
-  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal, SorteosEditModal, DiaHoraAddModal },
+  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal, SorteosEditModal, DiaHoraAddModal, QyaAddModal },
 
   data() {
     return {

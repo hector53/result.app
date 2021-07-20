@@ -45,6 +45,12 @@
           v-if="item.tipo == 4 " :id_encuesta="item.id" 
           :titulo_encuesta="item.titulo" :id_evento="id_evento"
           > </dia-hora-live-activo>
+
+          <qya-active
+           :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 5 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          ></qya-active>
        </div>
     </div>
    </div>
@@ -70,8 +76,9 @@ import DiaHoraLiveActivo from './encuestas/diaHora/diaHoraLiveActivo.vue';
 import nubeDePalabrasActiva from './encuestas/nubeDePalabras/nubeDePalabrasActiva.vue';
 import SorteosLiveActivo from './encuestas/sorteos/sorteosLiveActivo.vue';
 import VueQrcode from 'vue-qrcode'
+import QyaActive from './encuestas/qya/qyaActive.vue';
 export default {
-  components: { nubeDePalabrasActiva, MultipleChoiceResult, SorteosLiveActivo, DiaHoraLiveActivo, VueQrcode },
+  components: { nubeDePalabrasActiva, MultipleChoiceResult, SorteosLiveActivo, DiaHoraLiveActivo, VueQrcode, QyaActive },
 props:['id_evento'],
   data() {
     return {

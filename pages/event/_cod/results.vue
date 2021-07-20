@@ -2,6 +2,12 @@
 <div>
  <nav-bar-evento ></nav-bar-evento>
  <nav-bar-event v-if="eventT" :eventName="eventName"  ></nav-bar-event>
+
+   <loading :active="isLoading" color="#59b1ff" loader="dots"              />
+<section
+   
+    style="padding: 20px;" :class="{'minAltoLoading': isLoading}"
+  >
     <div class="cubreResults" v-for="(item, index) in encuestas" :key="index" >
         <multiple-choice-result
          :ref="'encuestaFront_'+item.id"
@@ -14,30 +20,61 @@
           v-if="item.tipo == 2 " :id_encuesta="item.id" 
           :titulo_encuesta="item.titulo" :id_evento="id_evento"
           ></nube-de-palabras-activa>
-    </div>
-    
 
+
+    <sorteos-live-activo
+            :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 3 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          ></sorteos-live-activo>
+
+          <dia-hora-live-activo
+            :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 4 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          > </dia-hora-live-activo>
+
+          <qya-active
+           :ref="'encuestaFront_'+item.id"
+          v-if="item.tipo == 5 " :id_encuesta="item.id" 
+          :titulo_encuesta="item.titulo" :id_evento="id_evento"
+          ></qya-active>
+
+    </div>
+</section>
+   <footer-t   :class="{'positionAbsolute' : encuestas.length == 0}" ></footer-t>
 </div>
 </template>
 
 <script>
 import MultipleChoiceResult from '../../../components/encuestas/multipleChoiceResult.vue';
+import FooterT from '../../../components/footer/footerT.vue';
 import navBarEvento from '../../../components/header/navBarEvento.vue';
+import DiaHoraLiveActivo from '../../../components/live/encuestas/diaHora/diaHoraLiveActivo.vue';
+import QyaActive from '../../../components/live/encuestas/qya/qyaActive.vue';
+import SorteosLiveActivo from '../../../components/live/encuestas/sorteos/sorteosLiveActivo.vue';
+
+ import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
+
 export default {
-      layout: "dashboardEvent",
-  components: { navBarEvento, MultipleChoiceResult },
+      layout: "live",
+  components: { navBarEvento, MultipleChoiceResult, QyaActive, SorteosLiveActivo, DiaHoraLiveActivo, FooterT },
 head() {
       return {
         title: 'Event Results - '+this.$route.params.cod+' - Resultapp',
         
       }
     },
+    components:{Loading},
   data() {
     return {
      eventT: false, 
      eventName: '', 
      encuestas: [], 
-     id_evento: ''
+     id_evento: '', 
+     isLoading: true
      
 	};
   },
@@ -53,6 +90,7 @@ this.socket.emit('conectar', {
       })
     },
     async get_event(){
+      
          await this.$axios
         .$get("get_event_by_cod?codigo=" + this.$route.params.cod)
         .then((response) => {
@@ -61,11 +99,16 @@ this.socket.emit('conectar', {
                 this.eventT = true
                 this.encuestas = response.tipoEncuesta
                 this.id_evento = response.id
+
+             
             }
+
+              this.isLoading = false
         });
     }
   },
   mounted() {
+    
           this.socket = this.$nuxtSocket({
       channel: '/'
     })
@@ -98,6 +141,10 @@ this.socket.emit('conectar', {
              }
               if(data.tipo == 2){
                 this.$refs['encuestaFront_'+data.id_encuesta][0].getRespuestaByIdEncuesta(data.id_encuesta)
+              }
+
+               if(data.tipo == 5){
+                this.$refs['encuestaFront_'+data.id_encuesta][0].getPreguntasByIdEncuesta(data.id_encuesta)
               }
           }
     })

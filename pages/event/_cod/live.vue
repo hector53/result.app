@@ -214,6 +214,10 @@ this.socket.emit('conectar', {
          this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getDiayHoraByIdEncuesta(data.id_encuesta)
         }
 
+         if(data.tipo == 5){
+         this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getPreguntasByIdEncuesta(data.id_encuesta)
+        }
+
       }
     })
 

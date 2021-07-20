@@ -1644,9 +1644,8 @@ input[type="checkbox"], input[type="radio"] {
     margin-bottom: 10px;
 }
 .modal .modal-content {
-    width: 740px!important;
     /* padding-left: 20px; */
-    max-width: 100%;
+    max-width: 720px;
 }
 .columnaCentrada{
     display: flex;
@@ -2031,6 +2030,233 @@ kbd{
 }
 .horaT{
     width: 100px;
+}
+
+
+/*form question */
+
+
+.question-form {
+    position: relative;
+    box-shadow: 0px 4px 16px rgb(0 0 0 / 8%), 0px 1px 4px rgb(0 0 0 / 8%);
+    border-radius: 12px;
+    background: #FFFFFF;
+    background: v#262626;
+    overflow: hidden;
+    transition: box-shadow .3s ease;
+}
+
+.question-form__hero-icon {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    top: 24px;
+    left: 24px;
+    fill: #39ac37;
+    transition: opacity .1s;
+    pointer-events: none;
+}
+
+
+.avatar {
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.08);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0px;
+    font-weight: 700;
+}
+
+.avatar .icon {
+    fill: rgba(0, 0, 0, 0.48);
+    fill: rgba(255, 255, 255, 0.4);
+    width: 60%;
+    height: 60%;
+    display: inline-block;
+    vertical-align: middle;
+}
+.avatar>div {
+    height: inherit;
+    width: inherit;
+}
+sda-icon, .icon {
+    display: inline-block;
+    vertical-align: middle;
+    width: 1rem;
+    height: 1rem;
+    fill: rgba(0, 0, 0, 0.4);
+    fill: rgba(255, 255, 255, 0.4);
+}
+
+sda-icon svg, .icon svg {
+    display: block;
+    fill: #616161!important
+}
+svg:not(:root) {
+    overflow: hidden;
+
+}
+.question-form-textarea {
+    position: relative;
+}
+
+textarea#question-field {
+    background: transparent;
+}
+
+.question-form--collapsed .question-form__question-input>textarea {
+    padding: 28px 24px 12px 68px;
+}
+.question-form__question-input>textarea {
+    border: 0 !important;
+    box-shadow: none !important;
+    font-size: 16px;
+    padding: 28px 24px 12px 24px;
+    resize: none;
+    display: block;
+    width: 100%;
+    transition: padding-left .3s;
+    min-height: 80px;
+}
+
+.question-form__footer {
+    padding: 12px 24px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background: #FFFFFF;
+    background: var(--white-1);
+    transition: max-height .3s,opacity .3s;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: flex-end;
+    max-height: 64px;
+    opacity: 1;
+    z-index: 1;
+}
+
+.question-form__footer .question-form-user-switcher {
+    flex-grow: 1;
+    flex-shrink: 1;
+}
+
+.question-form-user-switcher {
+    min-width: 0;
+}
+.question-form-user-switcher {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+}
+
+.question-form__consent-request-holder {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    min-height: 50px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/*form question */
+
+/*list question */
+
+.listPreguntas{
+    margin-top: 40px;
+}
+
+.item_pregunta{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0px 4px 16px rgb(0 0 0 / 8%), 0px 1px 4px rgb(0 0 0 / 8%);
+    border-radius: 12px;
+    background: #FFFFFF;
+    background: v#262626;
+    overflow: hidden;
+    transition: box-shadow .3s ease;
+    padding: 15px;
+}
+.item_pregunta_top{
+    display: flex;
+    justify-content: flex-start;
+}
+.item_pregunta_top_img{
+    margin-right: 20px;
+    display: flex;
+}
+.item_pregunta_top_user{
+    width: 100%;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+.item_pregunta_top_like{
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+}
+.item_pregunta_footer{
+    margin-top: 10px;
+    text-align: left;
+    width: 100%;
+}
+.likeIcon{
+    width: 20px;
+    opacity: 0.3;
+    cursor: pointer;
+}
+.likeIcon.active{
+    opacity: 1;
+}
+.likeIcon:hover{
+    opacity: 1;
+}
+.likeContador{
+    padding: 4px;
+    width: 60px;
+    display: flex;
+    justify-content: flex-end;
+}
+.UserIcon{
+    width: 25px;
+    opacity: 0.3;
+}
+.icontree{
+    padding: 4px;
+    width: 60px;
+}
+.iconEditQyA{
+    opacity: 0.5;
+    cursor: pointer;
+}
+.iconEditQyA:hover{
+    opacity: 1;
+}
+.replyCountAdmin{
+    cursor: pointer;
+}
+.minAltoLoading{
+    min-height: 1000px;
 }
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{

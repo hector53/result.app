@@ -1,5 +1,6 @@
 <template>
 <section class="section-hero">
+  
    <loading :active="isLoading" color="#59b1ff" loader="dots" />
         <div class="container">
          

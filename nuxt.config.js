@@ -1,6 +1,6 @@
 export default {
   env: {
-  //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+ // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
   baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
@@ -30,6 +30,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: "~/plugins/vueworldcloud", ssr: false }, 
+    { src: "~/plugins/vueloading", ssr: false }, 
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,14 +53,14 @@ export default {
     // module options
     sockets: [{
       name: 'main',
-    //url: 'http://localhost:5000', 
+  //  url: 'http://localhost:5000', 
       url: 'https://api.result.app'
     }]
   },
 
   axios: {
     baseURL: 'https://api.result.app/api/',
-  //baseURL: 'http://127.0.0.1:5000/api/',
+ // baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

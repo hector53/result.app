@@ -14,6 +14,9 @@
 <dia-hora-front ref="diaHoraFront" v-if="tipo == 4" :id_encuesta="id" 
 :titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" statusEvent="1"  ></dia-hora-front>
 
+<qya-front ref="qyaFront" v-if="tipo == 5" :id_encuesta="id" 
+:titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive" statusEvent="1"  ></qya-front>
+
 </div>
 </template>
 
@@ -21,9 +24,10 @@
 import multipleChoiceFront from '../encuestas/multipleChoiceFront.vue';
 import DiaHoraFront from './encuestas/diaHora/diaHoraFront.vue';
 import NubeDePalabrasFront from './encuestas/nubeDePalabras/nubeDePalabrasFront.vue';
+import QyaFront from './encuestas/qya/qyaFront.vue';
 import SorteosFront from './encuestas/sorteos/sorteosFront.vue';
 export default {
-  components: { multipleChoiceFront, NubeDePalabrasFront, SorteosFront, DiaHoraFront },
+  components: { multipleChoiceFront, NubeDePalabrasFront, SorteosFront, DiaHoraFront, QyaFront },
   props:['id_evento', 'modoLive'],
   data() {
     return {
@@ -31,12 +35,17 @@ export default {
      mostrar: false, 
      tipo: 0, 
      id: 0, 
-     titulo: ''
+     titulo: '',
+     contador: 0 
 	};
   },
 
   methods: {
           async getEncuestaByEventLive(cod){
+          const loader = this.$loading.show({
+        loader: "dots",
+        color: "#59b1ff",
+      });
               this.mostrar= false
               this.$store.commit("setmostrarEnMoLive", false);
               
@@ -45,6 +54,7 @@ export default {
         .then((response) => {
           console.log(response)
                 if(response.status == 1){
+
                     console.log("la respues fue igual a uno")
                     this.arrayEncuesta = response.tipoEncuesta
                     this.tipo = response.tipoEncuesta[0].tipo
@@ -52,30 +62,36 @@ export default {
                     this.titulo =  response.tipoEncuesta[0].titulo
                     this.$store.commit("setmostrarEnMoLive", true);
                     console.log("id del ", response.tipoEncuesta[0].id)
-                     if(response.tipoEncuesta[0].tipo == 1){
-                        
-                        this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
-                    }
 
-                    if(response.tipoEncuesta[0].tipo == 2){
-                        this.$refs['nubeFront'].getRespuestaByIdEncuesta(response.tipoEncuesta[0].id)
+                    console.log("contador va en ", this.contador)
+                    if(this.contador > 0){
+                            if(response.tipoEncuesta[0].tipo == 1){
+                            this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
+                            }
+                            if(response.tipoEncuesta[0].tipo == 2){
+                            this.$refs['nubeFront'].getRespuestaByIdEncuesta(response.tipoEncuesta[0].id)
+                            }
+                            if(response.tipoEncuesta[0].tipo == 3){
+                            this.$refs['sorteosFront'].getSorteoByIdEncuesta(response.tipoEncuesta[0].id)
+                            }
+                            if(response.tipoEncuesta[0].tipo == 4){
+                            this.$refs['diaHoraFront'].getDiayHoraByIdEncuesta(response.tipoEncuesta[0].id)
+                            }
+                            if(response.tipoEncuesta[0].tipo == 5){
+                            this.$refs['qyaFront'].getPreguntasByIdEncuesta(response.tipoEncuesta[0].id)
+                            }
                     }
+                   
 
-                    
-                    if(response.tipoEncuesta[0].tipo == 3){
-                        this.$refs['sorteosFront'].getSorteoByIdEncuesta(response.tipoEncuesta[0].id)
-                    }
 
-                    if(response.tipoEncuesta[0].tipo == 4){
-                        this.$refs['diaHoraFront'].getDiayHoraByIdEncuesta(response.tipoEncuesta[0].id)
-                    }
-                     
-
+                         this.contador++
+                    loader.hide()
                 }
         })
     }, 
   },
   mounted() {
+      
       this.getEncuestaByEventLive(this.$route.params.cod)
      
   },
