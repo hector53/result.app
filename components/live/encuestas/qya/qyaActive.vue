@@ -164,7 +164,7 @@ export default {
   data() {
     return {
       abierto: 0,
-      modoenVivo: 0,
+      modoenVivo: 1,
       mostrarFooter: false,
       pregunta: "",
       arrayPreguntas: [],
@@ -201,6 +201,7 @@ export default {
         p: this.$store.state.p,
         codigo: this.$route.params.cod,
         idP: id,
+         liveMode: this.modoenVivo,
       });
         if(response.status == 1){
                 this.getPreguntasByIdEncuesta(this.id_encuesta)
@@ -221,13 +222,15 @@ export default {
             color: "#59b1ff",
             });
 
+             
+
             const response = await this.$axios.$post("add_qya_live_front", {
             pregunta: this.textReplyAdmin,
             id_evento: this.id_evento,
             id_encuesta: this.id_encuesta,
             p: this.$store.state.p,
             codigo: this.$route.params.cod,
-            liveMode: 1,
+            liveMode: this.modoenVivo,
             parent: this.idToReply
             });
 
@@ -323,6 +326,9 @@ export default {
    
   },
   mounted() {
+       if(this.$route.name == 'event-cod-results'){
+                    this.modoenVivo = 0
+              }  
     this.getPreguntasByIdEncuesta(this.id_encuesta);
   },
  

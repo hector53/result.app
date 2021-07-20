@@ -25,7 +25,9 @@
               :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent"
               ></dia-hora-front>
 
-              <qya-front @teclas="moverTab" v-if="item.tipo == 5" :id_encuesta="item.id" 
+              <qya-front
+              :ref="'qyaFront_'+item.id"
+                @teclas="moverTab" v-if="item.tipo == 5" :id_encuesta="item.id" 
               :titulo_encuesta="item.titulo" :id_evento="id_evento" :statusEvent="statusEvent" ></qya-front>
         
         </div>
