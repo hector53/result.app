@@ -153,6 +153,7 @@ export default {
     this.socket.on("cambioDeEncuesta", (data) => {
       console.log("llego el cambio desde el socket ", data);
       if (data.codigo == this.$route.params.cod) {
+
         if (data.tipo == 6) {
             if(data.tipoEncuesta == 5){
               console.log(this.$refs["getEvento"])
@@ -176,11 +177,19 @@ export default {
                 this.statusEvent = 1;
               }
             } else {
-              console.log("aqui actualizo la pagina");
+              if(data.tipo == 7){
+                   this.$refs["modoLiveFront"].contador = 0
+                  this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+              }else{
+                 this.$refs["modoLiveFront"].contador = 1
               this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+              }
+             
             }
           }
         }
+
+
       }
     });
 

@@ -43,8 +43,8 @@
       font-family="Roboto"
     >
       <template slot-scope="{text, weight}">
-      <div :title="''+weight" style="cursor: pointer; display: flex;    align-items: center;" >
-        <span>{{text}}</span><span style="    font-size: 20px;">({{weight}})</span>
+      <div :title="'('+weight+')'" style="cursor: pointer; display: flex;    align-items: center;" >
+        {{text}}
       </div>
       </template>
     </vue-word-cloud>

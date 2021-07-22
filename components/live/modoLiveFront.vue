@@ -36,16 +36,13 @@ export default {
      tipo: 0, 
      id: 0, 
      titulo: '',
-     contador: 0 
+     contador:0
 	};
   },
 
   methods: {
           async getEncuestaByEventLive(cod){
-          const loader = this.$loading.show({
-        loader: "dots",
-        color: "#59b1ff",
-      });
+       
               this.mostrar= false
               this.$store.commit("setmostrarEnMoLive", false);
               
@@ -65,7 +62,7 @@ export default {
 
                     console.log("contador va en ", this.contador)
                     if(this.contador > 0){
-                            if(response.tipoEncuesta[0].tipo == 1){
+                           if(response.tipoEncuesta[0].tipo == 1){
                             this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
                             }
                             if(response.tipoEncuesta[0].tipo == 2){
@@ -81,11 +78,11 @@ export default {
                             this.$refs['qyaFront'].getPreguntasByIdEncuesta(response.tipoEncuesta[0].id)
                             }
                     }
+                           
                    
+    
 
-
-                         this.contador++
-                    loader.hide()
+                         console.log("contador", this.contador)
                 }
         })
     }, 
