@@ -395,6 +395,7 @@ export const mutations = {
 
 export const actions = {
     async   nuxtServerInit({ commit }, {   req,  app, redirect}) {
+     console.log(req)
          if (process.server && process.static) return;
          if (!req.headers.cookie){
             commit("setIdioma", 0 );
