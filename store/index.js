@@ -395,8 +395,17 @@ export const mutations = {
 
 export const actions = {
     async   nuxtServerInit({ commit }, {   req,  app, redirect}) {
-     console.log(req)
          if (process.server && process.static) return;
+
+
+          const req = req
+          const headers = (req && req.headers) ? Object.assign({}, req.headers) : {}
+          const xForwardedFor = headers['x-forwarded-for']      
+          const xRealIp = headers['x-real-ip']
+          console.log(xForwardedFor)
+          console.log(xRealIp)
+      
+
          if (!req.headers.cookie){
             commit("setIdioma", 0 );
             commit("setLang", 0 );
