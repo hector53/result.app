@@ -429,7 +429,7 @@ export const actions = {
                   commit("setP", cod_u );
                   //guardar user
 
-            const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
+            const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xRealIp)
              
                     var pais = dataIp.country
                     var ipUser = dataIp.query
@@ -480,7 +480,7 @@ export const actions = {
                 commit("setLogin", true );
                 if(response.ip == ''){
                     console.log("no tiene ip")
-                    const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
+                    const dataIp =   await  app.$axios.$get("http://ip-api.com/json/"+xRealIp)
                     var pais = dataIp.country
                     var ipUser = dataIp.query
                     var id_user = response.id
@@ -523,7 +523,7 @@ export const actions = {
               }
               );
               commit("setP", cod_u );
-              const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
+              const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xRealIp)
              
               var pais = dataIp.country
               var ipUser = dataIp.query
