@@ -398,7 +398,6 @@ export const actions = {
          if (process.server && process.static) return;
 
 
-          const req = req
           const headers = (req && req.headers) ? Object.assign({}, req.headers) : {}
           const xForwardedFor = headers['x-forwarded-for']      
           const xRealIp = headers['x-real-ip']
