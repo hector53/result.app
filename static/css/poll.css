@@ -2261,6 +2261,11 @@ textarea#question-field {
 .minAltoLoading{
     min-height: 1000px;
 }
+.usersOnlineLiveFront{
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+}
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{
         flex-wrap: wrap;

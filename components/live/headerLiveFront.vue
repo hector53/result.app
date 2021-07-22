@@ -47,6 +47,14 @@
               </div>
             </div>
           </li>
+
+          <li class="list-item-navLeft tareas"  title="Pantalla Completa"
+           alt="Pantalla Completa"  >
+            <div class="usersOnlineLiveFront">
+              <i class="fa fa-eye" aria-hidden="true" style="font-size:30px"></i>
+              <span>{{$store.state.usersOnline}}</span>
+            </div>
+          </li>
         </ul>
       </div>
 
@@ -108,7 +116,8 @@ export default {
        copiarUrlText: "Haz clic para copiar la Url", 
       shareTwitter: "https://twitter.com/intent/tweet?text=Resultapp&amp;url="+this.$store.state.urlBase+'/p/'+this.$route.params.cod,
       shareFacebook: "https://www.facebook.com/sharer/sharer.php?u="+this.$store.state.urlBase+'/p/'+this.$route.params.cod,
-      shareEmail: "mailto:?subject=Resultapp&amp;body=Participa en la siguiente encuesta "+this.$store.state.urlBase
+      shareEmail: "mailto:?subject=Resultapp&amp;body=Participa en la siguiente encuesta "+this.$store.state.urlBase,
+     
    
 	};
   },

@@ -193,6 +193,15 @@ export default {
       }
     });
 
+     this.socket
+    .on('join_room_announcement', (data) => {
+        if(data.codigo == this.$route.params.cod){
+         //   console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
+
+          this.$store.commit('setusersOnline', data.conectados);
+        }
+    })
+
     this.socket.on("activarModoPresentacion", (data) => {
       if (data.codigo == this.$route.params.cod) {
         this.mostrar = false;
