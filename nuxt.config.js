@@ -47,7 +47,12 @@ export default {
     'nuxt-sweetalert2', 
     'nuxt-socket-io',
     'nuxt-buefy',
+    '@nuxtjs/google-analytics'
   ],
+
+  googleAnalytics: {
+    id: 'G-4PTD2NXJTQ'
+  },
 
   io: {
     // module options

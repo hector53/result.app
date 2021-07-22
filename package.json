@@ -11,6 +11,7 @@
   "dependencies": {
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/google-analytics": "^2.4.0",
     "cookie-universal-nuxt": "^2.1.4",
     "cookieparser": "^0.1.0",
     "core-js": "^3.8.3",
