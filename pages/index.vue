@@ -8,10 +8,10 @@
         </h1>
         <p class="hero-subhead">{{ $store.state.idioma.subheadHero }}</p>
 
-      <tipos-encuestas-index></tipos-encuestas-index>
+        <tipos-encuestas-index></tipos-encuestas-index>
 
         <div class="button-group">
-          <nuxt-link v-if="!login" to="/signup" class="buttonN blue heartbeat ">
+          <nuxt-link v-if="!login" to="/signup" class="buttonN blue heartbeat">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78bcfb82c4e82764cc037_celebration_white_24dp.svg"
               loading="lazy"
@@ -20,8 +20,8 @@
             />
             <span>{{ $store.state.idioma.buttonHero }}</span>
           </nuxt-link>
-     
-          <nuxt-link to="/dashboard" v-if="login"  class="buttonN ">
+
+          <nuxt-link to="/dashboard" v-if="login" class="buttonN">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
               loading="lazy"
@@ -30,7 +30,7 @@
             />
             <span>{{ $store.state.idioma.buttonSubHero }}</span>
           </nuxt-link>
-           <nuxt-link  to="/dashboard/not-registered" v-else  class="buttonN">
+          <nuxt-link to="/dashboard/not-registered" v-else class="buttonN">
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78c828210e8904f54550c_space_dashboard_white_24dp.svg"
               loading="lazy"
@@ -56,7 +56,7 @@
               https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60b41efbec10d104078f84a5_Recurso%204.png        3333w
             "
             alt=""
-            class="image  pulsate-bck"
+            class="image pulsate-bck"
           />
         </div>
 
@@ -91,7 +91,7 @@
       </div>
     </section>
 
-    <section class="section-hero" style="background-color: inherit;">
+    <section class="section-hero" style="background-color: inherit">
       <div class="container">
         <h2 class="section-title">{{ $store.state.idioma.callHeadline }}</h2>
         <p class="section-subtitle">
@@ -105,9 +105,10 @@
                 style="padding-top: 56.17021276595745%"
                 class="video w-video w-embed"
               >
+            
                 <iframe
                   class="embedly-embed"
-                  src="//cdn.embedly.com/widgets/media.html?src=https%3A%2F%2Fwww.youtube.com%2Fembed%2F229GFEqDWrY%3Ffeature%3Doembed&amp;display_name=YouTube&amp;url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D229GFEqDWrY&amp;image=https%3A%2F%2Fi.ytimg.com%2Fvi%2F229GFEqDWrY%2Fhqdefault.jpg&amp;key=c4e54deccf4d4ec997a64902e9a30300&amp;type=text%2Fhtml&amp;schema=youtube"
+                     src="https://www.youtube.com/embed/NAkq4o8XgNw"
                   scrolling="no"
                   title="YouTube embed"
                   frameborder="0"
@@ -168,7 +169,7 @@
       </div>
     </section>
 
-    <section class="section-hero shake-lr " style="background-color: inherit;">
+    <section class="section-hero shake-lr" style="background-color: inherit">
       <div class="container-3 w-container">
         <h2 class="section-title">{{ $store.state.idioma.productHead }}</h2>
         <p class="section-subtitle">{{ $store.state.idioma.productSubhead }}</p>
@@ -240,7 +241,7 @@
       </div>
     </section>
 
-    <section class="section-hero " style="background-color: inherit;" >
+    <section class="section-hero" style="background-color: inherit">
       <div class="container">
         <h2 class="section-title">{{ $store.state.idioma.featureHead }}</h2>
         <div class="columns">

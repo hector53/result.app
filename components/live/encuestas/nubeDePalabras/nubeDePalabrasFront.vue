@@ -41,7 +41,13 @@
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"
-    />
+    >
+      <template slot-scope="{text, weight}">
+      <div :title="''+weight" style="cursor: pointer; display: flex;    align-items: center;" >
+        <span>{{text}}</span><span style="    font-size: 20px;">({{weight}})</span>
+      </div>
+      </template>
+    </vue-word-cloud>
     </client-only>
     <div class="container">
       <button class="buttonN blue" @click="openModalAddPalabra" v-if="statusEvent==1">

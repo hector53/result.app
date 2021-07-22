@@ -48,8 +48,7 @@
           {{ $store.state.idioma.dashboardTitle2 }}
         </h1>
         <div v-for="(item, index) in misEncuestas" :key="index">
-          <a :href="'/p/' + item['codigo'] + '+'" style="color: #222">
-            <div class="CubOption cubreDiv">
+            <div class="CubOption cubreDiv" @click="abrirEvento(item.codigo)">
               <div class="columns">
                 <div class="column is-flex is-justify-content-space-between">
                   <div class="cubreIconandOption is-flex has-text-left">
@@ -59,23 +58,18 @@
                       v-text="item['titulo']"
                     ></span>
                   </div>
-                  <div
-                    class="item_pregunta_top_like"
-                    
-                  >
-
+                  <div class="item_pregunta_top_like">
                     <span>
-                     {{item['cantVoto'] + ' ' + $store.state.idioma.votes}}
+                      {{ item["cantVoto"] + " " + $store.state.idioma.votes }}
                     </span>
-
-
                     <span>
                       <i
                         class="fa fa-pencil-square-o iconEditQyA"
                         aria-hidden="true"
+                        @click.stop="editEventNotRegistered(item)"
                       ></i>
                       &nbsp;&nbsp;
-                      <i class="fa fa-trash iconEditQyA" aria-hidden="true"></i>
+                      <i class="fa fa-trash iconEditQyA" @click.stop="deleteEncuestaByClickId(item.id, item.id_encuesta)" aria-hidden="true"></i>
                     </span>
                   </div>
                 </div>
@@ -86,36 +80,114 @@
                     class="cubreResult is-flex is-justify-content-space-between"
                   >
                     <span v-text="item['fecha']"></span>
-                    <span >{{tipoEncuestas[item['tipo']-1]}}</span>
+                    <span class="tipoEncuestaEventNotRegister" >{{ tipoEncuestas[item["tipo"] - 1] }}</span>
                   </div>
                 </div>
               </div>
             </div>
-          </a>
         </div>
       </div>
     </section>
+    <b-modal v-model="modalEditEventUserNotRegistered" :width="600">
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+            <h4 class="has-text-left">Editar</h4>
+            <encuesta-simple-edit-not-registered
+            @cerrarModalEdit="cerrarModalEdit"
+            v-if="idEventEdit > 0 && tipoEncuestaEdit == 1"
+            :id_encuesta="encuestaEditId" :id_evento="idEventEdit"
+            ></encuesta-simple-edit-not-registered>
+
+
+            <nube-edit-not-registered
+            @cerrarModalEdit="cerrarModalEdit"
+            v-if="idEventEdit > 0 && tipoEncuestaEdit == 2"
+            :id_encuesta="encuestaEditId" :id_evento="idEventEdit"
+          ></nube-edit-not-registered>
+
+            <dia-hora-edit-user-not-registered
+             @cerrarModalEdit="cerrarModalEdit"
+            v-if="idEventEdit > 0 && tipoEncuestaEdit == 4"
+            :id_encuesta="encuestaEditId" :id_evento="idEventEdit"
+            ></dia-hora-edit-user-not-registered>
+          </div>
+        </div>
+      </div>
+    </b-modal>
   </div>
 </template>
 
 <script>
+import DiaHoraEditUserNotRegistered from '../../components/live/encuestas/diaHora/diaHoraEditUserNotRegistered.vue';
+import EncuestaSimpleEditNotRegistered from '../../components/live/encuestas/encuestaSimpleEditNotRegistered.vue';
+import nubeEditNotRegistered from '../../components/live/encuestas/nubeDePalabras/nubeEditNotRegistered.vue';
 export default {
+  components: { nubeEditNotRegistered, EncuestaSimpleEditNotRegistered, DiaHoraEditUserNotRegistered },
   data() {
     return {
       misEncuestas: [],
       cantVotos: 0,
       cantEncuestas: 0,
+      idEventEdit: 0,
+      tipoEncuestaEdit: 0,
+      encuestaEditId: 0,
+      modalEditEventUserNotRegistered: false, 
       tipoEncuestas: [
-        this.$store.state.idioma.pollHeadBlock, 
+        this.$store.state.idioma.pollHeadBlock,
         this.$store.state.idioma.cloudHeadBlock,
         this.$store.state.idioma.giveHeadBlock,
         this.$store.state.idioma.dateHeadBlock,
-        this.$store.state.idioma.qaHeadBlock
-      ]
+        this.$store.state.idioma.qaHeadBlock,
+      ],
     };
   },
 
   methods: {
+    cerrarModalEdit(){
+        this.modalEditEventUserNotRegistered = false
+        this.getEvents()
+    },
+    editEventNotRegistered(item){
+      this.idEventEdit = item.id
+      this.tipoEncuestaEdit = item.tipo
+      this.encuestaEditId = item.id_encuesta
+      this.modalEditEventUserNotRegistered = true
+    },
+
+    abrirEvento(codigo){
+      let routeData = this.$router.resolve({name: 'p-cod', params: {cod: codigo}});
+window.open(routeData.href, '_blank');
+    },
+
+      deleteEncuestaByClickId(id, codigo) {
+      this.$swal({
+        title: "¿Estas seguro que quieres borrar esta encuesta ? ",
+        html: "Se perderan todas las votaciones realizadas en ella",
+        showCancelButton: true,
+        confirmButtonText: `Si borrar`,
+      }).then((result) => {
+        if (result.value) {
+          this.deleteEncuestaById(id, codigo);
+        }
+      });
+    },
+    async deleteEncuestaById(id, codigo) {
+      const response = await this.$axios.$post(
+        "delete_poll_by_id_not_registered",
+        {
+          id_event: id,
+          id_encuesta: codigo, 
+          p: this.$store.state.p
+        }
+      );
+      console.log(response);
+        if(response.status == 1){
+            this.getEvents()
+        }
+    },
+
+
     async getEvents() {
       var cookieNotUser = this.$cookies.get("_r_u");
 

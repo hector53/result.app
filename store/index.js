@@ -419,20 +419,6 @@ export const actions = {
                   );
                   commit("setP", cod_u );
                   //guardar user
-                  try {
-                    const response =  await app.$axios.$get("getSession")
-                    console.log("aprobado")
-                    commit("setP", response.id );
-                    commit("setLogin", true );
-
-                  } catch (err) {
-                    console.log("error")
-                    commit("setLogin", false );
-                    this.$cookies.remove('r_auth')
-                  }
-
-
-
 
             const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
              
@@ -483,6 +469,28 @@ export const actions = {
                 console.log("aprobado")
                 commit("setP", response.id );
                 commit("setLogin", true );
+                if(response.ip == ''){
+                    console.log("no tiene ip")
+                    const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
+                    var pais = dataIp.country
+                    var ipUser = dataIp.query
+                    var id_user = response.id
+
+                    await app.$axios.$post("update_ip_user_registered", {
+                      id_user: id_user,
+                      pais: pais,
+                      ipUser: ipUser
+                    }).then((response) => {
+                        if (response.status == 1) {
+                              console.log("user actualizado")
+                        } 
+                    }).catch(({ response }) => {
+  
+                      console.log(response)
+  
+                })
+
+                }
 
             } catch (err) {
               console.log("error")
@@ -506,6 +514,24 @@ export const actions = {
               }
               );
               commit("setP", cod_u );
+              const dataIp =   await   app.$axios.$get("http://ip-api.com/json")
+             
+              var pais = dataIp.country
+              var ipUser = dataIp.query
+              await app.$axios.$post("crear_user_invitado", {
+                cookieUser: cod_u,
+                pais: pais,
+                ipUser: ipUser
+              }).then((response) => {
+                  if (response.status != 0) {
+                        console.log("user creado")
+                  } 
+              }).catch(({ response }) => {
+
+                console.log(response)
+
+          })
+
            }else{
             commit("setP", cookieLoginNotUser );
              

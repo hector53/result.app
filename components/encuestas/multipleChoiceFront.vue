@@ -130,23 +130,35 @@ export default {
         miVotoViejo: 0, 
         codR: '', 
         codigoEncuesta: '', 
-        modoenVivo: 0
+        modoenVivo: 0, 
+        ipWeb: ''
 	};
   },
  
   methods: {
+     async getIp(){
+       await   fetch('https://api.ipify.org?format=json')
+          .then(x => x.json())
+          .then(({ ip }) => {
+          this.ipWeb = ip;
+          });
+    },
        async votar(id){
          console.log(this.statusEvent)
          if(this.statusEvent == 1){
- var cookieNotUser = this.$store.state.p
+//aqui psar bloqueador de ip :D 
+       
+
+
       const response = await this.$axios.$post("_votar_user_not", {
         id_opcion: id, 
         id_encuesta: this.id_encuesta,
-        cookieNotUser: cookieNotUser, 
+        cookieNotUser: this.$store.state.p, 
         id_evento: this.id_evento, 
         login: this.$store.state.login, 
         liveMode: this.modoenVivo,
         codigo: this.$route.params.cod, 
+        ipWeb: this.ipWeb
         
       });
 
@@ -174,6 +186,19 @@ export default {
                   })
                   this.actualizaVoto = false
             }
+
+
+            if(response.result ==  5){
+            this.$swal({
+            type: 'error',
+            title: 'Oops...',
+            text: 'Ya has realizado votos en esta encuesta con la misma ip',
+            })
+            this.actualizaVoto = false
+            }
+
+          
+
             if(response.result ==  0){
               this.$swal({
                 type: 'error',
@@ -303,6 +328,7 @@ var cookieNotUser = this.$store.state.p
     }
   },
   mounted() {
+    this.getIp()
     console.log("status evento", this.statusEvent)
     if(this.modoLive == 1){
         this.resultados = true

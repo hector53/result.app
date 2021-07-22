@@ -1639,7 +1639,7 @@ input[type="checkbox"], input[type="radio"] {
     width: 100%
 }
 .diaTitulo{
-    font-size: 18px;
+    font-size: 18px!important;
     font-weight: 600;
     margin-bottom: 10px;
 }
@@ -2032,7 +2032,10 @@ kbd{
     width: 100px;
 }
 
-
+.tipoEncuestaEventNotRegister{
+    color: #59b1ff;
+    font-weight: bold;
+}
 /*form question */
 
 

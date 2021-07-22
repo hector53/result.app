@@ -67,6 +67,7 @@ export default {
 
         codigoEncuesta: this.$route.params.cod,
         qrCode: false, 
+
      
 	};
   },
