@@ -13,6 +13,8 @@
               <div class="button-group">
                 <button class="buttonN blue " @click="guardarSorteo(0)">Guardar</button>
                 <button class="buttonN  " @click="borrarNombres">Borrar Participantes</button>
+                 <button class="buttonN play " @click="guardarSorteo(1)">
+                            <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar</button>
             </div>
 
 
@@ -93,6 +95,11 @@ export default {
 
                   console.log(response)
           if(response.status ==1){
+              if(val == 1){
+                this.$store.commit("seteventLiveMode", 1 );
+                this.$store.commit("setcandadoModoLive", 1 );
+              }
+              this.isLoading = false
                this.$emit("cerrarModalEdit")
               }else{
                 this.isLoading = false

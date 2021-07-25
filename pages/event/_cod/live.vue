@@ -34,8 +34,10 @@ export default {
 
       if(response.status == 2){
         //desactivar el evento
-           app.store.commit("seteventLiveMode", 0 );
-          app.store.commit("setcandadoModoLive", 0 );
+       ///    app.store.commit("seteventLiveMode", 0 );
+        //  app.store.commit("setcandadoModoLive", 0 );
+         app.store.commit("seteventLiveMode", response.modo );
+        app.store.commit("setcandadoModoLive", response.statusEvent );
           return{id_evento: response.id}
       }else{
         app.store.commit("seteventLiveMode", response.modo );
@@ -126,8 +128,8 @@ detectaTecla(event){
             this.content = true
           }
           if(response.status == 2){
-            this.$store.commit("seteventLiveMode", 0 );
-            this.$store.commit("setcandadoModoLive", 0 );
+            //this.$store.commit("seteventLiveMode", 0 );
+          //  this.$store.commit("setcandadoModoLive", 0 );
             this.$store.commit("setarrayEncuestaActiveLiveMode", [] );
             this.content = true
           }
@@ -168,7 +170,6 @@ detectaTecla(event){
    }
   },
   mounted() {
-    window.addEventListener('beforeunload', this.beforeWindowUnload)
      window.addEventListener('keyup', this.detectaTecla)  
   this.socket = this.$nuxtSocket({
       channel: '/'
@@ -176,7 +177,7 @@ detectaTecla(event){
 
       var User = this.$store.state.p
     var codigo = this.$route.params.cod
-this.socket.emit('conectar', {
+this.socket.emit('joinRoom', {
         username: User,
               room: codigo
       }, (resp) => {
@@ -184,25 +185,22 @@ this.socket.emit('conectar', {
 
        this.socket
     .on('join_room_announcement', (data) => {
-        if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
 
           this.$store.commit('setusersOnline', data.conectados);
-        }
+        
     })
 
         this.socket
     .on('join_room_disconect', (data) => {
-        if(data.codigo == this.$route.params.cod){
             console.log(`<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`)
         this.$store.commit('setusersOnline', data.conectados);
-        }
+        
     })
 
 
   this.socket
     .on('respuestaDelVoto', (data) => {
-      if(data.id_evento == this.id_evento){
         if(data.tipo == 1){
          this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getEncuestaById(data.id_encuesta)
         }
@@ -218,7 +216,7 @@ this.socket.emit('conectar', {
          this.$refs['contentLive'].$refs['encuestaFront_'+data.id_encuesta][0].getPreguntasByIdEncuesta(data.id_encuesta)
         }
 
-      }
+      
     })
 
      var tokenUser = this.$cookies.get("r_auth");
@@ -226,7 +224,6 @@ this.socket.emit('conectar', {
   },
    destroyed () {
    window.removeEventListener('keyup', this.detectaTecla)
-    window.removeEventListener('beforeunload', this.beforeWindowUnload)
  },
 };
 </script>

@@ -54,6 +54,9 @@
                     <div class="button-group-live" style="margin-top: 20px;">
                         <button class="buttonN blue " @click="crearEncuesta(0)">
                             Guardar</button>
+
+                                   <button class="buttonN play " @click="crearEncuesta(1)">
+                            <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar</button>
                       
 
                     </div>
@@ -161,7 +164,8 @@ export default {
                  opcionesNueva: this.opcionEncuestaNuevo,
                   modo: this.$store.state.eventLiveMode,
                   codigo: this.$route.params.cod, 
-                  multiple: this.multiple
+                  multiple: this.multiple, 
+                  activar: val
                   });
         console.log(response)
           if(response.status ==1){

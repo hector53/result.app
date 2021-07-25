@@ -1,7 +1,7 @@
 <template>
-<div  >
+<div v-if="arrayEncuesta.length >0"  >
 
-<multiple-choice-front   ref="simpleFront" v-if="tipo == 1" :id_encuesta="id" 
+<multiple-choice-front   ref="simpleFront" v-if="tipo == 1" :id_encuesta="id" :key="keySimpleChoice"
 :titulo_encuesta="titulo" :id_evento="id_evento" :modoLive="modoLive"  :statusEvent="1"
 ></multiple-choice-front>
 
@@ -36,7 +36,7 @@ export default {
      tipo: 0, 
      id: 0, 
      titulo: '',
-     contador:0
+     keySimpleChoice: 0
 	};
   },
 
@@ -50,8 +50,8 @@ export default {
         await   this.$axios.$get("get_encuesta_event_live?codigo="+cod)
         .then((response) => {
           console.log(response)
-                if(response.status == 1){
-
+                if(response.status == 1 ){
+                      this.arrayEncuesta = []
                     console.log("la respues fue igual a uno")
                     this.arrayEncuesta = response.tipoEncuesta
                     this.tipo = response.tipoEncuesta[0].tipo
@@ -60,10 +60,14 @@ export default {
                     this.$store.commit("setmostrarEnMoLive", true);
                     console.log("id del ", response.tipoEncuesta[0].id)
 
-                    console.log("contador va en ", this.contador)
-                    if(this.contador > 0){
+                }
+
+                /*    console.log("contador va en ", this.contador)
+                    if(this.$store.state.contadorModoLiveFront > 0){
+                      console.log("pase el contador a 1")
                            if(response.tipoEncuesta[0].tipo == 1){
-                            this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
+                         //    this.keySimpleChoice += 1;
+                        //    this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
                             }
                             if(response.tipoEncuesta[0].tipo == 2){
                             this.$refs['nubeFront'].getRespuestaByIdEncuesta(response.tipoEncuesta[0].id)
@@ -82,8 +86,11 @@ export default {
                    
     
 
-                         console.log("contador", this.contador)
+                }else{
+                      this.arrayEncuesta = []
                 }
+
+                */
         })
     }, 
   },

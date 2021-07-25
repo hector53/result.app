@@ -36,6 +36,12 @@
                       class="cubreEncuestaLiveFor"
                     >
                       <span style="margin-right: 10px">{{ index + 1 }}</span>
+                       <i class="fa fa-list-ol mr-3" aria-hidden="true" v-if="item.tipo == 1"></i>
+                      <i class="fa fa-comments mr-3" aria-hidden="true" v-if="item.tipo == 5"></i>
+                      <i class="fa fa-cloud mr-3" aria-hidden="true" v-if="item.tipo == 2"></i> 
+                      <i class="fa fa-star mr-3" aria-hidden="true" v-if="item.tipo == 3" ></i>
+                      <i class="fa fa-calendar mr-3" aria-hidden="true" v-if="item.tipo == 4"></i>
+
                       <span class="tituloEncuestaLiveItem">{{
                         item.titulo
                       }}</span>

@@ -1510,6 +1510,7 @@ input[type="checkbox"], input[type="radio"] {
     color: white;
     display: flex;
     padding-right: 20px;
+    align-items: center;
 }
 .dropdown-content.liveNew a:hover{
     background: rgba(255,255,255,.16);
@@ -1551,6 +1552,7 @@ input[type="checkbox"], input[type="radio"] {
     display: flex;
     width: 100%;
     margin-right: 20px;
+    align-items: center;
 }
 .tituloEncuestaLiveItem{
     width: 200px;

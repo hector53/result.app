@@ -115,7 +115,7 @@ this.socket.emit('conectar', {
 
       var User = this.$store.state.p
     var codigo = this.$route.params.cod
-this.socket.emit('conectar', {
+this.socket.emit('joinRoom', {
         username: User,
               room: codigo
       }, (resp) => {

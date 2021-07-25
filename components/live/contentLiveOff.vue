@@ -82,7 +82,7 @@ export default {
 props:['id_evento'],
   data() {
     return {
-       urlQr: 'http://result.jemyxs2xli-zqy3jz1yy6kg.p.runcloud.link/p/'+this.$route.params.cod, 
+       urlQr: 'https://result.app/p/'+this.$route.params.cod, 
        enLinea: 0
     };
   },

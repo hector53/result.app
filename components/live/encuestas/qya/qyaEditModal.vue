@@ -1,24 +1,19 @@
 <template>
-<section class="section-hero" style="padding-top: 20px;">
-   <loading :active="isLoading" color="#59b1ff" loader="dots" 
-                 />
-        <div class="container">
-            <h1 class="titleModalLive">Nube de Palabras</h1>
-                    <div class="div-block-4">
-                        <input
-                            type="text" class="text-field title w-input" maxlength="256" 
-                            ref="pregunta" v-model="preguntaEncuesta" 
-                            placeholder="¿Que te gustaría preguntar?" ></div>
-                   
-                    <div class="button-group-live" style="    margin-top: 50px;">
+<div>
+    <h1 class="headingM has-text-left">Encuesta Q&A</h1>
+    <div class="control mt-5">
+      <input class="input" type="text" v-model="preguntaEncuesta" placeholder="Título" />
+    </div>
+
+       <div class="button-group-live" style="    margin-top: 50px;">
                         <button class="buttonN blue " @click="crearEncuesta(0)">
                             Guardar</button>
-                             <button class="buttonN play " @click="crearEncuesta(1)">
+                        <button class="buttonN play " @click="crearEncuesta(1)">
                             <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar</button>
+
                     </div>
-                   
-        </div>
-    </section>
+   
+  </div>
 </template>
 
 <script>
@@ -62,11 +57,11 @@ export default {
           }
           //aqui si enviar a guardar la encuesta 
           this.isLoading = true
-          const response = await this.$axios.$post("edit_nube_palabras_live", {
+          const response = await this.$axios.$post("edit_qya_live_modal", {
                  pregunta:this.preguntaEncuesta, 
                  codigo: this.$route.params.cod, 
                  id: this.id_encuesta,
-                 modo: this.$store.state.eventLiveMode, 
+                 modo: this.$store.state.eventLiveMode,
                  activar: val
                   });
         console.log(response)

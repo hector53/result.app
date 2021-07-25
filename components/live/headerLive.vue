@@ -56,6 +56,14 @@
             v-if="encuestaEditId > 0 && tipoEncuestaEdit == 4"
             :id_encuesta="encuestaEditId"
         ></dia-hora-edit>
+
+        <qya-edit-modal
+         @cerrarModalEdit="cerrarModalEdit"
+            v-if="encuestaEditId > 0 && tipoEncuestaEdit == 5"
+            :id_encuesta="encuestaEditId"
+        ></qya-edit-modal>
+
+        
         </div>
       </div>
       <button
@@ -87,19 +95,19 @@
               >
                 <div class="dropdown-content liveNew">
                   <a class="dropdown-item" @click="openModalAddLive(1)">
-                    <span>Encuesta Simple</span>
+                    <i class="fa fa-list-ol mr-3" aria-hidden="true"></i><span>Encuesta Simple</span>
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(5)">
-                    <span>Q & A</span>
+                   <i class="fa fa-comments mr-3" aria-hidden="true"></i> <span>Q & A</span>
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(2)">
-                    <span>Nube de Palabras</span>
+                   <i class="fa fa-cloud mr-3" aria-hidden="true"></i> <span>Nube de Palabras</span>
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(3)">
-                    <span>Sorteos</span>
+                   <i class="fa fa-star mr-3" aria-hidden="true"></i> <span>Sorteos</span>
                   </a>
                   <a class="dropdown-item" @click="openModalAddLive(4)">
-                    <span>Día y Hora</span>
+                   <i class="fa fa-calendar mr-3" aria-hidden="true"></i> <span>Día y Hora</span>
                   </a>
                 </div>
               </div>
@@ -178,6 +186,14 @@
                       @click="selectActiveEncuesta(item.id)"
                     >
                       <span style="margin-right: 10px">{{ index + 1 }}</span>
+                      <i class="fa fa-list-ol mr-3" aria-hidden="true" v-if="item.tipo == 1"></i>
+                      <i class="fa fa-comments mr-3" aria-hidden="true" v-if="item.tipo == 5"></i>
+                      <i class="fa fa-cloud mr-3" aria-hidden="true" v-if="item.tipo == 2"></i> 
+                      <i class="fa fa-star mr-3" aria-hidden="true" v-if="item.tipo == 3" ></i>
+                      <i class="fa fa-calendar mr-3" aria-hidden="true" v-if="item.tipo == 4"></i>
+
+
+
                       <span class="tituloEncuestaLiveItem">{{
                         item.titulo
                       }}</span>
@@ -269,10 +285,11 @@ import encuestaSimple from "./encuestas/encuestaSimple.vue";
 import EncuestaSimpleEdit from "./encuestas/encuestaSimpleEdit.vue";
 import NubeDePalabras from "./encuestas/nubeDePalabras/nubeDePalabras.vue";
 import QyaAddModal from './encuestas/qya/qyaAddModal.vue';
+import QyaEditModal from './encuestas/qya/qyaEditModal.vue';
 import SorteoAddModal from './encuestas/sorteos/sorteoAddModal.vue';
 import SorteosEditModal from './encuestas/sorteos/sorteosEditModal.vue';
 export default {
-  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal, SorteosEditModal, DiaHoraAddModal, QyaAddModal },
+  components: { encuestaSimple, EncuestaSimpleEdit, NubeDePalabras, SorteoAddModal, SorteosEditModal, DiaHoraAddModal, QyaAddModal, QyaEditModal },
 
   data() {
     return {
@@ -391,7 +408,6 @@ export default {
     },
 
     async cambiarStatus() {
-      if (this.$store.state.arrayEncuestaActiveLiveMode.length > 0) {
         var candadoViejo = this.$store.state.candadoModoLive;
         
         var candado = !this.$store.state.candadoModoLive;
@@ -404,7 +420,7 @@ export default {
           publicarDesactivar: candadoViejo,
           codigo: this.$route.params.cod,
         });
-      }
+      
     },
     activarFullScreen() {
       this.$emit("activarFullScreen");
@@ -423,9 +439,7 @@ export default {
         });
     },
     activarEvento(val) {
-      if (this.$store.state.arrayEncuestaActiveLiveMode.length > 0) {
         this.$emit("activarEvento", val);
-      }
     },
     async selectActiveEncuesta(id) {
       this.$store.commit("setEncuestaActiveLiveMode", id);

@@ -13,6 +13,7 @@ export const state = () => ({
  candadoModoLive: 0,
  mostrarEnMoLive: false,
  usersOnline: 0,
+ contadorModoLiveFront: 0,
  languajes: [
     {
     ////// HEAD
@@ -344,7 +345,9 @@ export const getters = {
 
 
 export const mutations = {
-
+  setcontadorModoLiveFront(state, val){
+    state.contadorModoLiveFront = val
+  }, 
   
   setusersOnline(state, val){
     state.usersOnline = val
@@ -401,8 +404,8 @@ export const actions = {
           const headers = (req && req.headers) ? Object.assign({}, req.headers) : {}
           const xForwardedFor = headers['x-forwarded-for']      
           const xRealIp = headers['x-real-ip']
-          console.log(xForwardedFor)
-          console.log(xRealIp)
+      //    console.log(xForwardedFor)
+        //  console.log(xRealIp)
       
 
          if (!req.headers.cookie){
@@ -429,10 +432,13 @@ export const actions = {
                   commit("setP", cod_u );
                   //guardar user
 
-            const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xForwardedFor)
+         //   const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xForwardedFor)
              
-                    var pais = dataIp.country
-                    var ipUser = dataIp.query
+             //       var pais = dataIp.country
+               //     var ipUser = dataIp.query
+
+                    var pais = 'xxx'
+                    var ipUser = 'xxxxxx'
 
 
                   await app.$axios.$post("crear_user_invitado", {

@@ -9,8 +9,9 @@
 
       <div v-if="mostrar">
         <div v-if="statusEvent == 1 && modoLive == 0">
+           
           <get-evento
-          ref="getEvento"
+            ref="getEvento"
             v-if="userTipo != 0"
             :id_evento="id_evento"
             :encuestas="encuestas"
@@ -29,7 +30,7 @@
         >
           <h1>Evento Cerrado</h1>
           <get-evento
-           ref="getEvento"
+            ref="getEvento"
             v-if="userTipo != 0"
             :id_evento="id_evento"
             :encuestas="encuestas"
@@ -37,7 +38,17 @@
           ></get-evento>
         </div>
         <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px">
-          <modo-live-front
+           <div class="cubreContentLive" v-if="$store.state.arrayEncuestaActiveLiveMode.length==0">
+            <div class="contentColumnLive">
+            <h1>Entrá a <br />result.app <br />#{{$route.params.cod}}</h1>
+            </div>
+            <div class="contentColumnLive">
+
+            <vue-qrcode :value="urlQr" class="imgQr"   />
+            </div>
+            </div>
+          <modo-live-front v-else
+            :key="componentKey"
             style="margin-top: 60px"
             ref="modoLiveFront"
             :id_evento="id_evento"
@@ -61,9 +72,10 @@ import getEvento from "../../components/eventos/getEvento.vue";
 import GetEventoNotUser from "../../components/eventos/getEventoNotUser.vue";
 import { api as fullscreen } from "vue-fullscreen";
 import ModoLiveFront from "../../components/live/modoLiveFront.vue";
+import VueQrcode from 'vue-qrcode'
 export default {
   layout: "live",
-  components: { getEvento, GetEventoNotUser, ModoLiveFront },
+  components: { getEvento, GetEventoNotUser, ModoLiveFront,VueQrcode },
   async asyncData({ params, store, redirect, app }) {
     const response = await app.$axios.$get(
       "get_event_by_cod_front?codigo=" + params.cod
@@ -77,7 +89,7 @@ export default {
           userTipo: tipoUser,
           id_evento: response.id_evento,
           encuestas: response.encuestas,
-          statusEvent: 0,
+          statusEvent: response.statusEvent,
           modoLive: response.modo,
         };
       } else {
@@ -107,10 +119,20 @@ export default {
     return {
       mostrar: true,
       fullscreen: false,
+      componentKey: 0,
+        urlQr: 'https://result.app/p/'+this.$route.params.cod, 
     };
   },
 
   methods: {
+    async getEncuestasByIdEvent() {
+      const response = await this.$axios.$get(
+        "get_event_by_cod_front?codigo=" + this.$route.params.cod
+      );
+
+      this.$store.commit("setarrayEncuestaActiveLiveMode", response.encuestas);
+    },
+
     activarFullScreen() {
       fullscreen.toggle(this.$el.querySelector(".fullscreen-wrapper"), {
         teleport: this.teleport,
@@ -131,7 +153,7 @@ export default {
     },
   },
   mounted() {
-    window.addEventListener("beforeunload", this.beforeWindowUnload);
+    //  window.addEventListener("beforeunload", this.beforeWindowUnload);
     console.log("tipo usuario", this.userTipo);
     console.log("id usuario", this.$store.state.p);
     var User = this.$store.state.p;
@@ -141,8 +163,10 @@ export default {
       channel: "/",
     });
 
+    console.log("socket", this.socket);
+
     this.socket.emit(
-      "conectar",
+      "joinRoom",
       {
         username: User,
         room: codigo,
@@ -150,94 +174,93 @@ export default {
       (resp) => {}
     );
 
-    this.socket.on("cambioDeEncuesta", (data) => {
-      console.log("llego el cambio desde el socket ", data);
-      if (data.codigo == this.$route.params.cod) {
-
-        if (data.tipo == 6) {
-            if(data.tipoEncuesta == 5){
-              console.log(this.$refs["getEvento"])
-                 this.$refs["getEvento"].$refs["qyaFront_"+data.id_encuesta][0].getPreguntasByIdEncuesta(data.id_encuesta);
-            }
-             
-        } else {
-          if (data.tipo == 5) {
-            console.log("data tipo 5");
-            this.statusEvent = 0;
-          } else {
-            console.log("borre y ahora voy a pasar a modo live");
-            var componenteEncuesta = this.$refs["modoLiveFront"];
-            if (componenteEncuesta == undefined) {
-              if (data.tipo == 3) {
-                if (this.statusEvent == 1) {
-                  this.modoLive = 1;
-                }
-              } else {
-                this.modoLive = 1;
-                this.statusEvent = 1;
-              }
-            } else {
-              if(data.tipo == 7){
-                   this.$refs["modoLiveFront"].contador = 0
-                  this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
-              }else{
-                 this.$refs["modoLiveFront"].contador = 1
-              this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
-              }
-             
-            }
-          }
-        }
-
-
-      }
+    this.socket.on("cambiarEncuestaActiva", (data) => {
+      console.log("cambiando encuesta Activa del Room", data.codigo);
+      this.statusEvent = 1;
+      this.modoLive = 1;
+      this.componentKey += 1;
+      this.$store.commit("setcontadorModoLiveFront", 0);
+      console.log("modo live front componente", this.$refs["modoLiveFront"]);
+      //     this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+    });
+    this.socket.on("GuardarEncuesta", (data) => {
+      console.log(
+        "Crearon una encuesta, la guardaron pero no la activaron",
+        data.codigo
+      );
+      this.getEncuestasByIdEvent();
+    });
+    this.socket.on("CrearEncuestayActivar", (data) => {
+      console.log("Crearon una encuesta y la activaron", data.codigo);
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      this.componentKey += 1;
+      this.getEncuestasByIdEvent();
     });
 
-     this.socket
-    .on('join_room_announcement', (data) => {
-        if(data.codigo == this.$route.params.cod){
-         //   console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
+    this.socket.on("EliminarEncuestaActiva", (data) => {
+      console.log("eliminaron una encuesta", data.codigo);
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      //    this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+      this.componentKey += 1;
+      this.getEncuestasByIdEvent();
+    });
 
-          this.$store.commit('setusersOnline', data.conectados);
-        }
-    })
+    this.socket.on("sinEncuestasAlEliminar", (data) => {
+      this.$store.commit("setarrayEncuestaActiveLiveMode", []);
+      console.log("eliminaron todas las encuestas", data.codigo);
+      this.componentKey += 1;
+      this.$store.commit("setcontadorModoLiveFront", 0);
+      this.getEncuestasByIdEvent();
+    });
+
+    this.socket.on("editandoEncuesta", (data) => {
+      console.log("editaron una encuesta y guardaron cambios", data.codigo);
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      //     this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+      this.componentKey += 1;
+    });
+
+    this.socket.on("cambioDeEncuesta", (data) => {
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      //     this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+      this.componentKey += 1;
+    });
+
+    this.socket.on("join_room_announcement", (data) => {
+      console.log(
+        `<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`
+      );
+
+      this.$store.commit("setusersOnline", data.conectados);
+    });
 
     this.socket.on("activarModoPresentacion", (data) => {
-      if (data.codigo == this.$route.params.cod) {
-        this.mostrar = false;
-        this.statusEvent = data.modo;
-        this.modoLive = data.modo;
-        this.mostrar = true;
-      }
+      this.mostrar = false;
+      this.statusEvent = data.modo;
+      this.modoLive = data.modo;
+      this.mostrar = true;
     });
 
     this.socket.on("cambiarStatusEvent", (data) => {
-      console.log("cambiar status");
+      console.log("cambiar status del room", data.codigo);
       console.log(data);
-      if (data.codigo == this.$route.params.cod) {
-        if (data.status == 0) {
-          this.modoLive = 0;
-        }
-        this.mostrar = false;
-        this.statusEvent = data.status;
-        this.mostrar = true;
+      if (data.status == 0) {
+        this.modoLive = 0;
       }
+      this.mostrar = false;
+      this.statusEvent = data.status;
+      this.mostrar = true;
     });
 
     console.log("routename", this.$route);
     this.socket.on("generarGanadorSorteo", (data) => {
       console.log("Generar ganadores");
       console.log(data);
-      if (data.codigo == this.$route.params.cod) {
-        this.$refs["modoLiveFront"].$refs["sorteosFront"].generarGanador(
-          data.id_encuesta,
-          data.ganadores
-        );
-      }
+      this.$refs["modoLiveFront"].$refs["sorteosFront"].generarGanador(
+        data.id_encuesta,
+        data.ganadores
+      );
     });
-  },
-  destroyed() {
-    window.removeEventListener("beforeunload", this.beforeWindowUnload);
   },
 };
 </script>
