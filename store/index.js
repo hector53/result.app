@@ -432,13 +432,13 @@ export const actions = {
                   commit("setP", cod_u );
                   //guardar user
 
-         //   const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xForwardedFor)
+            const dataIp =   await   app.$axios.$get("http://ip-api.com/json/"+xForwardedFor)
              
-             //       var pais = dataIp.country
-               //     var ipUser = dataIp.query
+                   var pais = dataIp.country
+                   var ipUser = dataIp.query
 
-                    var pais = 'xxx'
-                    var ipUser = 'xxxxxx'
+                 //   var pais = 'xxx'
+               //     var ipUser = 'xxxxxx'
 
 
                   await app.$axios.$post("crear_user_invitado", {

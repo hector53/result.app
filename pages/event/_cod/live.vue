@@ -185,6 +185,7 @@ this.socket.emit('joinRoom', {
 
        this.socket
     .on('join_room_announcement', (data) => {
+      console.log(data)
             console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
 
           this.$store.commit('setusersOnline', data.conectados);
@@ -193,6 +194,7 @@ this.socket.emit('joinRoom', {
 
         this.socket
     .on('join_room_disconect', (data) => {
+      console.log(data)
             console.log(`<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`)
         this.$store.commit('setusersOnline', data.conectados);
         
