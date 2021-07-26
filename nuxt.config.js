@@ -1,7 +1,7 @@
 export default {
   env: {
-  //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
-  baseUrl: process.env.BASE_URL || 'https://api.result.app'
+  baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+ //baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -19,12 +19,18 @@ export default {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Space+Grotesk&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat&display=swap' },
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Montserrat&family=Varela+Round&display=swap' },
-    ]
+    ], 
+    script: [
+      {
+        src: "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js",
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '~/static/css/poll.css',
+    '~/static/css/reacciones.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -58,14 +64,14 @@ export default {
     // module options
     sockets: [{
       name: 'main',
-   // url: 'http://localhost:5000', 
-     url: 'https://api.result.app'
+    url: 'http://localhost:5000', 
+    // url: 'https://api.result.app'
     }]
   },
 
   axios: {
-   baseURL: 'https://api.result.app/api/',
- // baseURL: 'http://127.0.0.1:5000/api/',
+  // baseURL: 'https://api.result.app/api/',
+  baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

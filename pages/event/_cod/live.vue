@@ -4,7 +4,8 @@
      @activarEvento="activarEvento"></header-live>
     <i class="fa fa-arrow-left irAtrasLive" aria-hidden="true" title="Ir Al Dashboard" alt="Ir Al Dashboard" @click="irAtras"></i>
    <content-live-off ref="contentLive" v-if="content" :id_evento="id_evento" ></content-live-off>
-
+    <reaccion v-for="(item, index) in arrayReacciones" :key="index+5000" :reaccion="item.reaccion"
+       :posicion="index+5000" @quitarReaccion="quitarReaccion"></reaccion>
     <div class="footerLive"> 
       <div class="centerFooter"> 
          <h1>Result</h1>
@@ -17,10 +18,11 @@
 import { api as fullscreen } from 'vue-fullscreen'
 import ContentLiveOff from '../../../components/live/contentLiveOff.vue';
 import HeaderLive from "../../../components/live/headerLive.vue";
+import Reaccion from '../../../components/reacciones/reaccion.vue';
 export default {
   middleware: "miauth",
   layout: "live",
-  components: { HeaderLive, ContentLiveOff },
+  components: { HeaderLive, ContentLiveOff, Reaccion },
 
    async asyncData({ params, store, redirect, app }) {
       var tokenUser = app.$cookies.get("r_auth");
@@ -55,6 +57,7 @@ export default {
 head() {
       return {
         title: 'Live - '+this.$route.params.cod+' - Resultapp',
+   
         
       }
     },
@@ -63,11 +66,18 @@ head() {
       fullscreen: false,
       teleport: true,
       content: true, 
-      conectados: 0
+      conectados: 0, 
+      arrayReacciones:[]
 	};
   },
 
   methods: {
+     quitarReaccion(index){
+      this.arrayReacciones.splice(index,1)
+    },
+    animar(val, index){
+      this.arrayReacciones.push({"reaccion": val, "index": index})
+    },
 detectaTecla(event){
   if(this.$store.state.eventLiveMode == 1){
        // console.log(event.keyCode)
@@ -189,6 +199,14 @@ this.socket.emit('joinRoom', {
             console.log(`<b>${data.username}</b> has joined the room y conectados son ${data.conectados}`)
 
           this.$store.commit('setusersOnline', data.conectados);
+        
+    })
+
+
+      this.socket
+    .on('recibiReaccion', (data) => {
+      console.log("recibi reaccion", data)
+      this.animar(data.tipo)
         
     })
 

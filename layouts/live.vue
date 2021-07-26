@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="particlesContainer">
   <nuxt  />
   </div>
 </template>

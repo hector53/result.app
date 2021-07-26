@@ -1470,8 +1470,8 @@ input[type="checkbox"], input[type="radio"] {
     width: 200px;
 }
 .footerLive{
-    position: relative;
-    bottom: 0;
+    position: absolute;
+    bottom: 10px;
     width: 100%;
 }
 .centerFooter{
@@ -2268,6 +2268,55 @@ textarea#question-field {
     flex-direction: column;
     font-size: 15px;
 }
+
+
+.particlesContainer {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.particle {
+    position: fixed;
+    height: 5rem;
+    width: 5rem;
+    bottom: -100px;
+    left: 0;
+    right: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+    background-image: url('~assets/img/reacciones.png');
+    background-size: 30rem;
+    background-repeat: no-repeat;
+    border-radius: 500px;
+    background-color: #fff;
+    opacity: 0;
+}
+
+.particle.like {
+    background-position: -13px -20px;
+}
+
+.particle.love {
+    background-position: -88px -20px;
+}
+
+.particle.happy {
+    background-position: -164px -20px;
+}
+
+.particle.wow {
+    background-position: -238px -20px;
+}
+
+.particle.sad {
+    background-position: -313px -20px;
+}
+
+.particle.angry {
+    background-position: -388px -20px;
+}
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{
         flex-wrap: wrap;
@@ -2364,9 +2413,7 @@ textarea#question-field {
         padding: 10px; 
     }
 
-    .footerLive{
-        position: relative;
-    }
+  
     .dropdown-content.live{
     margin-left: -100px;
     width: 300px;

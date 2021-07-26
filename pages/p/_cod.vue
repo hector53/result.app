@@ -54,12 +54,30 @@
             :id_evento="id_evento"
             :modoLive="modoLive"
           ></modo-live-front>
+
+      <div class="boxR">
+          <input type="checkbox" id="like" class="field-reactions">
+          <h3 class="text-desc">Press space and after tab key to navigation</h3>
+          <label for="like" class="label-reactions">Like</label>
+          <div class="toolbox"></div>
+          <label class="overlay" for="like"></label>
+          <button class="reaction-like" @click="animar(0)"><span class="legend-reaction">Like</span></button>
+          <button class="reaction-love" @click="animar(1)"><span class="legend-reaction">Love</span></button>
+          <button class="reaction-haha" @click="animar(2)"><span class="legend-reaction">Haha</span></button>
+          <button class="reaction-wow" @click="animar(3)"><span class="legend-reaction">Wow</span></button>
+          <button class="reaction-sad" @click="animar(4)"><span class="legend-reaction">Sad</span></button>
+          <button class="reaction-angry" @click="animar(5)"><span class="legend-reaction">Angry</span></button>
+      </div>
+
+      <reaccion v-for="(item, index) in arrayReacciones" :key="index+5000" :reaccion="item.reaccion"
+       :posicion="index+5000" @quitarReaccion="quitarReaccion"></reaccion>
         </div>
       </div>
 
       <div class="footerLive" v-if="modoLive == 1">
         <div class="centerFooter">
           <h1>Result</h1>
+     
         </div>
       </div>
     </div>
@@ -73,9 +91,10 @@ import GetEventoNotUser from "../../components/eventos/getEventoNotUser.vue";
 import { api as fullscreen } from "vue-fullscreen";
 import ModoLiveFront from "../../components/live/modoLiveFront.vue";
 import VueQrcode from 'vue-qrcode'
+import Reaccion from '../../components/reacciones/reaccion.vue';
 export default {
   layout: "live",
-  components: { getEvento, GetEventoNotUser, ModoLiveFront,VueQrcode },
+  components: { getEvento, GetEventoNotUser, ModoLiveFront,VueQrcode, Reaccion },
   async asyncData({ params, store, redirect, app }) {
     const response = await app.$axios.$get(
       "get_event_by_cod_front?codigo=" + params.cod
@@ -114,17 +133,36 @@ export default {
       }
     }
   },
-  head: {},
+ 
   data() {
     return {
       mostrar: true,
       fullscreen: false,
       componentKey: 0,
         urlQr: 'https://result.app/p/'+this.$route.params.cod, 
+        arrayReacciones:[]
     };
   },
 
   methods: {
+    quitarReaccion(index){
+      this.arrayReacciones.splice(index,1)
+    },
+    animar(val, index){
+      this.socket.emit(
+        "enviarReaccion",
+        {
+          username: this.$store.state.p,
+          room: this.$route.params.cod,
+          tipo: val
+        },
+        (resp) => {}
+      );
+
+      this.arrayReacciones.push({"reaccion": val, "index": index})
+
+
+    },
     async getEncuestasByIdEvent() {
       const response = await this.$axios.$get(
         "get_event_by_cod_front?codigo=" + this.$route.params.cod
