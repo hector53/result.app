@@ -147,7 +147,10 @@ export default {
          console.log(this.statusEvent)
          if(this.statusEvent == 1){
 //aqui psar bloqueador de ip :D 
-       
+        let loader =    this.$loading.show({
+                loader: 'dots', 
+                color: '#59b1ff'
+            })
 
 
       const response = await this.$axios.$post("_votar_user_not", {
@@ -225,6 +228,10 @@ export default {
               timer: 1500
             })
           }
+
+        loader.hide()
+
+          
          }
       
       },
