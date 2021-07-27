@@ -519,6 +519,8 @@ export const actions = {
          }else{
            console.log("no existe la sesion de usuario del bnackend")
            if(!cookieLoginNotUser){
+
+            console.log("borraron la cookie manualmente, le creo una nueva")
             var cod_u =  makeid(10)
             this.$cookies.set(
               "_r_u",
@@ -548,6 +550,7 @@ export const actions = {
           })
 
            }else{
+            console.log(" la cookie existe", cookieLoginNotUser)
             commit("setP", cookieLoginNotUser );
              
            }
