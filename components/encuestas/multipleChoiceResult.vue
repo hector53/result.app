@@ -88,6 +88,8 @@ export default {
         .then((response) => {
                   this.opciones = response.opciones
                   this.totalVotos = response.totalVotos
+        }).catch(({response}) => {
+              console.log(response)
         })
     }
   },

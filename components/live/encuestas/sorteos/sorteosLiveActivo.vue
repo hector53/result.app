@@ -13,16 +13,17 @@
         <span> {{ titulo_encuesta }} </span>
         <span style="font-size: 20px">Premios: {{ premios }}</span>
       </h1>
-      <p class="panel-heading" style="margin: 0">Participantes : {{participantes.length }}</p>
-      <div class="scrollSorteo" > 
-           <a
-        class="panel-block"
-        v-for="(item, index) in participantes"
-        :key="index"
-        v-text="item.value"
-      ></a>
+      <p class="panel-heading" style="margin: 0">
+        Participantes : {{ participantes.length }}
+      </p>
+      <div class="scrollSorteo">
+        <a
+          class="panel-block"
+          v-for="(item, index) in participantes"
+          :key="index"
+          v-text="item.value"
+        ></a>
       </div>
-   
 
       <div v-if="ganadores.length > 0">
         <p
@@ -64,39 +65,43 @@ export default {
   },
   components: { Loading },
   methods: {
-    editar(){
-      alert("editar")
+    editar() {
+      alert("editar");
     },
     async sortear() {
-      const response = await this.$axios.$post("sortear_sorteo_live", {
-        participantes: JSON.stringify(this.participantes),
-        premios: this.premios,
-        codigo: this.$route.params.cod,
-        id_encuesta: this.id_encuesta,
-      });
-      console.log(response);
-
-      let timerInterval;
-      this.$swal({
-        title: "Espere Por Favor",
-        html: "Estamos generando los ganadores...",
-        timer: 2000,
-        onBeforeOpen: () => {
-          this.$swal.showLoading();
-        },
-        onClose: () => {
-          clearInterval(timerInterval);
-        },
-      }).then((result) => {
-        if (
-          /* Read more about handling dismissals below */
-          result.dismiss === this.$swal.DismissReason.timer
-        ) {
-          if (response.status == 1) {
-            this.ganadores = response.ganadores;
-          }
-        }
-      });
+      await this.$axios
+        .$post("sortear_sorteo_live", {
+          participantes: JSON.stringify(this.participantes),
+          premios: this.premios,
+          codigo: this.$route.params.cod,
+          id_encuesta: this.id_encuesta,
+        })
+        .then((response) => {
+          let timerInterval;
+          this.$swal({
+            title: "Espere Por Favor",
+            html: "Estamos generando los ganadores...",
+            timer: 2000,
+            onBeforeOpen: () => {
+              this.$swal.showLoading();
+            },
+            onClose: () => {
+              clearInterval(timerInterval);
+            },
+          }).then((result) => {
+            if (
+              /* Read more about handling dismissals below */
+              result.dismiss === this.$swal.DismissReason.timer
+            ) {
+              if (response.status == 1) {
+                this.ganadores = response.ganadores;
+              }
+            }
+          });
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
     async getSorteoByIdEncuesta(id) {
       this.isLoading = true;
@@ -117,7 +122,9 @@ export default {
             this.ganadores = response.ganadores;
             this.isLoading = false;
           }
-        });
+        }).catch(({response}) => {
+          console.log(response)
+        })
     },
   },
   mounted() {

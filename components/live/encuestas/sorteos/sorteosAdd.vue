@@ -15,13 +15,20 @@
       </div>
       <div class="column is-8">
         <div class="container" v-if="participantesV.length == 0">
-          <div class="hoverOpciones" style="margin-bottom: 20px;">
-                       <a  @click="guardar()"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-                    <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                    <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                
-                </div>
+          <div class="hoverOpciones" style="margin-bottom: 20px">
+            <a @click="guardar()"
+              ><i class="fa fa-floppy-o" aria-hidden="true"></i
+            ></a>
+            <a @click="moverArriba(numero)"
+              ><i class="fa fa-arrow-up" aria-hidden="true"></i
+            ></a>
+            <a @click="moverAbajo(numero)"
+              ><i class="fa fa-arrow-down" aria-hidden="true"></i
+            ></a>
+            <a @click="eliminar()"
+              ><i class="fa fa-trash" aria-hidden="true"></i
+            ></a>
+          </div>
           <div class="control">
             <input
               class="input"
@@ -57,62 +64,68 @@
           </div>
         </div>
 
-
         <!-- solo lectura -->
-         <div style="min-height: 300px" v-if="participantesV.length > 0">
-    <div class="hoverOpciones" style="margin-bottom: 20px;">
-                       <a  @click="guardar()"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-                    <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                    <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                
-                </div>
-      <h1
-        style="
-          margin-bottom: 20px;
-          border-bottom: solid 1px #8080801f;
-          display: flex;
-          justify-content: space-between;
-        "
-      >
-        <span> {{ titulo }} </span>
-        <span style="font-size: 20px">Premios: {{ premios }}</span>
-      </h1>
-      <p class="panel-heading" style="margin: 0">Participantes : {{participantes.length }}</p>
-    <div class="scrollSorteo">
-       <a
-        class="panel-block"
-        v-for="(item, index) in participantes"
-        :key="index"
-        v-text="item.value"
-      ></a>
-    </div>
-     
+        <div style="min-height: 300px" v-if="participantesV.length > 0">
+          <div class="hoverOpciones" style="margin-bottom: 20px">
+            <a @click="guardar()"
+              ><i class="fa fa-floppy-o" aria-hidden="true"></i
+            ></a>
+            <a @click="moverArriba(numero)"
+              ><i class="fa fa-arrow-up" aria-hidden="true"></i
+            ></a>
+            <a @click="moverAbajo(numero)"
+              ><i class="fa fa-arrow-down" aria-hidden="true"></i
+            ></a>
+            <a @click="eliminar()"
+              ><i class="fa fa-trash" aria-hidden="true"></i
+            ></a>
+          </div>
+          <h1
+            style="
+              margin-bottom: 20px;
+              border-bottom: solid 1px #8080801f;
+              display: flex;
+              justify-content: space-between;
+            "
+          >
+            <span> {{ titulo }} </span>
+            <span style="font-size: 20px">Premios: {{ premios }}</span>
+          </h1>
+          <p class="panel-heading" style="margin: 0">
+            Participantes : {{ participantes.length }}
+          </p>
+          <div class="scrollSorteo">
+            <a
+              class="panel-block"
+              v-for="(item, index) in participantes"
+              :key="index"
+              v-text="item.value"
+            ></a>
+          </div>
 
-      <div v-if="ganadores.length > 0">
-        <p
-          class="panel-heading"
-          style="margin: 0; margin-top: 20px; font-size: 18px"
-        >
-          Ganadores:
-        </p>
-        <a
-          class="panel-block"
-          v-for="(item, index) in ganadores"
-          :key="index"
-          v-text="item.value"
-        ></a>
-      </div>
-       <div
-        v-if="ganadores.length == 0"
-        class="button-group"
-        style="margin: 0; margin-top: 30px"
-      >
-        <button class="buttonN blue" @click="sortear">Sortear</button>
-        <button class="buttonN blue" @click="openModalEdit">Editar</button>
-      </div>
-  </div>
-
+          <div v-if="ganadores.length > 0">
+            <p
+              class="panel-heading"
+              style="margin: 0; margin-top: 20px; font-size: 18px"
+            >
+              Ganadores:
+            </p>
+            <a
+              class="panel-block"
+              v-for="(item, index) in ganadores"
+              :key="index"
+              v-text="item.value"
+            ></a>
+          </div>
+          <div
+            v-if="ganadores.length == 0"
+            class="button-group"
+            style="margin: 0; margin-top: 30px"
+          >
+            <button class="buttonN blue" @click="sortear">Sortear</button>
+            <button class="buttonN blue" @click="openModalEdit">Editar</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -120,7 +133,14 @@
 
 <script>
 export default {
-  props: ["numero", "idEcuesta", "tituloP", "integrantes", "ganadoresP", "premiosP"],
+  props: [
+    "numero",
+    "idEcuesta",
+    "tituloP",
+    "integrantes",
+    "ganadoresP",
+    "premiosP",
+  ],
   head: {
     script: [
       {
@@ -136,34 +156,37 @@ export default {
       ganadores: this.ganadoresP,
       isLoading: true,
       id_encuesta: this.idEcuesta,
-      participantesV: this.integrantes
+      participantesV: this.integrantes,
     };
   },
   methods: {
-    openModalEdit(){
-      this.$emit("openModalEdit", this.id_encuesta)
+    openModalEdit() {
+      this.$emit("openModalEdit", this.id_encuesta);
     },
-       eliminar(){
-
-            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
-    
+    eliminar() {
+      this.$emit("eliminarEncuesta", {
+        id_encuesta: this.id_encuesta,
+        index: this.numero,
+      });
     },
-    moverArriba(index){
-      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
+    moverArriba(index) {
+      this.$emit("moverArriba", {
+        id_encuesta: this.id_encuesta,
+        index: index,
+      });
     },
-     moverAbajo(index){
-      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
+    moverAbajo(index) {
+      this.$emit("moverAbajo", { id_encuesta: this.id_encuesta, index: index });
     },
- async    guardar(){
-  if(this.preguntaEncuesta != '' && this.participantesV.length == 0 ){
- var guardar =   await  this.guardarOpciones()
-      if(guardar != false){
-        this.$emit('actualizarArray')
+    async guardar() {
+      if (this.preguntaEncuesta != "" && this.participantesV.length == 0) {
+        var guardar = await this.guardarOpciones();
+        if (guardar != false) {
+          this.$emit("actualizarArray");
+        }
       }
-        
-  }
     },
-     async sortear() {
+    async sortear() {
       const response = await this.$axios.$post("sortear_sorteo_live", {
         participantes: JSON.stringify(this.participantes),
         premios: this.premios,
@@ -183,16 +206,20 @@ export default {
         onClose: () => {
           clearInterval(timerInterval);
         },
-      }).then((result) => {
-        if (
-          /* Read more about handling dismissals below */
-          result.dismiss === this.$swal.DismissReason.timer
-        ) {
-          if (response.status == 1) {
-            this.ganadores = response.ganadores;
+      })
+        .then((result) => {
+          if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.timer
+          ) {
+            if (response.status == 1) {
+              this.ganadores = response.ganadores;
+            }
           }
-        }
-      });
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
     borrarNombres() {
       $("#participantes").val("");
@@ -240,31 +267,33 @@ export default {
         return false;
       }
 
-      const response = await this.$axios.$post("create_sorteo_live", {
-        titulo: this.titulo,
-        participantes: JSON.stringify(lines),
-        premios: this.premios,
-        codigo: this.$route.params.cod,
-        activar: 0,
-      });
-
-      console.log(response);
-      if (response.status == 1) {
-        console.log("guardado con exito")
-          this.id_encuesta = response.id
-          this.participantesV = response.participantes
-          this.participantes = response.participantes
-        
-
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("create_sorteo_live", {
+          titulo: this.titulo,
+          participantes: JSON.stringify(lines),
+          premios: this.premios,
+          codigo: this.$route.params.cod,
+          activar: 0,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            console.log("guardado con exito");
+            this.id_encuesta = response.id;
+            this.participantesV = response.participantes;
+            this.participantes = response.participantes;
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
-      }
     },
   },
   mounted() {},

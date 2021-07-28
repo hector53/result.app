@@ -64,7 +64,9 @@ export default {
             this.votosTotales = response.votosTotales
               this.usuariosTotales = response.usuariosTotales
           }
-        });
+        }).catch(({response}) => {
+          console.log(response)
+        })
     },
   },
   mounted() {

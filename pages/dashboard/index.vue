@@ -86,7 +86,7 @@
 
         <h1
           class="headingM has-text-left"
-          style="            margin-bottom: 40px;            margin-top: 40px;            display: flex;           justify-content: space-between;          "
+          style="            margin-bottom: 40px;            margin-top: 40px;            display: flex;            justify-content: space-between;          "
         >
           <span>
             {{ $store.state.idioma.dashboardTitle2 }}
@@ -199,34 +199,46 @@ export default {
       this.descripcionEvento = "";
     },
     async getEvents() {
-      await this.$axios.$get("events_user_registered").then((response) => {
-        console.log(response);
-        this.misEventos = response.eventos;
-        this.cantEventos = response.cantEventos;
-        this.cantParticipaciones = response.cantVotos;
-      });
+      await this.$axios
+        .$get("events_user_registered")
+        .then((response) => {
+          console.log(response);
+          this.misEventos = response.eventos;
+          this.cantEventos = response.cantEventos;
+          this.cantParticipaciones = response.cantVotos;
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
     async crearEvento() {
       var dataUser = this.$cookies.get("r_user");
-      var nameEvento = dataUser.username 
+      var nameEvento = dataUser.username;
 
       this.isLoading = true;
 
-      const response = await this.$axios.$post("crear_evento", {
-        titulo: nameEvento,
-        descripcion: "",
-      });
-      this.isLoading = false;
-      if (response.status != 0) {
-        this.getEvents();
-        this.$router.push("/event/" + response.codigo);
-      } else {
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Estas haciendo trampa xD",
+      await this.$axios
+        .$post("crear_evento", {
+          titulo: nameEvento,
+          descripcion: "",
+        })
+        .then((response) => {
+          this.isLoading = false;
+          if (response.status != 0) {
+            this.getEvents();
+            this.$router.push("/event/" + response.codigo);
+          } else {
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Estas haciendo trampa xD",
+            });
+          }
+        })
+        .catch(({ response }) => {
+          this.isLoading = false;
+          console.log(response);
         });
-      }
     },
   },
   mounted() {

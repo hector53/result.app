@@ -1,80 +1,82 @@
 <template>
-  <div >
+  <div>
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
-    <div  style="    max-width: 940px;    margin: auto;">
-<div class="control mt-2">
-      <input class="input" style="max-width:600px" type="text" v-model="titulo" placeholder="Título" />
-    </div>
-
-     <div class="cubreEncuestaCalendario mt-5">
-        <div class="cubreCalendario">
-        <b-datepicker
-          v-model="date"
-          inline
-          multiple
-          :unselectable-dates="unselectableDates"
-          :nearby-month-days="false"
-          :date-formatter="formatoFecha"
-          :locale="locale"
-        >
-        </b-datepicker>
+    <div style="max-width: 940px; margin: auto">
+      <div class="control mt-2">
+        <input
+          class="input"
+          style="max-width: 600px"
+          type="text"
+          v-model="titulo"
+          placeholder="Título"
+        />
       </div>
-      <div class="CubreHorarios" v-if="date.length > 0">
-        <div v-for="(item, index) in date" :key="index" class="cubreColumnH">
-          <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
-          <div class="cubreHoras">
-            <div
-              class="xxx"
-              v-for="(item2, index2) in time[index].horas"
-              :key="index2"
-              style="
-                padding-left: 10px;
-                padding-right: 10px;
-                margin: 0;
-                margin-bottom: 10px;
-                display: flex;
-              "
-            >
-                <b-timepicker class="mt-3 horaT" 
-                 
+
+      <div class="cubreEncuestaCalendario mt-5">
+        <div class="cubreCalendario">
+          <b-datepicker
+            v-model="date"
+            inline
+            multiple
+            :unselectable-dates="unselectableDates"
+            :nearby-month-days="false"
+            :date-formatter="formatoFecha"
+            :locale="locale"
+          >
+          </b-datepicker>
+        </div>
+        <div class="CubreHorarios" v-if="date.length > 0">
+          <div v-for="(item, index) in date" :key="index" class="cubreColumnH">
+            <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
+            <div class="cubreHoras">
+              <div
+                class="xxx"
+                v-for="(item2, index2) in time[index].horas"
+                :key="index2"
+                style="
+                  padding-left: 10px;
+                  padding-right: 10px;
+                  margin: 0;
+                  margin-bottom: 10px;
+                  display: flex;
+                "
+              >
+                <b-timepicker
+                  class="mt-3 horaT"
                   :id="'tiempo_' + index"
                   v-model="time[index].horas[index2].ini"
                   hour-format="24"
-                placeholder="Hora... "
-                icon="clock"
-                editable
-                
+                  placeholder="Hora... "
+                  icon="clock"
+                  editable
                 ></b-timepicker>
-              <a
-                v-if="index2 > 0"
-                class="close close_option closeDate"
-               
-                @click="quitarHoras(index, index2)"
-              ></a>
+                <a
+                  v-if="index2 > 0"
+                  class="close close_option closeDate"
+                  @click="quitarHoras(index, index2)"
+                ></a>
+              </div>
+              <button @click="agregarHoras(index)" class="btnAddHoras">
+                Agregar +Horas
+              </button>
             </div>
-            <button @click="agregarHoras(index)" class="btnAddHoras">
-              Agregar +Horas
-            </button>
           </div>
         </div>
-      </div>
 
-      <div class="column columnaCentrada" v-else>
-        <h2>Horarios</h2>
+        <div class="column columnaCentrada" v-else>
+          <h2>Horarios</h2>
+        </div>
+      </div>
+      <div class="control has-text-centered">
+        <button
+          class="buttonN blue"
+          style="display: inline"
+          @click="guardarEncuesta(0)"
+        >
+          Crear
+        </button>
       </div>
     </div>
-    <div class="control has-text-centered">
-      <button
-        class="buttonN blue"
-        style="display: inline"
-        @click="guardarEncuesta(0)"
-      >
-        Crear
-      </button>
-     
-    </div>
-    </div>
-    
   </div>
 </template>
 
@@ -88,7 +90,7 @@ const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 var d = new Date();
 export default {
-  components: {Loading},
+  components: { Loading },
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -106,7 +108,7 @@ export default {
         var second2 = oldValues;
         var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
         var d = new Date();
-          d.setHours(7, 0, 0, 0);
+        d.setHours(7, 0, 0, 0);
         this.time.push({
           id: this.convertDate(difference2),
           horas: [{ ini: d, fin: d }],
@@ -124,19 +126,19 @@ export default {
   },
   data() {
     return {
-       isLoading: false,
+      isLoading: false,
       date: [],
       time: [],
       mostarHora: true,
       horarios: false,
       locale: undefined, // Browser locale
       titulo: "",
-      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone, 
-      ipWeb: ''
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
+      ipWeb: "",
     };
   },
   methods: {
-   async  guardarEncuesta(val) {
+    async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
           type: "error",
@@ -170,40 +172,45 @@ export default {
           }
         }
       }
-      this.isLoading = true
+      this.isLoading = true;
       //ahora si enviar a la db encuesta
-       var cookieNotUser = this.$cookies.get('_r_u') 
-      const response = await this.$axios.$post("create_diayhora_not_user", {
-        titulo: this.titulo,
-        dias: JSON.stringify(this.date),
-        horas: JSON.stringify(this.time),
-        cookieNotUser: cookieNotUser, 
-        ipWeb: this.ipWeb, 
-        zonaHoraria: this.zonaHoraria
-      });
-      console.log(response);
-      if(response.status ==1){
-               location.href = '/p/'+response.codigo
-              }else{
-                this.isLoading = false
-                 this.$swal({
-                  type: 'error',
-                  title: 'Oops...',
-                  text: 'Ya tienes un usuario registrado en este dispositivo debes iniciar sesion',
-                  confirmButtonText: `OK`,
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    location.href = '/login'
-                  }
-                })
+      var cookieNotUser = this.$cookies.get("_r_u");
+      const response = await this.$axios
+        .$post("create_diayhora_not_user", {
+          titulo: this.titulo,
+          dias: JSON.stringify(this.date),
+          horas: JSON.stringify(this.time),
+          cookieNotUser: cookieNotUser,
+          ipWeb: this.ipWeb,
+          zonaHoraria: this.zonaHoraria,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            location.href = "/p/" + response.codigo;
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Ya tienes un usuario registrado en este dispositivo debes iniciar sesion",
+              confirmButtonText: `OK`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.href = "/login";
               }
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
-    async getIp(){
-       await   fetch('https://api.ipify.org?format=json')
-          .then(x => x.json())
-          .then(({ ip }) => {
+    async getIp() {
+      await fetch("https://api.ipify.org?format=json")
+        .then((x) => x.json())
+        .then(({ ip }) => {
           this.ipWeb = ip;
-          });
+        });
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -244,9 +251,9 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      console.log("tamaño;", this.time[index].horas.length)
-      var lenHoras = this.time[index].horas.length
-      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      console.log("tamaño;", this.time[index].horas.length);
+      var lenHoras = this.time[index].horas.length;
+      var d = new Date(this.time[index].horas[lenHoras - 1].ini);
       d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
@@ -270,7 +277,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt ;
+      return year + "-" + month + "-" + dt;
     },
     convertDateTime(val) {
       var date = new Date(val);
@@ -287,7 +294,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt + " " + hora+":"+min+":"+seg
+      return year + "-" + month + "-" + dt + " " + hora + ":" + min + ":" + seg;
     },
     convertTZ(date, tzString) {
       return new Date(
@@ -299,8 +306,8 @@ export default {
     },
   },
   mounted() {
-    this.getIp()
-    console.log("zona horaria", this.zonaHoraria)
+    this.getIp();
+    console.log("zona horaria", this.zonaHoraria);
   },
 };
 </script>

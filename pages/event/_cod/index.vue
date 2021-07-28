@@ -1,18 +1,33 @@
 <template>
   <div>
-    <nav-bar-evento @activarLoader="activarLoader" v-if="eventT" :eventModo="eventModo" :eventStatus="eventStatus" @guardarEvento="guardarEvento"></nav-bar-evento>
-    <nav-bar-event v-if="eventT" :eventName="eventName" :eventFecha="eventFecha" @addNewEncuesta="addNewEncuesta" ></nav-bar-event>
+    <nav-bar-evento
+      @activarLoader="activarLoader"
+      v-if="eventT"
+      :eventModo="eventModo"
+      :eventStatus="eventStatus"
+      @guardarEvento="guardarEvento"
+    ></nav-bar-evento>
+    <nav-bar-event
+      v-if="eventT"
+      :eventName="eventName"
+      :eventFecha="eventFecha"
+      @addNewEncuesta="addNewEncuesta"
+    ></nav-bar-event>
     <section
       class="section-hero"
-      style="padding: 5px; margin-bottom: 40px; "
-      :class="{'minAltoLoading': isLoading}"
+      style="padding: 5px; margin-bottom: 40px; min-height: 500px;"
+      :class="{ minAltoLoading: isLoading }"
     >
       <div class="container">
         <loading :active="isLoading" color="#59b1ff" loader="dots" />
-        <tipos-encuestas-index @addNewEncuesta="addNewEncuesta" v-if="opcionesPredeterminadas && eventT" @createPoll="createPoll" ></tipos-encuestas-index>
+        <tipos-encuestas-index
+          @addNewEncuesta="addNewEncuesta"
+          v-if="opcionesPredeterminadas && eventT"
+          @createPoll="createPoll"
+        ></tipos-encuestas-index>
         <div v-for="(item, index) in arrayEncuestas" :key="index">
           <multiple-choice
-            :ref="'encuesta_'+index"
+            :ref="'encuesta_' + index"
             v-if="item['tipo'] == 1"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
@@ -23,10 +38,10 @@
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
-             @actualizarArray="actualizarArray"
+            @actualizarArray="actualizarArray"
           ></multiple-choice>
           <nube-de-palabras-add
-          :ref="'encuesta_'+index"
+            :ref="'encuesta_' + index"
             v-if="item['tipo'] == 2"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
@@ -38,7 +53,7 @@
           ></nube-de-palabras-add>
 
           <sorteos-add
-            :ref="'encuesta_'+index"
+            :ref="'encuesta_' + index"
             v-if="item['tipo'] == 3"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
@@ -49,37 +64,35 @@
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
-             @actualizarArray="actualizarArray"
-             @openModalEdit="openModalEdit"
+            @actualizarArray="actualizarArray"
+            @openModalEdit="openModalEdit"
           ></sorteos-add>
 
           <dia-hora-add
-            :ref="'encuesta_'+index"
-            v-if="item['tipo'] == 4 && item['idEcuesta']==0"
+            :ref="'encuesta_' + index"
+            v-if="item['tipo'] == 4 && item['idEcuesta'] == 0"
             :idEcuesta="item['idEcuesta']"
-             :numero="index"
-             @moverArriba="moverArriba"
+            :numero="index"
+            @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
-             @actualizarArray="actualizarArray"
-             @openModalEdit="openModalEdit"
+            @actualizarArray="actualizarArray"
+            @openModalEdit="openModalEdit"
           ></dia-hora-add>
 
           <dia-hora-edit-dashboard
-           :ref="'encuesta_'+index"
-            v-if="item['tipo'] == 4 && item['idEcuesta']>0"
-             :numero="index"
-              :id_encuesta="item['idEcuesta']"
+            :ref="'encuesta_' + index"
+            v-if="item['tipo'] == 4 && item['idEcuesta'] > 0"
+            :numero="index"
+            :id_encuesta="item['idEcuesta']"
             :tituloP="item['pregunta']"
-             @moverArriba="moverArriba"
+            @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
-            
           ></dia-hora-edit-dashboard>
 
-
           <qya-add
-          :ref="'encuesta_'+index"
+            :ref="'encuesta_' + index"
             v-if="item['tipo'] == 5"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
@@ -87,23 +100,21 @@
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"
-             @actualizarArray="actualizarArray"
+            @actualizarArray="actualizarArray"
           ></qya-add>
-       
-
-
         </div>
       </div>
     </section>
-  
-<div id="modalEditEncuestaLive" class="modal">
+
+    <div id="modalEditEncuestaLive" class="modal">
       <div class="modal-background" @click="closeModalEditLive"></div>
       <div class="modal-content">
         <div class="box" style="text-align: left">
-        <sorteos-edit-modal v-if="encuestaEditId != 0"
-        @cerrarModalEdit="cerrarModalEdit"
+          <sorteos-edit-modal
+            v-if="encuestaEditId != 0"
+            @cerrarModalEdit="cerrarModalEdit"
             :id_encuesta="encuestaEditId"
-        ></sorteos-edit-modal>
+          ></sorteos-edit-modal>
         </div>
       </div>
       <button
@@ -112,39 +123,45 @@
         @click="closeModalEditLive"
       ></button>
     </div>
-      <footer-t id="scrollAqui" :class="{'positionAbsolute':arrayEncuestas.length==0}" ></footer-t>
+    <footer-t
+      id="scrollAqui"
+    ></footer-t>
   </div>
 </template>
 
 <script>
-import ClickOutside from 'vue-click-outside'
+import ClickOutside from "vue-click-outside";
 import Loading from "vue-loading-overlay";
-import "vue-loading-overlay/dist/vue-loading.css";
 import MultipleChoice from "../../../components/encuestas/multipleChoice.vue";
-import FooterT from '../../../components/footer/footerT.vue';
-import NavBarEvento from '../../../components/header/navBarEvento.vue';
-import TiposEncuestasIndex from '../../../components/indexComps/tiposEncuestasIndex.vue';
-import NubeDePalabrasAdd from '../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue';
-import SorteosAdd from '../../../components/live/encuestas/sorteos/sorteosAdd.vue';
-import SorteosEditModal from '../../../components/live/encuestas/sorteos/sorteosEditModal.vue';
-import DiaHoraAdd from '../../../components/live/encuestas/diaHora/diaHoraAdd.vue';
-import QyaAdd from '../../../components/live/encuestas/qya/qyaAdd.vue';
+import FooterT from "../../../components/footer/footerT.vue";
+import NavBarEvento from "../../../components/header/navBarEvento.vue";
+import TiposEncuestasIndex from "../../../components/indexComps/tiposEncuestasIndex.vue";
+import NubeDePalabrasAdd from "../../../components/live/encuestas/nubeDePalabras/nubeDePalabrasAdd.vue";
+import SorteosAdd from "../../../components/live/encuestas/sorteos/sorteosAdd.vue";
+import SorteosEditModal from "../../../components/live/encuestas/sorteos/sorteosEditModal.vue";
+import DiaHoraAdd from "../../../components/live/encuestas/diaHora/diaHoraAdd.vue";
+import QyaAdd from "../../../components/live/encuestas/qya/qyaAdd.vue";
 
 export default {
   layout: "live",
   middleware: "miauth",
-  components: { MultipleChoice, Loading, NavBarEvento, FooterT,
-   TiposEncuestasIndex, NubeDePalabrasAdd, SorteosAdd,
+  components: {
+    MultipleChoice,
+    Loading,
+    NavBarEvento,
+    FooterT,
+    TiposEncuestasIndex,
+    NubeDePalabrasAdd,
+    SorteosAdd,
     SorteosEditModal,
     DiaHoraAdd,
     QyaAdd,
-     },
+  },
   head() {
-      return {
-        title: 'Event - '+this.$route.params.cod+' - Resultapp',
-       
-      }
-    },
+    return {
+      title: "Event - " + this.$route.params.cod + " - Resultapp",
+    };
+  },
   data() {
     return {
       dropdownAddPoll: false,
@@ -152,32 +169,31 @@ export default {
       eventCod: "",
       arrayMostrar: false,
       isLoading: true,
-      eventName: '', 
-      eventModo: '',
-      eventStatus: 0, 
-      eventT: false, 
-      opcionesPredeterminadas: true, 
-      eventFecha: '',
-       encuestaEditId: 0
+      eventName: "",
+      eventModo: "",
+      eventStatus: 0,
+      eventT: false,
+      opcionesPredeterminadas: true,
+      eventFecha: "",
+      encuestaEditId: 0,
     };
   },
 
   methods: {
-  scrollTo(){
-    let element = document.getElementById("scrollAqui");
-    element.scrollIntoView(false);
-
-  },
-    cerrarModalEdit(){
-this.encuestaEditId = 0;
+    scrollTo() {
+      let element = document.getElementById("scrollAqui");
+      element.scrollIntoView(false);
+    },
+    cerrarModalEdit() {
+      this.encuestaEditId = 0;
       var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
       root.classList.remove("is-clipped");
       document
         .getElementById("modalEditEncuestaLive")
         .classList.remove("is-active");
-        this.getEncuestas()
+      this.getEncuestas();
     },
-    openModalEdit(id){
+    openModalEdit(id) {
       this.encuestaEditId = id;
       var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
       root.classList.add("is-clipped");
@@ -185,67 +201,77 @@ this.encuestaEditId = 0;
         .getElementById("modalEditEncuestaLive")
         .classList.add("is-active");
     },
-    closeModalEditLive(){
-this.encuestaEditId = 0;
+    closeModalEditLive() {
+      this.encuestaEditId = 0;
       var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
       root.classList.remove("is-clipped");
       document
         .getElementById("modalEditEncuestaLive")
         .classList.remove("is-active");
     },
-    actualizarArray(){  
-      this.getEncuestas()
-      },
+    actualizarArray() {
 
-deleteEncuestaByClickId(val){
-    if(val.id_encuesta == 0){
-      this.arrayEncuestas.splice(val.index,1)
-      if(this.arrayEncuestas.length == 0){
-        this.opcionesPredeterminadas = true
-      }
-    }else{
-           this.$swal({
-                title: '¿Estas seguro que quieres borrar esta encuesta ? ',
-                html: 'Se perderan todas las operaciones realizadas en ella',
-                showCancelButton: true,
-                confirmButtonText: `Si borrar`,
-              }).then((result) => {
-                  if(result.value){
-                      this.deleteEncuestaById(val.id_encuesta)
-                  }
-              })
-    }
-  
+      this.getEncuestas();
     },
-async deleteEncuestaById(id){
-    const response = await this.$axios.$post("delete_poll_simple_live_by_id", {
-                        id: id,
-                        codigo: this.$route.params.cod
-                        });
-                    if(response.status !='error'){
-                      await  this.getEncuestas()
-                      if(this.arrayEncuestas.length == 0){
-        this.opcionesPredeterminadas = true
-      }
-                    }else{
-                      alert("ocurrio un error quizas algo mal en tus datos")
-                    }
-},
 
-    activarLoader(){
-      this.isLoading = true
-    },
-    createPoll(id){
-      this.addNewEncuesta(id)
-    },
-    guardarEvento(){
-      console.log(this)
-      for(var i=0; i<this.arrayEncuestas.length; i++){
-        console.log(this.$refs['encuesta_'+i][0].guardarOpciones())
+    deleteEncuestaByClickId(val) {
+      if (val.id_encuesta == 0) {
+        this.arrayEncuestas.splice(val.index, 1);
+        if (this.arrayEncuestas.length == 0) {
+          this.opcionesPredeterminadas = true;
+        }
+      } else {
+        this.$swal({
+          title: "¿Estas seguro que quieres borrar esta encuesta ? ",
+          html: "Se perderan todas las operaciones realizadas en ella",
+          showCancelButton: true,
+          confirmButtonText: `Si borrar`,
+        }).then((result) => {
+          if (result.value) {
+            this.isLoading = true
+            this.deleteEncuestaById(val.id_encuesta);
+          }
+        });
       }
     },
-    clickHideNewEn(){
-      this.dropdownAddPoll = false
+    async deleteEncuestaById(id) {
+      await this.$axios
+        .$post("delete_poll_simple_live_by_id", {
+          id: id,
+          codigo: this.$route.params.cod,
+        })
+        .then((response) => {
+          if (response.status != "error") {
+            this.isLoading = false
+             this.getEncuestas();
+            if (this.arrayEncuestas.length == 0) {
+              this.opcionesPredeterminadas = true;
+            }
+          } else {
+            alert("ocurrio un error quizas algo mal en tus datos");
+             this.isLoading = false
+          }
+        })
+        .catch(({ response }) => {
+           this.isLoading = false
+          console.log(response);
+        });
+    },
+
+    activarLoader() {
+      this.isLoading = true;
+    },
+    createPoll(id) {
+      this.addNewEncuesta(id);
+    },
+    guardarEvento() {
+      console.log(this);
+      for (var i = 0; i < this.arrayEncuestas.length; i++) {
+        console.log(this.$refs["encuesta_" + i][0].guardarOpciones());
+      }
+    },
+    clickHideNewEn() {
+      this.dropdownAddPoll = false;
     },
     moveArrayItemToNewIndex(arr, old_index, new_index) {
       console.log("index viejo", old_index);
@@ -260,15 +286,15 @@ async deleteEncuestaById(id){
       return arr;
     },
     async moverArriba(val) {
-      if(val.id_encuesta == 0){
-          this.$swal({
+      if (val.id_encuesta == 0) {
+        this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes guardar primero la encuesta",
         });
         return false;
       }
-      var index = val.index
+      var index = val.index;
       if (index > 0) {
         var posicionVieja = index;
         var posicionNueva = index - 1;
@@ -295,30 +321,33 @@ async deleteEncuestaById(id){
       posicionNueva
     ) {
       this.isLoading = true;
-      const response = await this.$axios.$post(
-        "mover_arriba_posicion_encuesta",
-        {
+      await this.$axios
+        .$post("mover_arriba_posicion_encuesta", {
           idEncuestaVieja: idEncuestaVieja,
           idEncuestaNueva: idEncuestaNueva,
           posicionVieja: posicionVieja + 1,
           posicionNueva: posicionNueva + 1,
-        }
-      );
-      if (response.status == 1) {
-        this.arrayEncuestas = [];
-        this.getEncuestas();
-      }
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            this.arrayEncuestas = [];
+            this.getEncuestas();
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
     moverAbajo(val) {
-       if(val.id_encuesta == 0){
-          this.$swal({
+      if (val.id_encuesta == 0) {
+        this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes guardar primero la encuesta",
         });
         return false;
       }
-      var index = val.index
+      var index = val.index;
       if (index + 1 < this.arrayEncuestas.length) {
         var posicionVieja = index;
         var posicionNueva = index + 1;
@@ -338,7 +367,7 @@ async deleteEncuestaById(id){
       }
     },
     addNewEncuesta(val) {
-      this.opcionesPredeterminadas = false
+      this.opcionesPredeterminadas = false;
       this.dropdownAddPoll = false;
       if (val == 1) {
         this.arrayEncuestas.push({
@@ -356,7 +385,7 @@ async deleteEncuestaById(id){
         });
       }
 
-       if (val == 2) {
+      if (val == 2) {
         this.arrayEncuestas.push({
           tipo: 2,
           idEcuesta: 0,
@@ -369,102 +398,96 @@ async deleteEncuestaById(id){
           tipo: 3,
           idEcuesta: 0,
           pregunta: "",
-          participantes: [], 
-          ganadores: [], 
-          premios: 1
+          participantes: [],
+          ganadores: [],
+          premios: 1,
         });
-
       }
 
-       if (val == 4) {
+      if (val == 4) {
         this.arrayEncuestas.push({
           tipo: 4,
           idEcuesta: 0,
           pregunta: "",
         });
-        
       }
 
-      
-            if (val == 5) {
-            this.arrayEncuestas.push({
-              tipo: 5,
-              idEcuesta: 0,
-              pregunta: "",
-            });
-          }
+      if (val == 5) {
+        this.arrayEncuestas.push({
+          tipo: 5,
+          idEcuesta: 0,
+          pregunta: "",
+        });
+      }
 
-          let element = document.getElementById("scrollAqui");
-    element.scrollIntoView(false);
+      let element = document.getElementById("scrollAqui");
+      element.scrollIntoView(false);
     },
 
     async getEncuestas() {
-      this.arrayEncuestas = []
+      this.isLoading = true
+      this.arrayEncuestas = [];
       await this.$axios
         .$get("get_encuestas_event?codigo=" + this.$route.params.cod)
         .then((response) => {
           console.log(response);
           this.isLoading = false;
-           this.eventName = response.eventName
-            this.eventStatus = response.eventStatus
-            this.eventModo = response.eventModo
-            this.eventFecha = response.fecha
+          this.eventName = response.eventName;
+          this.eventStatus = response.eventStatus;
+          this.eventModo = response.eventModo;
+          this.eventFecha = response.fecha;
 
-
-
-
-
-            
-            console.log(this.eventStatus)
-            this.eventT = true
+          console.log(this.eventStatus);
+          this.eventT = true;
           if (response.status == 1) {
             this.arrayEncuestas = response.misencuestas;
-            if(response.misencuestas.length > 0){
-                this.opcionesPredeterminadas = false
-            }else{
-              this.opcionesPredeterminadas = true
+            if (response.misencuestas.length > 0) {
+              this.opcionesPredeterminadas = false;
+            } else {
+              this.opcionesPredeterminadas = true;
             }
-           
           }
+        })
+        .catch(({ response }) => {
+          this.isLoading = false
+          console.log(response);
         });
     },
   },
   async mounted() {
-   
     var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
     this.eventCod = this.$route.params.cod;
     console.log(this.eventCod);
 
-  await  this.getEncuestas();
+    await this.getEncuestas();
 
-   var type = this.$route.query.type
-    if(type){
-        console.log("existe type")
-        if(type == 1){
-            this.addNewEncuesta(1)
-        }
-         if(type == 2){
-            this.addNewEncuesta(2)
-        }
-         if(type == 3){
-            this.addNewEncuesta(3)
-        }
-        if(type == 4){
-            this.addNewEncuesta(4)
-        }
-         if(type == 5){
-            this.addNewEncuesta(5)
-        }
-    }else{
-      console.log("no existe type")
+    var type = this.$route.query.type;
+    if (type) {
+      console.log("existe type");
+      if (type == 1) {
+        this.addNewEncuesta(1);
+      }
+      if (type == 2) {
+        this.addNewEncuesta(2);
+      }
+      if (type == 3) {
+        this.addNewEncuesta(3);
+      }
+      if (type == 4) {
+        this.addNewEncuesta(4);
+      }
+      if (type == 5) {
+        this.addNewEncuesta(5);
+      }
+    } else {
+      console.log("no existe type");
     }
   },
-    directives: {
-    ClickOutside
-  }
+  directives: {
+    ClickOutside,
+  },
 };
 </script>
 <style>
-
 </style>

@@ -1,105 +1,116 @@
 <template>
-<div class="cubreEncuesta1">
- <div class="columns">
-            <div class="column is-4">
-                <div class="cubreNumber"> 
-                    <h4 class="titleEncuesta">Nube de Palabras</h4>
-                <div class="cubreLogoNumber">
-                    <div class="logotipo-copy">
-                        <div class="logotipo-fill-copy">
-                            <div class="numberTipeEncuesta">{{numero+1}}</div>
-                        </div>
-                    </div>
-                </div>
-                </div>
+  <div class="cubreEncuesta1">
+    <div class="columns">
+      <div class="column is-4">
+        <div class="cubreNumber">
+          <h4 class="titleEncuesta">Dia y Hora</h4>
+          <div class="cubreLogoNumber">
+            <div class="logotipo-copy">
+              <div class="logotipo-fill-copy">
+                <div class="numberTipeEncuesta">{{ numero + 1 }}</div>
+              </div>
             </div>
-            <div class="column is-8">
-                 <div class="container">
-                           <div class="hoverOpciones" style="margin-bottom: 20px;">
-                       <a  @click="guardarEncuesta(0)"><i class="fa fa-floppy-o" aria-hidden="true"></i></a>
-                    <a  @click="moverArriba(numero)"><i class="fa fa-arrow-up" aria-hidden="true"></i></a>
-                    <a  @click="moverAbajo(numero)"><i class="fa fa-arrow-down" aria-hidden="true"></i></a>
-                    <a  @click="eliminar()"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                
-                </div>
-    <div class="control mt-2">
-      <input class="input" type="text" v-model="titulo" placeholder="Título" />
-    </div>
-      <div class="cubreEncuestaCalendario mt-5 mb-5">
-        <div class="cubreCalendario">
-        <b-datepicker
-          v-model="date"
-          inline
-          multiple
-          :unselectable-dates="unselectableDates"
-          :nearby-month-days="false"
-          :date-formatter="formatoFecha"
-          :locale="locale"
-        >
-        </b-datepicker>
+          </div>
+        </div>
       </div>
-      <div class="CubreHorarios" v-if="date.length > 0">
-        <div v-for="(item, index) in date" :key="index" class="cubreColumnH">
-          <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
-          <div class="cubreHoras">
-            <div
-              class="xxx"
-              v-for="(item2, index2) in time[index].horas"
-              :key="index2"
-              style="
-                padding-left: 10px;
-                padding-right: 10px;
-                margin: 0;
-                margin-bottom: 10px;
-                display: flex;
-              "
-            >
-                <b-timepicker class="mt-3 horaT" 
-                 
-                  :id="'tiempo_' + index"
-                  v-model="time[index].horas[index2].ini"
-                  hour-format="24"
-                placeholder="Hora... "
-                icon="clock"
-                editable
-                
-                ></b-timepicker>
-              <a
-                v-if="index2 > 0"
-                class="close close_option closeDate"
-               
-                @click="quitarHoras(index, index2)"
-              ></a>
+      <div class="column is-8">
+        <div class="container">
+          <div class="hoverOpciones" style="margin-bottom: 20px">
+            <a @click="guardarEncuesta(0)"
+              ><i class="fa fa-floppy-o" aria-hidden="true"></i
+            ></a>
+            <a @click="moverArriba(numero)"
+              ><i class="fa fa-arrow-up" aria-hidden="true"></i
+            ></a>
+            <a @click="moverAbajo(numero)"
+              ><i class="fa fa-arrow-down" aria-hidden="true"></i
+            ></a>
+            <a @click="eliminar()"
+              ><i class="fa fa-trash" aria-hidden="true"></i
+            ></a>
+          </div>
+          <div class="control mt-2">
+            <input
+              class="input"
+              type="text"
+              v-model="titulo"
+              placeholder="Título"
+            />
+          </div>
+          <div class="cubreEncuestaCalendario mt-5 mb-5">
+            <div class="cubreCalendario">
+              <b-datepicker
+                v-model="date"
+                inline
+                multiple
+                :unselectable-dates="unselectableDates"
+                :nearby-month-days="false"
+                :date-formatter="formatoFecha"
+                :locale="locale"
+              >
+              </b-datepicker>
             </div>
-            <button @click="agregarHoras(index)" class="btnAddHoras">
-              Agregar +Horas
+            <div class="CubreHorarios" v-if="date.length > 0">
+              <div
+                v-for="(item, index) in date"
+                :key="index"
+                class="cubreColumnH"
+              >
+                <h2 v-text="extraerDia(item)" class="diaTitulo"></h2>
+                <div class="cubreHoras">
+                  <div
+                    class="xxx"
+                    v-for="(item2, index2) in time[index].horas"
+                    :key="index2"
+                    style="
+                      padding-left: 10px;
+                      padding-right: 10px;
+                      margin: 0;
+                      margin-bottom: 10px;
+                      display: flex;
+                    "
+                  >
+                    <b-timepicker
+                      class="mt-3 horaT"
+                      :id="'tiempo_' + index"
+                      v-model="time[index].horas[index2].ini"
+                      hour-format="24"
+                      placeholder="Hora... "
+                      icon="clock"
+                      editable
+                    ></b-timepicker>
+                    <a
+                      v-if="index2 > 0"
+                      class="close close_option closeDate"
+                      @click="quitarHoras(index, index2)"
+                    ></a>
+                  </div>
+                  <button @click="agregarHoras(index)" class="btnAddHoras">
+                    Agregar +Horas
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="column columnaCentrada" v-else>
+              <h2>Horarios</h2>
+            </div>
+          </div>
+          <div class="control has-text-centered">
+            <button
+              class="buttonN blue"
+              style="display: inline"
+              @click="guardarEncuesta(0)"
+            >
+              Guardar
             </button>
           </div>
         </div>
       </div>
-
-      <div class="column columnaCentrada" v-else>
-        <h2>Horarios</h2>
-      </div>
     </div>
-    <div class="control has-text-centered">
-      <button
-        class="buttonN blue"
-        style="display: inline"
-        @click="guardarEncuesta(0)"
-      >
-        Guardar
-      </button>
-     
-    </div>
-          </div>
-            </div>
-        </div>
-</div>
+  </div>
 </template>
 
 <script>
-
 var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
@@ -109,7 +120,7 @@ console.log(timeZone);
 var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
-  props: ['numero', 'idEcuesta'],
+  props: ["numero", "idEcuesta"],
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -127,7 +138,7 @@ export default {
         var second2 = oldValues;
         var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
         var d = new Date();
-          d.setHours(7, 0, 0, 0);
+        d.setHours(7, 0, 0, 0);
         this.time.push({
           id: this.convertDate(difference2),
           horas: [{ ini: d, fin: d }],
@@ -145,31 +156,34 @@ export default {
   },
   data() {
     return {
-      titulo: '',
+      titulo: "",
       id_encuesta: this.idEcuesta,
-       date: [],
+      date: [],
       time: [],
       mostarHora: true,
       horarios: false,
       locale: undefined, // Browser locale
-      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone
-	};
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
+    };
   },
-  
-  methods: {
-  
-       eliminar(){
 
-            this.$emit('eliminarEncuesta', {id_encuesta: this.id_encuesta, index: this.numero} )
-    
+  methods: {
+    eliminar() {
+      this.$emit("eliminarEncuesta", {
+        id_encuesta: this.id_encuesta,
+        index: this.numero,
+      });
     },
-    moverArriba(index){
-      this.$emit("moverArriba", {id_encuesta: this.id_encuesta, index: index});
+    moverArriba(index) {
+      this.$emit("moverArriba", {
+        id_encuesta: this.id_encuesta,
+        index: index,
+      });
     },
-     moverAbajo(index){
-      this.$emit("moverAbajo", {id_encuesta: this.id_encuesta, index: index});
-    },  
-   async  guardarEncuesta(val) {
+    moverAbajo(index) {
+      this.$emit("moverAbajo", { id_encuesta: this.id_encuesta, index: index });
+    },
+    async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
           type: "error",
@@ -204,26 +218,31 @@ export default {
         }
       }
       //ahora si enviar a la db encuesta
-      const response = await this.$axios.$post("create_diayhora_live", {
-        titulo: this.titulo,
-        dias: JSON.stringify(this.date),
-        horas: JSON.stringify(this.time),
-        codigo: this.$route.params.cod,
-        activar: val,
-        zonaHoraria: this.zonaHoraria
-      });
-      console.log(response);
-      if (response.status == 1) {
-        this.$emit('actualizarArray')
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("create_diayhora_live", {
+          titulo: this.titulo,
+          dias: JSON.stringify(this.date),
+          horas: JSON.stringify(this.time),
+          codigo: this.$route.params.cod,
+          activar: val,
+          zonaHoraria: this.zonaHoraria,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            this.$emit("actualizarArray");
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
-      }
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -264,9 +283,9 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      console.log("tamaño;", this.time[index].horas.length)
-      var lenHoras = this.time[index].horas.length
-      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      console.log("tamaño;", this.time[index].horas.length);
+      var lenHoras = this.time[index].horas.length;
+      var d = new Date(this.time[index].horas[lenHoras - 1].ini);
       d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
@@ -290,7 +309,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt ;
+      return year + "-" + month + "-" + dt;
     },
     convertDateTime(val) {
       var date = new Date(val);
@@ -307,7 +326,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt + " " + hora+":"+min+":"+seg
+      return year + "-" + month + "-" + dt + " " + hora + ":" + min + ":" + seg;
     },
     convertTZ(date, tzString) {
       return new Date(
@@ -318,8 +337,6 @@ export default {
       );
     },
   },
-  mounted() {
-   
-  },
+  mounted() {},
 };
 </script>

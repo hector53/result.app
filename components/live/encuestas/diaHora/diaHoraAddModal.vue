@@ -4,8 +4,8 @@
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
-   <div class="cubreEncuestaCalendario mt-5 mb-5">
-        <div class="cubreCalendario">
+    <div class="cubreEncuestaCalendario mt-5 mb-5">
+      <div class="cubreCalendario">
         <b-datepicker
           v-model="date"
           inline
@@ -33,20 +33,18 @@
                 display: flex;
               "
             >
-                <b-timepicker class="mt-3 horaT" 
-                 
-                  :id="'tiempo_' + index"
-                  v-model="time[index].horas[index2].ini"
-                  hour-format="24"
+              <b-timepicker
+                class="mt-3 horaT"
+                :id="'tiempo_' + index"
+                v-model="time[index].horas[index2].ini"
+                hour-format="24"
                 placeholder="Hora... "
                 icon="clock"
                 editable
-                
-                ></b-timepicker>
+              ></b-timepicker>
               <a
                 v-if="index2 > 0"
                 class="close close_option closeDate"
-               
                 @click="quitarHoras(index, index2)"
               ></a>
             </div>
@@ -74,7 +72,7 @@
         style="display: inline"
         @click="guardarEncuesta(1)"
       >
-       <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar
+        <i class="fa fa-play" aria-hidden="true"></i> &nbsp;Activar
       </button>
     </div>
   </div>
@@ -107,7 +105,7 @@ export default {
         var second2 = oldValues;
         var difference2 = first2.filter((x) => second2.indexOf(x) === -1);
         var d = new Date();
-          d.setHours(7, 0, 0, 0);
+        d.setHours(7, 0, 0, 0);
         this.time.push({
           id: this.convertDate(difference2),
           horas: [{ ini: d, fin: d }],
@@ -131,11 +129,11 @@ export default {
       horarios: false,
       locale: undefined, // Browser locale
       titulo: "",
-      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
   },
   methods: {
-   async  guardarEncuesta(val) {
+    async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
           type: "error",
@@ -170,30 +168,35 @@ export default {
         }
       }
       //ahora si enviar a la db encuesta
-      const response = await this.$axios.$post("create_diayhora_live", {
-        titulo: this.titulo,
-        dias: JSON.stringify(this.date),
-        horas: JSON.stringify(this.time),
-        codigo: this.$route.params.cod,
-        activar: val,
-        zonaHoraria: this.zonaHoraria
-      });
-      console.log(response);
-      if (response.status == 1) {
-        if (val == 1) {
-          this.$store.commit("seteventLiveMode", 1);
-          this.$store.commit("setcandadoModoLive", 1);
-        }
-        this.$emit("cerrarModal");
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("create_diayhora_live", {
+          titulo: this.titulo,
+          dias: JSON.stringify(this.date),
+          horas: JSON.stringify(this.time),
+          codigo: this.$route.params.cod,
+          activar: val,
+          zonaHoraria: this.zonaHoraria,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            if (val == 1) {
+              this.$store.commit("seteventLiveMode", 1);
+              this.$store.commit("setcandadoModoLive", 1);
+            }
+            this.$emit("cerrarModal");
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
-      }
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -234,9 +237,9 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      console.log("tamaño;", this.time[index].horas.length)
-      var lenHoras = this.time[index].horas.length
-      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      console.log("tamaño;", this.time[index].horas.length);
+      var lenHoras = this.time[index].horas.length;
+      var d = new Date(this.time[index].horas[lenHoras - 1].ini);
       d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
@@ -260,7 +263,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt ;
+      return year + "-" + month + "-" + dt;
     },
     convertDateTime(val) {
       var date = new Date(val);
@@ -277,7 +280,7 @@ export default {
       if (month < 10) {
         month = "0" + month;
       }
-      return  year + "-" + month + "-" + dt + " " + hora+":"+min+":"+seg
+      return year + "-" + month + "-" + dt + " " + hora + ":" + min + ":" + seg;
     },
     convertTZ(date, tzString) {
       return new Date(

@@ -40,38 +40,51 @@ export default {
       preguntaEncuesta: "",
       isLoading: false,
       ipWeb: "",
-      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone, 
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
   },
   components: { Loading },
 
   methods: {
     async crearQYA() {
-      var cookieNotUser = this.$cookies.get("_r_u");
-      const response = await this.$axios.$post("create_nube_not_user", {
-        titulo: this.preguntaEncuesta,
-        cookieNotUser: cookieNotUser,
-        ipWeb: this.ipWeb,
-        zonaHoraria: this.zonaHoraria,
-      });
-      console.log(response);
-      if (response.status == 1) {
-        location.href = "/p/" + response.codigo;
-      } else {
-        this.isLoading = false;
+          if (this.preguntaEncuesta == "") {
         this.$swal({
           type: "error",
           title: "Oops...",
-          text: "Ya tienes un usuario registrado en este dispositivo debes iniciar sesion",
-          confirmButtonText: `OK`,
-        }).then((result) => {
-          if (result.isConfirmed) {
-            location.href = "/login";
-          }
+          text: "Debes realizar una pregunta",
         });
+        return false;
       }
+      this.isLoading = true
+      var cookieNotUser = this.$cookies.get("_r_u");
+      await this.$axios
+        .$post("create_nube_not_user", {
+          titulo: this.preguntaEncuesta,
+          cookieNotUser: cookieNotUser,
+          ipWeb: this.ipWeb,
+          zonaHoraria: this.zonaHoraria,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            location.href = "/p/" + response.codigo;
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Ya tienes un usuario registrado en este dispositivo debes iniciar sesion",
+              confirmButtonText: `OK`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.href = "/login";
+              }
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
-
     async getIp() {
       await fetch("https://api.ipify.org?format=json")
         .then((x) => x.json())

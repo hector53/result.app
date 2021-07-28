@@ -40,7 +40,9 @@ export default {
             this.palabras = response.palabras;
             this.mostrar = true
           }
-        });
+        }).catch(({response}) => {
+          console.log(response)
+        })
     },
     wordsColor: function (word) {
       var colors = ["#ffd077", "#3bc4c7", "#3a9eea", "#ff4e69", "#461e47"];

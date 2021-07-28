@@ -357,14 +357,7 @@ export default {
     ...mapState(["login"]),
   },
   methods: {
-    async getTest() {
-      const response = await this.$axios.$post("_get_test", {
-        id: 33,
-        size: "small",
-      });
-
-      console.log(response);
-    },
+   
   },
   mounted() {},
 };

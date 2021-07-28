@@ -1,9 +1,11 @@
 <template>
   <div style="min-height: 300px">
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
-    <section class="section-hero" style="    margin-top: 60px;
-    border-radius: 20px;
-    padding: 20px;"  v-if="isLoading == false">
+    <section
+      class="section-hero"
+      style="margin-top: 60px; border-radius: 20px; padding: 20px"
+      v-if="isLoading == false"
+    >
       <h1
         style="
           margin-bottom: 20px;
@@ -15,18 +17,18 @@
         <span> {{ titulo_encuesta }} </span>
         <span style="font-size: 20px">Premios: {{ premios }}</span>
       </h1>
-      <p class="panel-heading" style="margin: 0">Participantes : {{participantes.length }}</p>
+      <p class="panel-heading" style="margin: 0">
+        Participantes : {{ participantes.length }}
+      </p>
       <div class="scrollSorteo">
-          <a
-        class="panel-block"
-        v-for="(item, index) in participantes"
-        :key="index"
-        v-text="item.value"
-      ></a>
-
-
+        <a
+          class="panel-block"
+          v-for="(item, index) in participantes"
+          :key="index"
+          v-text="item.value"
+        ></a>
       </div>
-    
+
       <div v-if="ganadores.length > 0">
         <p
           class="panel-heading"
@@ -41,7 +43,7 @@
           v-text="item.value"
         ></a>
       </div>
-     </section>
+    </section>
   </div>
 </template>
 
@@ -49,7 +51,7 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
- props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive"],
   data() {
     return {
       participantes: [],
@@ -60,16 +62,16 @@ export default {
   },
   components: { Loading },
   methods: {
-          detectaTecla(event){
-            console.log(event.keyCode)
-            console.log(event.ctrlKey)
-             if(event.keyCode === 39){
-                    this.$emit("teclas", 39)
-             }
-              if(event.keyCode === 37){
-                    this.$emit("teclas", 37)
-             }
-     },
+    detectaTecla(event) {
+      console.log(event.keyCode);
+      console.log(event.ctrlKey);
+      if (event.keyCode === 39) {
+        this.$emit("teclas", 39);
+      }
+      if (event.keyCode === 37) {
+        this.$emit("teclas", 37);
+      }
+    },
     async generarGanador(id_encuesta, ganadores) {
       let timerInterval;
       this.$swal({
@@ -87,11 +89,13 @@ export default {
           /* Read more about handling dismissals below */
           result.dismiss === this.$swal.DismissReason.timer
         ) {
-            this.ganadores = ganadores;
+          this.ganadores = ganadores;
         }
-      });
+      }).catch(({response}) => {
+        console.log(response)
+      })
     },
-    
+
     async getSorteoByIdEncuesta(id) {
       this.isLoading = true;
       await this.$axios
@@ -111,17 +115,19 @@ export default {
             this.ganadores = response.ganadores;
             this.isLoading = false;
           }
-        });
+        }).catch(({response}) => {
+          console.log(response)
+        })
     },
   },
   mounted() {
-      if(this.modoLive == 0){
-          window.addEventListener('keyup', this.detectaTecla)  
-      }
+    if (this.modoLive == 0) {
+      window.addEventListener("keyup", this.detectaTecla);
+    }
     this.getSorteoByIdEncuesta(this.id_encuesta);
   },
-  destroyed () {
-   window.removeEventListener('keyup', this.detectaTecla)
- },
+  destroyed() {
+    window.removeEventListener("keyup", this.detectaTecla);
+  },
 };
 </script>

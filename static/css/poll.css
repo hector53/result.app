@@ -2391,6 +2391,9 @@ textarea#question-field {
 
 
 @media screen and (max-width: 991px){
+    .footerLive{
+        position: relative;
+    }
     .circle {
         height: 226px;
     }

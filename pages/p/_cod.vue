@@ -9,7 +9,6 @@
 
       <div v-if="mostrar">
         <div v-if="statusEvent == 1 && modoLive == 0">
-           
           <get-evento
             ref="getEvento"
             v-if="userTipo != 0"
@@ -38,16 +37,19 @@
           ></get-evento>
         </div>
         <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px">
-           <div class="cubreContentLive" v-if="$store.state.arrayEncuestaActiveLiveMode.length==0">
+          <div
+            class="cubreContentLive"
+            v-if="$store.state.arrayEncuestaActiveLiveMode.length == 0"
+          >
             <div class="contentColumnLive">
-            <h1>Entrá a <br />result.app <br />#{{$route.params.cod}}</h1>
+              <h1>Entrá a <br />result.app <br />#{{ $route.params.cod }}</h1>
             </div>
             <div class="contentColumnLive">
-
-            <vue-qrcode :value="urlQr" class="imgQr"   />
+              <vue-qrcode :value="urlQr" class="imgQr" />
             </div>
-            </div>
-          <modo-live-front v-else
+          </div>
+          <modo-live-front
+            v-else
             :key="componentKey"
             style="margin-top: 60px"
             ref="modoLiveFront"
@@ -55,29 +57,47 @@
             :modoLive="modoLive"
           ></modo-live-front>
 
-      <div class="boxR">
-          <input type="checkbox" id="like" class="field-reactions">
-          <h3 class="text-desc">Press space and after tab key to navigation</h3>
-          <label for="like" class="label-reactions">Like</label>
-          <div class="toolbox"></div>
-          <label class="overlay" for="like"></label>
-          <button class="reaction-like" @click="animar(0)"><span class="legend-reaction">Like</span></button>
-          <button class="reaction-love" @click="animar(1)"><span class="legend-reaction">Love</span></button>
-          <button class="reaction-haha" @click="animar(2)"><span class="legend-reaction">Haha</span></button>
-          <button class="reaction-wow" @click="animar(3)"><span class="legend-reaction">Wow</span></button>
-          <button class="reaction-sad" @click="animar(4)"><span class="legend-reaction">Sad</span></button>
-          <button class="reaction-angry" @click="animar(5)"><span class="legend-reaction">Angry</span></button>
-      </div>
+          <div class="boxR">
+            <input type="checkbox" id="like" class="field-reactions" />
+            <h3 class="text-desc">
+              Press space and after tab key to navigation
+            </h3>
+            <label for="like" class="label-reactions">Like</label>
+            <div class="toolbox"></div>
+            <label class="overlay" for="like"></label>
+            <button class="reaction-like" @click="animar(0)">
+              <span class="legend-reaction">Like</span>
+            </button>
+            <button class="reaction-love" @click="animar(1)">
+              <span class="legend-reaction">Love</span>
+            </button>
+            <button class="reaction-haha" @click="animar(2)">
+              <span class="legend-reaction">Haha</span>
+            </button>
+            <button class="reaction-wow" @click="animar(3)">
+              <span class="legend-reaction">Wow</span>
+            </button>
+            <button class="reaction-sad" @click="animar(4)">
+              <span class="legend-reaction">Sad</span>
+            </button>
+            <button class="reaction-angry" @click="animar(5)">
+              <span class="legend-reaction">Angry</span>
+            </button>
+          </div>
 
-      <reaccion v-for="(item, index) in arrayReacciones" :key="index+5000" :reaccion="item.reaccion"
-       :posicion="index+5000" @quitarReaccion="quitarReaccion"></reaccion>
+          <reaccion
+            v-for="(item, index) in arrayReacciones"
+            :key="index + 5000"
+            :reaccion="item.reaccion"
+            :posicion="index + 5000"
+            @quitarReaccion="quitarReaccion"
+          ></reaccion>
         </div>
       </div>
 
       <div class="footerLive" v-if="modoLive == 1">
         <div class="centerFooter">
           <h1>Result</h1>
-     
         </div>
       </div>
     </div>
@@ -90,11 +110,17 @@ import getEvento from "../../components/eventos/getEvento.vue";
 import GetEventoNotUser from "../../components/eventos/getEventoNotUser.vue";
 import { api as fullscreen } from "vue-fullscreen";
 import ModoLiveFront from "../../components/live/modoLiveFront.vue";
-import VueQrcode from 'vue-qrcode'
-import Reaccion from '../../components/reacciones/reaccion.vue';
+import VueQrcode from "vue-qrcode";
+import Reaccion from "../../components/reacciones/reaccion.vue";
 export default {
   layout: "live",
-  components: { getEvento, GetEventoNotUser, ModoLiveFront,VueQrcode, Reaccion },
+  components: {
+    getEvento,
+    GetEventoNotUser,
+    ModoLiveFront,
+    VueQrcode,
+    Reaccion,
+  },
   async asyncData({ params, store, redirect, app }) {
     const response = await app.$axios.$get(
       "get_event_by_cod_front?codigo=" + params.cod
@@ -133,42 +159,44 @@ export default {
       }
     }
   },
- 
+
   data() {
     return {
       mostrar: true,
       fullscreen: false,
       componentKey: 0,
-        urlQr: 'https://result.app/p/'+this.$route.params.cod, 
-        arrayReacciones:[]
+      urlQr: "https://result.app/p/" + this.$route.params.cod,
+      arrayReacciones: [],
     };
   },
 
   methods: {
-    quitarReaccion(index){
-      this.arrayReacciones.splice(index,1)
+    quitarReaccion(index) {
+      this.arrayReacciones.splice(index, 1);
     },
-    animar(val, index){
+    animar(val, index) {
       this.socket.emit(
         "enviarReaccion",
         {
           username: this.$store.state.p,
           room: this.$route.params.cod,
-          tipo: val
+          tipo: val,
         },
         (resp) => {}
       );
 
-      this.arrayReacciones.push({"reaccion": val, "index": index})
-
-
+      this.arrayReacciones.push({ reaccion: val, index: index });
     },
     async getEncuestasByIdEvent() {
-      const response = await this.$axios.$get(
+     await this.$axios.$get(
         "get_event_by_cod_front?codigo=" + this.$route.params.cod
-      );
+      ).then((response) => {
+           this.$store.commit("setarrayEncuestaActiveLiveMode", response.encuestas);
+      }).catch(({response}) => {
+        console.log(response)
+      })
 
-      this.$store.commit("setarrayEncuestaActiveLiveMode", response.encuestas);
+     
     },
 
     activarFullScreen() {
@@ -260,9 +288,20 @@ export default {
 
     this.socket.on("cambioDeEncuesta", (data) => {
       this.$store.commit("setcontadorModoLiveFront", 1);
-      //     this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
-      this.componentKey += 1;
+           this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+  //    this.componentKey += 1;
     });
+
+    this.socket.on("votoUsuarioEncuesta", (data) => {
+      console.log("llego el voto usuario encuesta", data)
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      console.log("componentKey MOdolivefront, ", this.$refs["modoLiveFront"])
+           this.$refs["modoLiveFront"].keyEncuesta += 1
+    
+    });
+
+
+    
 
     this.socket.on("join_room_announcement", (data) => {
       console.log(

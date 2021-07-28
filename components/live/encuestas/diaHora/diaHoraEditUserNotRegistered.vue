@@ -4,8 +4,8 @@
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
-     <div class="cubreEncuestaCalendario mt-5 mb-5">
-        <div class="cubreCalendario">
+    <div class="cubreEncuestaCalendario mt-5 mb-5">
+      <div class="cubreCalendario">
         <b-datepicker
           v-model="date"
           inline
@@ -33,20 +33,18 @@
                 display: flex;
               "
             >
-                <b-timepicker class="mt-3 horaT" 
-                 
-                  :id="'tiempo_' + index"
-                  v-model="time[index].horas[index2].ini"
-                  hour-format="24"
+              <b-timepicker
+                class="mt-3 horaT"
+                :id="'tiempo_' + index"
+                v-model="time[index].horas[index2].ini"
+                hour-format="24"
                 placeholder="Hora... "
                 icon="clock"
                 editable
-                
-                ></b-timepicker>
+              ></b-timepicker>
               <a
                 v-if="index2 > 0"
                 class="close close_option closeDate"
-               
                 @click="quitarHoras(index, index2)"
               ></a>
             </div>
@@ -84,7 +82,6 @@ var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
   watch: {
-   
     date: function (values, oldValues) {
       if (this.activarW) {
         var first = oldValues;
@@ -101,10 +98,10 @@ export default {
           this.time.push({
             id: this.convertDate(difference2),
             idDb: 0,
-            horas: [{id:0, ini: d, fin: d }],
+            horas: [{ id: 0, ini: d, fin: d }],
           });
           console.log(this.convertDate(difference2));
-          console.log("new time", this.time)
+          console.log("new time", this.time);
         } else {
           console.log("quito la selecciion", this.convertDate(difference));
           const index = this.time.findIndex(
@@ -129,38 +126,53 @@ export default {
     };
   },
   methods: {
-     
     async getEncuestaById(id) {
       await this.$axios
-        .$get("get_encuestas_by_id_user_not_registered_dashboard?id="+id+"&p="+this.$store.state.p)
+        .$get(
+          "get_encuestas_by_id_user_not_registered_dashboard?id=" +
+            id +
+            "&p=" +
+            this.$store.state.p
+        )
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
-           // this.time = response.dias;
+            // this.time = response.dias;
             //  this.date = response.date
-          this.titulo = response.encuesta[0].titulo
-           response.date.map((item) => { 
-             console.log("fecha convertida", new Date(item+ "T00:00:00"))
-                  this.date.push(new Date(item+ "T00:00:00"))
-                  })
+            this.titulo = response.encuesta[0].titulo;
+            response.date.map((item) => {
+              console.log("fecha convertida", new Date(item + "T00:00:00"));
+              this.date.push(new Date(item + "T00:00:00"));
+            });
 
-               response.dias.map((item) => { 
-                 console.log("console log item dias", item)
-                    var arrayHoras = []
-                    item.horas.map((h) => { 
-                              arrayHoras.push({id: h.id, ini: new Date(h.ini), fin: new Date(h.ini)})
-                    })
-                  this.time.push({id: item.dia, idDb: item.id, horas: arrayHoras})
-                  })
-   
-        console.log("time acomodado", this.time)
+            response.dias.map((item) => {
+              console.log("console log item dias", item);
+              var arrayHoras = [];
+              item.horas.map((h) => {
+                arrayHoras.push({
+                  id: h.id,
+                  ini: new Date(h.ini),
+                  fin: new Date(h.ini),
+                });
+              });
+              this.time.push({
+                id: item.dia,
+                idDb: item.id,
+                horas: arrayHoras,
+              });
+            });
+
+            console.log("time acomodado", this.time);
           }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
     },
- convertUTCDateToLocalDate(date) {
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-},
+    convertUTCDateToLocalDate(date) {
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date;
+    },
     async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
@@ -200,29 +212,33 @@ export default {
         loader: "dots",
         color: "#59b1ff",
       });
-      const response = await this.$axios.$post("edit_diayhora_user_not_registered", {
-        titulo: this.titulo,
-        dias: JSON.stringify(this.date),
-        horas: JSON.stringify(this.time),
-        id_evento: this.id_evento,
-        id_encuesta: this.id_encuesta,
-        p: this.$store.state.p
-      });
-      console.log(response);
-      if (response.status == 1) {
-        this.$emit("cerrarModalEdit");
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("edit_diayhora_user_not_registered", {
+          titulo: this.titulo,
+          dias: JSON.stringify(this.date),
+          horas: JSON.stringify(this.time),
+          id_evento: this.id_evento,
+          id_encuesta: this.id_encuesta,
+          p: this.$store.state.p,
+        })
+        .then((response) => {
+          loader.hide();
+          if (response.status == 1) {
+            this.$emit("cerrarModalEdit");
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          loader.hide();
+          console.log(response);
         });
-      }
-
-      loader.hide()
-
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -263,9 +279,9 @@ export default {
     },
     agregarHoras(index) {
       console.log("hola", this.time[index].horas);
-      console.log("tamaño;", this.time[index].horas.length)
-      var lenHoras = this.time[index].horas.length
-      var d = new Date(this.time[index].horas[(lenHoras-1)].ini);
+      console.log("tamaño;", this.time[index].horas.length);
+      var lenHoras = this.time[index].horas.length;
+      var d = new Date(this.time[index].horas[lenHoras - 1].ini);
       d.setSeconds(3600);
       this.time[index].horas.push({ ini: d, fin: d });
     },
@@ -330,8 +346,8 @@ export default {
     var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
     console.log(horaVenezuela);
 
- await    this.getEncuestaById(this.id_encuesta);
-        this.activarW = true
+    await this.getEncuestaById(this.id_encuesta);
+    this.activarW = true;
   },
 };
 </script>

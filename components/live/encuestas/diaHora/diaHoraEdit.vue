@@ -4,8 +4,8 @@
     <div class="control mt-2">
       <input class="input" type="text" v-model="titulo" placeholder="Título" />
     </div>
-  <div class="cubreEncuestaCalendario mt-5 mb-5">
-        <div class="cubreCalendario">
+    <div class="cubreEncuestaCalendario mt-5 mb-5">
+      <div class="cubreCalendario">
         <b-datepicker
           v-model="date"
           inline
@@ -33,20 +33,18 @@
                 display: flex;
               "
             >
-                <b-timepicker class="mt-3 horaT" 
-                 
-                  :id="'tiempo_' + index"
-                  v-model="time[index].horas[index2].ini"
-                  hour-format="24"
+              <b-timepicker
+                class="mt-3 horaT"
+                :id="'tiempo_' + index"
+                v-model="time[index].horas[index2].ini"
+                hour-format="24"
                 placeholder="Hora... "
                 icon="clock"
                 editable
-                
-                ></b-timepicker>
+              ></b-timepicker>
               <a
                 v-if="index2 > 0"
                 class="close close_option closeDate"
-               
                 @click="quitarHoras(index, index2)"
               ></a>
             </div>
@@ -70,12 +68,12 @@
         Guardar
       </button>
 
-        <button
+      <button
         class="buttonN play"
         style="display: inline"
         @click="guardarEncuesta(1)"
       >
-       <i class="fa fa-play" aria-hidden="true"></i>  &nbsp;Activar
+        <i class="fa fa-play" aria-hidden="true"></i> &nbsp;Activar
       </button>
     </div>
   </div>
@@ -92,7 +90,6 @@ var d = new Date();
 console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
   watch: {
-   
     date: function (values, oldValues) {
       if (this.activarW) {
         var first = oldValues;
@@ -109,10 +106,10 @@ export default {
           this.time.push({
             id: this.convertDate(difference2),
             idDb: 0,
-            horas: [{id:0, ini: d, fin: d }],
+            horas: [{ id: 0, ini: d, fin: d }],
           });
           console.log(this.convertDate(difference2));
-          console.log("new time", this.time)
+          console.log("new time", this.time);
         } else {
           console.log("quito la selecciion", this.convertDate(difference));
           const index = this.time.findIndex(
@@ -137,38 +134,48 @@ export default {
     };
   },
   methods: {
-     
     async getEncuestaById(id) {
       await this.$axios
         .$get("get_encuestas_by_id_live?id=" + id)
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
-           // this.time = response.dias;
+            // this.time = response.dias;
             //  this.date = response.date
-          this.titulo = response.encuesta[0].titulo
-           response.date.map((item) => { 
-             console.log("fecha convertida", new Date(item+ "T00:00:00"))
-                  this.date.push(new Date(item+ "T00:00:00"))
-                  })
+            this.titulo = response.encuesta[0].titulo;
+            response.date.map((item) => {
+              console.log("fecha convertida", new Date(item + "T00:00:00"));
+              this.date.push(new Date(item + "T00:00:00"));
+            });
 
-               response.dias.map((item) => { 
-                 console.log("console log item dias", item)
-                    var arrayHoras = []
-                    item.horas.map((h) => { 
-                              arrayHoras.push({id: h.id, ini: new Date(h.ini), fin: new Date(h.ini)})
-                    })
-                  this.time.push({id: item.dia, idDb: item.id, horas: arrayHoras})
-                  })
-   
-        console.log("time acomodado", this.time)
+            response.dias.map((item) => {
+              console.log("console log item dias", item);
+              var arrayHoras = [];
+              item.horas.map((h) => {
+                arrayHoras.push({
+                  id: h.id,
+                  ini: new Date(h.ini),
+                  fin: new Date(h.ini),
+                });
+              });
+              this.time.push({
+                id: item.dia,
+                idDb: item.id,
+                horas: arrayHoras,
+              });
+            });
+
+            console.log("time acomodado", this.time);
           }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
     },
- convertUTCDateToLocalDate(date) {
-    date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-    return date;
-},
+    convertUTCDateToLocalDate(date) {
+      date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+      return date;
+    },
     async guardarEncuesta(val) {
       if (this.titulo == "") {
         this.$swal({
@@ -204,30 +211,35 @@ export default {
         }
       }
       //ahora si enviar a la db encuesta
-      const response = await this.$axios.$post("edit_diayhora_live", {
-        titulo: this.titulo,
-        dias: JSON.stringify(this.date),
-        horas: JSON.stringify(this.time),
-        codigo: this.$route.params.cod,
-        activar: val,
-        id_encuesta: this.id_encuesta
-      });
-      console.log(response);
-      if (response.status == 1) {
-        if (val == 1) {
-          this.$store.commit("seteventLiveMode", 1);
-          this.$store.commit("setcandadoModoLive", 1);
-        }
-        this.$emit("cerrarModalEdit");
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("edit_diayhora_live", {
+          titulo: this.titulo,
+          dias: JSON.stringify(this.date),
+          horas: JSON.stringify(this.time),
+          codigo: this.$route.params.cod,
+          activar: val,
+          id_encuesta: this.id_encuesta,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            if (val == 1) {
+              this.$store.commit("seteventLiveMode", 1);
+              this.$store.commit("setcandadoModoLive", 1);
+            }
+            this.$emit("cerrarModalEdit");
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
-      }
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -270,7 +282,7 @@ export default {
       console.log("hola", this.time[index].horas);
       var d = new Date();
       d.setHours(7, 0, 0, 0);
-      this.time[index].horas.push({ id:0, ini: d, fin: d });
+      this.time[index].horas.push({ id: 0, ini: d, fin: d });
     },
     unselectableDates(day) {
       // console.log(day)
@@ -321,20 +333,8 @@ export default {
     },
   },
   async mounted() {
-    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    console.log(timeZone);
-
-    var d = new Date();
-    console.log(d.toLocaleString("en-US", { timeZone }));
-    var d = new Date();
-    var n = d.getTimezoneOffset();
-    console.log("zona horaria: ", n);
-    var horaServer = "2021-07-12T08:00:00.000Z";
-    var horaVenezuela = this.convertTZ(horaServer, "America/Caracas"); // Tue Apr 20 2012 17:10:30 GMT+0700 (Western Indonesia Time)
-    console.log(horaVenezuela);
-
- await    this.getEncuestaById(this.id_encuesta);
-        this.activarW = true
+    await this.getEncuestaById(this.id_encuesta);
+    this.activarW = true;
   },
 };
 </script>
