@@ -85,9 +85,7 @@
         </div>
 
         <h1
-          class="headingM has-text-left"
-          style="            margin-bottom: 40px;            margin-top: 40px;            display: flex;            justify-content: space-between;          "
-        >
+          class="headingM has-text-left" style="margin-bottom: 40px;  margin-top: 40px;  display: flex;    justify-content: space-between;        "    >
           <span>
             {{ $store.state.idioma.dashboardTitle2 }}
           </span>
@@ -127,14 +125,16 @@
                   >
                     <span v-text="item['fecha']"></span>
                     <div>
-                      <span
-                        ><a
-                          ><i
-                            class="fa fa-pencil-square"
-                            style="font-size: 20px"
-                            aria-hidden="true"
-                          ></i></a
-                      ></span>
+                       <i
+                      class="fa fa-pencil-square-o iconEditQyA"
+                      aria-hidden="true"
+                    ></i>
+                    &nbsp;&nbsp;
+                    <i
+                      class="fa fa-trash iconEditQyA"
+                      aria-hidden="true"
+                      @click.prevent="eliminarEvento(item['codigo'])"
+                    ></i>
                     </div>
                   </div>
                 </div>
@@ -171,6 +171,29 @@ export default {
     Loading,
   },
   methods: {
+     eliminarEvento(cod){
+        this.$swal({
+                type: "error",
+                title: "¿Estas seguro que quieres borrar este evento ? ",
+                html: "Se perderan todas las operaciones realizados en el",
+                showCancelButton: true,
+                confirmButtonText: `Si borrar`,
+              }).then((result) => {
+                if (result.value) {
+                  this.$store.commit("setisLoading", true)
+                  this.borrarEvento(cod);
+                }
+              });
+    },
+    async borrarEvento(cod){
+         await this.$axios
+        .$post("borrar_evento_by_admin", {
+          codigo: cod,
+        }).then((response) => {
+          console.log(response)
+          this.getEvents()
+        })
+    },
     generateRandomString(num) {
       const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

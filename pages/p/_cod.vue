@@ -48,6 +48,7 @@
               <vue-qrcode :value="urlQr" class="imgQr" />
             </div>
           </div>
+          
           <modo-live-front
             v-else
             :key="componentKey"
@@ -58,13 +59,7 @@
           ></modo-live-front>
 
           <div class="boxR">
-            <input type="checkbox" id="like" class="field-reactions" />
-            <h3 class="text-desc">
-              Press space and after tab key to navigation
-            </h3>
-            <label for="like" class="label-reactions">Like</label>
             <div class="toolbox"></div>
-            <label class="overlay" for="like"></label>
             <button class="reaction-like" @click="animar(0)">
               <span class="legend-reaction">Like</span>
             </button>

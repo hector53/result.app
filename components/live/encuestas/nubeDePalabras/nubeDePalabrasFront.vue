@@ -37,7 +37,10 @@
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
     <client-only>
-      <vue-word-cloud
+      <div v-if="palabras.length==0"  class="palabrasVacias"  >
+      <h2>Sin palabras aún</h2>
+      </div>
+      <vue-word-cloud v-else
         style="height: 400px"
         :words="palabras"
         :color="wordsColor"

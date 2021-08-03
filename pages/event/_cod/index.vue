@@ -1,17 +1,24 @@
 <template>
   <div>
+    <loading :active="$store.state.isLoading" color="#59b1ff" loader="dots" :is-full-page="true" />
     <nav-bar-evento
       @activarLoader="activarLoader"
       v-if="eventT"
       :eventModo="eventModo"
       :eventStatus="eventStatus"
       @guardarEvento="guardarEvento"
+      @activarEvento="activarEvento"
+      @publicarEvento="publicarEvento"
+      
     ></nav-bar-evento>
     <nav-bar-event
       v-if="eventT"
       :eventName="eventName"
       :eventFecha="eventFecha"
       @addNewEncuesta="addNewEncuesta"
+      @activarEvento="activarEvento"
+      @publicarEvento="publicarEvento"
+      @duplicarEvento="duplicarEvento"
     ></nav-bar-event>
     <section
       class="section-hero"
@@ -19,7 +26,7 @@
       :class="{ minAltoLoading: isLoading }"
     >
       <div class="container">
-        <loading :active="isLoading" color="#59b1ff" loader="dots" />
+        
         <tipos-encuestas-index
           @addNewEncuesta="addNewEncuesta"
           v-if="opcionesPredeterminadas && eventT"
@@ -123,7 +130,7 @@
         @click="closeModalEditLive"
       ></button>
     </div>
-    <footer-t
+    <footer-t v-if="$store.state.isLoading == false"
       id="scrollAqui"
     ></footer-t>
   </div>
@@ -180,13 +187,40 @@ export default {
   },
 
   methods: {
+    duplicarEvento(){
+          this.$swal({
+                type: "info",
+                title: "¿Estas seguro que quieres duplicar este evento ? ",
+                html: "Esto creará una copia de tus encuestas, pero sin las operaciones realizadas en ella",
+                showCancelButton: true,
+                confirmButtonText: `Si aceptar`,
+              }).then((result) => {
+                if (result.value) {
+                  this.crearEventoDuplicado();
+                }
+              });
+    },
+    async crearEventoDuplicado(){
+        var dataUser = this.$cookies.get("r_user");
+      var nameEvento = dataUser.username;
+          await this.$axios
+        .$post("duplicar_evento_by_admin", {
+          codigo: this.$route.params.cod,
+          titulo: nameEvento
+        }).then((response) => {
+          console.log(response)
+          this.$router.push({name: "event-cod", params:{cod: response.codigo}})
+        }).catch(({response}) => {
+             console.log(response)
+        })
+    }, 
     scrollTo() {
       let element = document.getElementById("scrollAqui");
       element.scrollIntoView(false);
     },
     cerrarModalEdit() {
       this.encuestaEditId = 0;
-      var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
+      var root = document.getElementsByTagName("html")[0]; 
       root.classList.remove("is-clipped");
       document
         .getElementById("modalEditEncuestaLive")
@@ -424,6 +458,51 @@ export default {
       element.scrollIntoView(false);
     },
 
+    async publicarEvento() {
+        var candadoViejo = this.$store.state.candadoModoLive;
+
+      var candado = !this.$store.state.candadoModoLive;
+      this.$store.commit("setcandadoModoLive", candado);
+      if (candadoViejo == 1) {
+        this.$store.commit("seteventLiveMode", 0);
+      }
+      //y aparte cambiar el resultado en la db
+      const response = await this.$axios.$post("publicar_evento", {
+        publicarDesactivar: candadoViejo,
+        codigo: this.$route.params.cod,
+      });
+    },
+
+
+    async activarEvento(val) {
+       this.$store.commit("setisLoading", true)
+      console.log(val);
+      if (val == 1) {
+        this.modoLive = 1;
+        this.$store.commit("seteventLiveMode", 1);
+        this.$store.commit("setcandadoModoLive", 1);
+        //y aparte cambiar el resultado en la db
+        const response = await this.$axios.$post("modo_live_evento", {
+          modoLive: 1,
+          codigo: this.$route.params.cod,
+        });
+
+        this.$emit("activarLoader");
+
+        location.href = "/event/" + this.$route.params.cod + "/live";
+      }
+      if (val == 2) {
+        this.modoLive = 0;
+        this.$store.commit("seteventLiveMode", 0);
+        this.$store.commit("setcandadoModoLive", 0);
+        const response = await this.$axios.$post("modo_live_evento", {
+          modoLive: 0,
+          codigo: this.$route.params.cod,
+        });
+         this.$store.commit("setisLoading", false)
+      }
+    },
+
     async getEncuestas() {
       this.isLoading = true
       this.arrayEncuestas = [];
@@ -431,11 +510,15 @@ export default {
         .$get("get_encuestas_event?codigo=" + this.$route.params.cod)
         .then((response) => {
           console.log(response);
-          this.isLoading = false;
+         
+          this.$store.commit("setisLoading", false)
           this.eventName = response.eventName;
           this.eventStatus = response.eventStatus;
           this.eventModo = response.eventModo;
           this.eventFecha = response.fecha;
+
+          this.$store.commit("seteventLiveMode", response.eventModo);
+         this.$store.commit("setcandadoModoLive", response.eventStatus);
 
           console.log(this.eventStatus);
           this.eventT = true;
@@ -447,6 +530,7 @@ export default {
               this.opcionesPredeterminadas = true;
             }
           }
+           this.isLoading = false;
         })
         .catch(({ response }) => {
           this.isLoading = false
@@ -459,6 +543,49 @@ export default {
     this.$axios.setToken(tokenUser, "Bearer");
     this.eventCod = this.$route.params.cod;
     console.log(this.eventCod);
+
+    var User = this.$store.state.p;
+    console.log("usuario", User);
+    var codigo = this.$route.params.cod;
+    this.socket = this.$nuxtSocket({
+      channel: "/",
+    });
+
+    console.log("socket", this.socket);
+
+    this.socket.emit(
+      "joinRoom",
+      {
+        username: User,
+        room: codigo+"_admin",
+      },
+      (resp) => {}
+    );
+
+    this.socket.on("activarModoPresentacion", (data) => {
+      console.log("llego e modo stop presentacion", data)
+        if(data.modo == 0){
+          this.$store.commit("seteventLiveMode", 0);
+        this.$store.commit("setcandadoModoLive", 0);
+        }
+          if(data.modo == 1){
+          this.$store.commit("seteventLiveMode", 1);
+        this.$store.commit("setcandadoModoLive", 1);
+        }
+    });
+
+       this.socket.on("cambiarStatusEvent", (data) => {
+      console.log("llego e cambiarStatusEvent", data)
+        if(data.status == 0){
+        this.$store.commit("setcandadoModoLive", 0);
+        this.$store.commit("seteventLiveMode", 0);
+        }
+          if(data.status == 1){
+        this.$store.commit("setcandadoModoLive", 1);
+        }
+    });
+
+    
 
     await this.getEncuestas();
 

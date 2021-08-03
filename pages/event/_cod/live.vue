@@ -236,6 +236,30 @@ export default {
       (resp) => {}
     );
 
+   this.socket.on("activarModoPresentacion", (data) => {
+      console.log("llego e modo stop presentacion", data)
+        if(data.modo == 0){
+          this.$store.commit("seteventLiveMode", 0);
+        this.$store.commit("setcandadoModoLive", 0);
+        }
+          if(data.modo == 1){
+          this.$store.commit("seteventLiveMode", 1);
+        this.$store.commit("setcandadoModoLive", 1);
+        }
+    });
+
+    
+       this.socket.on("cambiarStatusEvent", (data) => {
+      console.log("llego e cambiarStatusEvent", data)
+        if(data.status == 0){
+        this.$store.commit("setcandadoModoLive", 0);
+        this.$store.commit("seteventLiveMode", 0);
+        }
+          if(data.status == 1){
+        this.$store.commit("setcandadoModoLive", 1);
+        }
+    });
+
     this.socket.on("join_room_announcement", (data) => {
       console.log(data);
       console.log(

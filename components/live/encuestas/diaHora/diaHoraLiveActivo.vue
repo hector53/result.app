@@ -1,6 +1,7 @@
 <template>
   <div>
        <section class="section-hero decor" >
+         <h5 class="has-text-right" >Encuesta día y hora</h5>
     <h1 class="pb-5" >{{ titulo_encuesta }}</h1>
     <div class="containerHec">
       <div class="rowHec flex-stretch">

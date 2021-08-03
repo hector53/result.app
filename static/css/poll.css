@@ -8,6 +8,9 @@ body {
     font-weight: 400;
     font-size: 16px;
 }
+a{
+    color: #4a4a4a;
+}
 
 .company {
     float: left;
@@ -686,6 +689,7 @@ input[type="checkbox"], input[type="radio"] {
 
 .image-4 {
     margin-bottom: 5px;
+    cursor: pointer;
 }
 .rows{
     display: flex;
@@ -1470,9 +1474,10 @@ input[type="checkbox"], input[type="radio"] {
     width: 200px;
 }
 .footerLive{
-    position: absolute;
+    position: relative;
     bottom: 10px;
     width: 100%;
+    margin-top: 100px;
 }
 .centerFooter{
     display: flex;
@@ -1953,6 +1958,7 @@ kbd{
     text-align: center;
     padding: 10px;
     width: 100%;
+    border:solid 1px rgb(224, 223, 223)
 }
 .decor{
     padding: 20px;
@@ -2200,6 +2206,7 @@ textarea#question-field {
     overflow: hidden;
     transition: box-shadow .3s ease;
     padding: 15px;
+    border:solid 1px rgb(224, 223, 223)
 }
 .item_pregunta_top{
     display: flex;
@@ -2316,6 +2323,27 @@ textarea#question-field {
 
 .particle.angry {
     background-position: -388px -20px;
+}
+
+.control.has-icons-left .icon.is-left{
+    left: 5px;
+    top: 3px
+}
+.control .icon.is-clickable {
+    margin-top: -15px;
+    margin-left: -10px;
+}
+.palabrasVacias{
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.html2pdf__page-break{
+  
+}
+.nubeModoPdf{
+    margin-left: -200px;
 }
 @media screen and (max-width: 600px) {
     .cubreEncuestaCalendario{

@@ -37,6 +37,7 @@
             @click="mostrarFooter = true"
             @keypress.enter.prevent
             onkeyup="$(this).height(5);$(this).height($(this).prop('scrollHeight'))"
+            :disabled="disableQYA"
           ></textarea>
         </div>
 
@@ -239,6 +240,7 @@ export default {
       textEditPregunta: "",
       arrayPreguntaR: [],
       modalReply: false,
+      disableQYA:true
     };
   },
   methods: {
@@ -446,6 +448,9 @@ export default {
     },
   },
   mounted() {
+    if(this.statusEvent == 1){
+      this.disableQYA = false
+    }
     if (this.modoLive == 1) {
       this.modoenVivo = this.modoLive;
     }

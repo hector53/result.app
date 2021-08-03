@@ -123,9 +123,16 @@
                 @click="cancelarVoto"
                 v-if="resultados && yaVote && statusEvent == 1"
               >
-                Cancelar Votos</a
+                Cancelar Votos</a>
+                 <a
+                class="link-2"
+                @click="resultados = true"
+                v-if="resultados == false"
               >
+                Ver resultados</a>
             </div>
+
+            
           </div>
         </div>
       </div>

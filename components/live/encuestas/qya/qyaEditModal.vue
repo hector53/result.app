@@ -40,9 +40,10 @@ export default {
           if (response.status == 1) {
             this.preguntaEncuesta = response.encuesta[0].titulo;
           }
-        }).catch(({response}) => {
-          console.log(response)
         })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
 
     async crearEncuesta(val) {
@@ -56,26 +57,31 @@ export default {
       }
       //aqui si enviar a guardar la encuesta
       this.isLoading = true;
-      const response = await this.$axios.$post("edit_qya_live_modal", {
-        pregunta: this.preguntaEncuesta,
-        codigo: this.$route.params.cod,
-        id: this.id_encuesta,
-        modo: this.$store.state.eventLiveMode,
-        activar: val,
-      });
-      console.log(response);
-      if (response.status == 1) {
-        this.isLoading = false;
-        this.$emit("cerrarModalEdit");
-      } else {
-        this.isLoading = false;
-        this.$swal({
-          type: "error",
-          title: "Oops...",
-          text: "Error en los datos ingresados",
-          confirmButtonText: `OK`,
+      await this.$axios
+        .$post("edit_qya_live_modal", {
+          pregunta: this.preguntaEncuesta,
+          codigo: this.$route.params.cod,
+          id: this.id_encuesta,
+          modo: this.$store.state.eventLiveMode,
+          activar: val,
+        })
+        .then((response) => {
+          if (response.status == 1) {
+            this.isLoading = false;
+            this.$emit("cerrarModalEdit");
+          } else {
+            this.isLoading = false;
+            this.$swal({
+              type: "error",
+              title: "Oops...",
+              text: "Error en los datos ingresados",
+              confirmButtonText: `OK`,
+            });
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
         });
-      }
     },
   },
   mounted() {

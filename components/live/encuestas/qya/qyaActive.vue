@@ -1,9 +1,12 @@
 <template>
   <section class="section-hero" style="border-radius: 20px; padding: 20px">
+    <h5 class="has-text-right" >Encuesta Q&A</h5>
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
-
-    <div class="listPreguntas mb-5">
+     <div v-if="arrayPreguntas.length==0"  class="palabrasVacias"  >
+      <h2>Sin preguntas aún</h2>
+      </div>
+    <div class="listPreguntas mb-5" v-else>
       <div
         class="item_pregunta mt-3"
         v-for="(item, index) in arrayPreguntas"

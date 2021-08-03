@@ -84,16 +84,18 @@ export default {
         onClose: () => {
           clearInterval(timerInterval);
         },
-      }).then((result) => {
-        if (
-          /* Read more about handling dismissals below */
-          result.dismiss === this.$swal.DismissReason.timer
-        ) {
-          this.ganadores = ganadores;
-        }
-      }).catch(({response}) => {
-        console.log(response)
       })
+        .then((result) => {
+          if (
+            /* Read more about handling dismissals below */
+            result.dismiss === this.$swal.DismissReason.timer
+          ) {
+            this.ganadores = ganadores;
+          }
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
 
     async getSorteoByIdEncuesta(id) {
@@ -115,15 +117,14 @@ export default {
             this.ganadores = response.ganadores;
             this.isLoading = false;
           }
-        }).catch(({response}) => {
-          console.log(response)
         })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
   },
   mounted() {
-    if (this.modoLive == 0) {
       window.addEventListener("keyup", this.detectaTecla);
-    }
     this.getSorteoByIdEncuesta(this.id_encuesta);
   },
   destroyed() {

@@ -14,6 +14,7 @@ export const state = () => ({
   mostrarEnMoLive: false,
   usersOnline: 0,
   contadorModoLiveFront: 0,
+  isLoading: true,
   languajes: [{
       ////// HEAD
       "idioma": "en",
@@ -344,6 +345,13 @@ export const getters = {
 
 
 export const mutations = {
+
+
+
+setisLoading(state, val) {
+  state.isLoading = val
+},
+
   setcontadorModoLiveFront(state, val) {
     state.contadorModoLiveFront = val
   },

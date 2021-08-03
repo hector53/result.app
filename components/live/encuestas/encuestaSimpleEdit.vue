@@ -38,8 +38,6 @@
             v-if="item.votos == 1"
             class="text-field w-input"
             v-model="opcionEncuesta[index]['opcion']"
-            readonly
-            disabled
             required=""
           />
 

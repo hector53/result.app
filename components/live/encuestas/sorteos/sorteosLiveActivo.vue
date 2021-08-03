@@ -2,6 +2,7 @@
   <div style="min-height: 300px">
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
     <div v-if="isLoading == false">
+      <h5 class="has-text-right" >Sorteo</h5>
       <h1
         style="
           margin-bottom: 20px;
@@ -77,6 +78,7 @@ export default {
           id_encuesta: this.id_encuesta,
         })
         .then((response) => {
+          console.log(response)
           let timerInterval;
           this.$swal({
             title: "Espere Por Favor",

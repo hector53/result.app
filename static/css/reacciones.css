@@ -1,16 +1,4 @@
-  .field-reactions:checked:focus ~ .text-desc, .field-reactions, [class*=reaction-], .text-desc {
-    clip: rect(1px, 1px, 1px, 1px);
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-  
-  .field-reactions:checked ~ [class*=reaction-], .boxR:hover [class*=reaction-], .field-reactions:focus ~ .text-desc {
-    clip: auto;
-    overflow: visible;
-    opacity: 1;
-  }
+
   
   .main-title {
     background: #3a5795;
@@ -40,19 +28,16 @@
     position: absolute;
     width: 48px;
     z-index: 11;
-    top: -28;
-    transform-origin: 50% 100%;
-    transform: scale(0.1);
-    transition: all 0.3s;
+    top: -28px;
     outline: none;
-    will-change: transform;
-    opacity: 0;
+    opacity: 1;
+    transform: scale(0.8);
   }
   
   .boxR {
-    position: absolute;
+    position: fixed;
     left: calc(50% - 150px);
-    width: 300px;
+    bottom: 90px;
   }
   
   .overlay {
@@ -65,12 +50,6 @@
     visibility: hidden;
   }
   
-  .field-reactions:focus ~ .label-reactions {
-    border-color: rgba(88, 144, 255, 0.3);
-  }
-  .field-reactions:checked:focus ~ .label-reactions {
-    border-color: transparent;
-  }
   .label-reactions {
     background: url(https://cdn4.iconfinder.com/data/icons/facebook-likes/100/1.png) no-repeat 0 0;
     border: 2px dotted transparent;
@@ -91,8 +70,8 @@
     top: -30px;
     left: 0;
     position: absolute;
-    visibility: hidden;
-    opacity: 0;
+    visibility: visible;
+    opacity: 1;
     transition: opacity 0.15s;
   }
   
@@ -117,23 +96,15 @@
     top: -28px;
     transform: translateX(-50%);
   }
-  
-  .boxR:hover [class*=reaction-] {
-    transform: scale(0.8) translateY(-40px);
-  }
+
   .boxR:hover [class*=reaction-]:hover, .box:hover [class*=reaction-]:focus {
     transition: all 0.2s ease-in;
-    transform: scale(1) translateY(-35px);
+    transform: scale(1) translateY(-15px);
   }
   .boxR:hover [class*=reaction-]:hover .legend-reaction, .box:hover [class*=reaction-]:focus .legend-reaction {
     opacity: 1;
   }
-  .boxR:hover .toolbox {
-    opacity: 1;
-  }
-  .boxR:hover .toolbox {
-    visibility: visible;
-  }
+
   .boxR:hover .reaction-love {
     transition-delay: 0.06s;
   }
@@ -150,38 +121,6 @@
     transition-delay: 0.18s;
   }
   
-  .field-reactions:checked ~ [class*=reaction-] {
-    transform: scale(0.8) translateY(-40px);
-  }
-  .field-reactions:checked ~ [class*=reaction-]:hover, .field-reactions:checked ~ [class*=reaction-]:focus {
-    transition: all 0.2s ease-in;
-    transform: scale(1) translateY(-35px);
-  }
-  .field-reactions:checked ~ [class*=reaction-]:hover .legend-reaction, .field-reactions:checked ~ [class*=reaction-]:focus .legend-reaction {
-    opacity: 1;
-  }
-  .field-reactions:checked ~ .toolbox {
-    opacity: 1;
-  }
-  .field-reactions:checked ~ .toolbox,
-  .field-reactions:checked ~ .overlay {
-    visibility: visible;
-  }
-  .field-reactions:checked ~ .reaction-love {
-    transition-delay: 0.03s;
-  }
-  .field-reactions:checked ~ .reaction-haha {
-    transition-delay: 0.09s;
-  }
-  .field-reactions:checked ~ .reaction-wow {
-    transition-delay: 0.12s;
-  }
-  .field-reactions:checked ~ .reaction-sad {
-    transition-delay: 0.15s;
-  }
-  .field-reactions:checked ~ .reaction-angry {
-    transition-delay: 0.18s;
-  }
   
   .reaction-like {
     left: 0;

@@ -1,12 +1,31 @@
 <template>
   <div>
+     <h5 class="has-text-right" >Nube de palabras</h5>
     <h1>{{ titulo_encuesta }}</h1>
-    <vue-word-cloud v-if="mostrar"
-      style="height: 300px"
+ 
+
+      <div v-if="palabras.length==0"  class="palabrasVacias"  >
+      <h2>Sin palabras aún</h2>
+      </div>
+
+         <vue-word-cloud v-else
+      style="height: 400px"
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"
-    />
+      :class="{'nubeModoPdf': modoPdf == 1}"
+    >
+       <template slot-scope="{ text, weight }">
+          <div 
+            :title="'(' + weight + ')'"
+            style="cursor: pointer; display: flex; align-items: center"
+          >
+            
+            <span>{{ text }}</span>
+             <span style="font-size: 15px;">({{ weight }})</span>
+          </div>
+        </template>
+    </vue-word-cloud>
   </div>
 </template>
 
@@ -14,7 +33,7 @@
 import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
-  props: ["titulo_encuesta", "id_encuesta", "id_evento"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoPdf"   ],
   data() {
     return {
       palabras: [],
@@ -53,6 +72,7 @@ export default {
     },
   },
   mounted() {
+    console.log("mdodfsoidsfaoijdsfa", this.modoPdf)
     this.getRespuestaByIdEncuesta(this.id_encuesta);
   },
 };
