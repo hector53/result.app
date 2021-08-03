@@ -34,6 +34,7 @@
             :id_evento="id_evento"
             :encuestas="encuestas"
             :statusEvent="statusEvent"
+            :key="componentKey"
           ></get-evento>
         </div>
         <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px">
@@ -309,9 +310,11 @@ export default {
 
     this.socket.on("activarModoPresentacion", (data) => {
       this.mostrar = false;
+       this.componentKey += 1;
       this.statusEvent = data.modo;
       this.modoLive = data.modo;
       this.mostrar = true;
+
     });
 
     this.socket.on("cambiarStatusEvent", (data) => {
@@ -321,6 +324,7 @@ export default {
         this.modoLive = 0;
       }
       this.mostrar = false;
+       this.componentKey += 1;
       this.statusEvent = data.status;
       this.mostrar = true;
     });
