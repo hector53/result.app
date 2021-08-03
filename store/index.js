@@ -447,7 +447,7 @@ export const actions = {
         console.log("aprobado")
         commit("setP", response.id);
         commit("setLogin", true);
-        if (response.ip == '') {
+        if (response.ip == '' || response.ip == 0 ) {
           console.log("no tiene ip")
           
           var id_user = response.id
