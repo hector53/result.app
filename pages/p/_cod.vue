@@ -282,6 +282,7 @@ export default {
     });
 
     this.socket.on("cambioDeEncuesta", (data) => {
+      console.log(data)
       this.$store.commit("setcontadorModoLiveFront", 1);
            this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
   //    this.componentKey += 1;

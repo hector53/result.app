@@ -64,7 +64,7 @@
       </div>
     </section>
 
-   <div class="content" >
+   <div class="content" style="display:none" >
      <client-only>
             <vue-html2pdf
             pdf-content-width="100%"

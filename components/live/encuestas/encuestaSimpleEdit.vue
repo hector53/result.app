@@ -155,10 +155,12 @@ export default {
         .$post("delete_poll_simple_live", {
           id: this.id_encuesta,
           id_opcion: this.opcionEncuesta[index]["id"],
+          codigo: this.$route.params.cod
         })
         .then((response) => {
           console.log(response);
-          this.$emit("cerrarModalEdit");
+        // this.$emit("cerrarModalEdit");
+         this.opcionEncuesta.splice(index, 1);
         })
         .catch(({ response }) => {
           console.log(response);

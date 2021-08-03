@@ -96,7 +96,7 @@
                     Ver presentación
                   </a>
                 </b-dropdown-item>
-                <b-dropdown-item has-link aria-role="menuitem">
+                <b-dropdown-item has-link aria-role="menuitem" v-if="$route.name == 'event-cod-results'">
                   <a @click="generatePdf">
                    <i class="fa fa-file-pdf-o" aria-hidden="true"></i>
                     Exportar a PDF

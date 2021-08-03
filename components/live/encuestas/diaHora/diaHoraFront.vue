@@ -59,6 +59,16 @@ export default {
   },
   components: { Loading },
   methods: {
+       detectaTecla(event) {
+      console.log(event.keyCode);
+      console.log(event.ctrlKey);
+      if (event.keyCode === 39) {
+        this.$emit("teclas", 39);
+      }
+      if (event.keyCode === 37) {
+        this.$emit("teclas", 37);
+      }
+    },
     async votarHora(id) {
       if (this.statusEvent == 1) {
         await this.$axios
@@ -69,8 +79,17 @@ export default {
             id_encuesta: this.id_encuesta,
             p: this.$store.state.p,
             liveMode: this.modoenVivo,
+            login: this.$store.state.login,
           })
           .then((response) => {
+            if(response.status == 5){
+                this.$swal({
+            type: "error",
+            title: "Oops...",
+            text: "Ya has realizado votos en esta encuesta con la misma ip",
+          });
+          return false
+            }
             this.getDiayHoraByIdEncuesta(this.id_encuesta);
           })
           .catch(({ response }) => {
@@ -78,6 +97,7 @@ export default {
           });
       }
     },
+
     async getDiayHoraByIdEncuesta(id) {
       this.isLoading = true;
       await this.$axios
@@ -107,7 +127,11 @@ export default {
     if (this.modoLive == 1) {
       this.modoenVivo = this.modoLive;
     }
+     window.addEventListener("keyup", this.detectaTecla);
     this.getDiayHoraByIdEncuesta(this.id_encuesta);
+  },
+   destroyed() {
+    window.removeEventListener("keyup", this.detectaTecla);
   },
 };
 </script>

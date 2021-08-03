@@ -64,7 +64,6 @@
               />
               <a
                 class="close close_option"
-                v-show="opcionEncuesta.length > 2"
                 @click="reducirOpciones(index)"
               ></a>
             </div>
@@ -122,9 +121,32 @@ export default {
     moverAbajo(index) {
       this.$emit("moverAbajo", { id_encuesta: this.id_encuesta, index: index });
     },
-    reducirOpciones(index) {
-      this.opcionEncuesta.splice(index, 1);
+      reducirOpciones(index) {
+      this.$swal({
+        title: "¿Estas seguro que quieres borrar esta opción ? ",
+        html: "Se perderan todas las votaciones realizadas en ella",
+        showCancelButton: true,
+        confirmButtonText: `Si borrar`,
+      }).then((result) => {
+        if (result.value) {
+          this.deleteEncuestaById(index);
+        }
+      });
     },
+    async deleteEncuestaById(index) {
+      await this.$axios
+        .$post("delete_poll_simple_live", {
+          id: this.id_encuesta,
+          id_opcion: this.opcionEncuesta[index]["id"],
+        })
+        .then((response) => {
+         this.opcionEncuesta.splice(index, 1);
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
+    },
+   
     addOpcion() {
       this.opcionEncuesta.push({ id: 0, opcion: "" });
     },

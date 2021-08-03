@@ -279,9 +279,11 @@ export default {
       return dt + " de " + monthNames[month];
     },
     agregarHoras(index) {
-      console.log("hola", this.time[index].horas);
-      var d = new Date();
-      d.setHours(7, 0, 0, 0);
+           console.log("hola", this.time[index].horas);
+      console.log("tamaño;", this.time[index].horas.length);
+      var lenHoras = this.time[index].horas.length;
+      var d = new Date(this.time[index].horas[lenHoras - 1].ini);
+      d.setSeconds(3600);
       this.time[index].horas.push({ id: 0, ini: d, fin: d });
     },
     unselectableDates(day) {

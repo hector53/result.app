@@ -13,6 +13,7 @@
 
     <nube-de-palabras-front
       ref="nubeFront"
+      :key="keyAll"
       v-if="tipo == 2"
       :id_encuesta="id"
       :titulo_encuesta="titulo"
@@ -43,6 +44,7 @@
 
     <qya-front
       ref="qyaFront"
+       :key="keyAll"
       v-if="tipo == 5"
       :id_encuesta="id"
       :titulo_encuesta="titulo"
@@ -77,12 +79,14 @@ export default {
       id: 0,
       titulo: "",
       keySimpleChoice: 0,
-      keyEncuesta: 0
+      keyEncuesta: 0, 
+      keyAll: 0
     };
   },
 
   methods: {
     async getEncuestaByEventLive(cod) {
+      console.log("actualizando modo live front")
       this.mostrar = false;
       this.$store.commit("setmostrarEnMoLive", false);
 
@@ -96,6 +100,15 @@ export default {
             console.log("la respues fue igual a uno");
             this.arrayEncuesta = response.tipoEncuesta;
             this.tipo = response.tipoEncuesta[0].tipo;
+            if(response.tipoEncuesta[0].tipo==1){
+                this.keySimpleChoice++
+            }
+
+             if(response.tipoEncuesta[0].tipo==2 || response.tipoEncuesta[0].tipo==5){
+                this.keyAll++
+            }
+
+
             this.id = response.tipoEncuesta[0].id;
             this.titulo = response.tipoEncuesta[0].titulo;
             this.$store.commit("setmostrarEnMoLive", true);
@@ -122,10 +135,6 @@ export default {
                             this.$refs['qyaFront'].getPreguntasByIdEncuesta(response.tipoEncuesta[0].id)
                             }
                     }
-                           
-                   
-    
-
                 }else{
                       this.arrayEncuesta = []
                 }
