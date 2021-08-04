@@ -363,6 +363,14 @@ export default {
         data.ganadores
       );
     });
+
+    this.socket.on("join_room_disconect", (data) => {
+      console.log(data);
+      console.log(
+        `<b>${data.username}</b> se ha desconectado conectados son ${data.conectados}`
+      );
+      this.$store.commit("setusersOnline", data.conectados);
+    });
   },
 };
 </script>
