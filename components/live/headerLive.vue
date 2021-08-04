@@ -263,6 +263,28 @@
 
       <div class="navBarLeft">
         <ul role="list" class="listNavBarLeft">
+
+          <li
+          class="list-item-navLeft tareas"
+          title="Usuarios Online"
+          alt="Usuarios Online"
+          v-if="$store.state.eventLiveMode == 1"
+        >
+          <div class="usersOnlineLiveFront">
+            <span style="              color: white;              font-size: 16px;              font-weight: bold;              ">Live</span>
+            <span>{{ $store.state.usersOnline }}</span>
+          </div>
+        </li>
+             
+
+               <li title="Evento Abierto" alt="Evento Abierto" class="list-item-navLeft config" v-if="$store.state.candadoModoLive == 1 && $store.state.eventLiveMode == 0" >
+              <span style="              color: white;              font-size: 16px;              font-weight: bold;              ">Open</span>
+              </li>
+
+              
+               <li title="Evento Cerrado" alt="Evento Cerrado" class="list-item-navLeft config" v-if="$store.state.candadoModoLive == 0 && $store.state.eventLiveMode == 0" >
+              <span style="              color: white;              font-size: 16px;              font-weight: bold;              ">Close</span>
+              </li>
           <li
             class="list-item-navLeft config"
             title="Compartir"

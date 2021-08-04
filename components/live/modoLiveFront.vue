@@ -80,7 +80,8 @@ export default {
       titulo: "",
       keySimpleChoice: 0,
       keyEncuesta: 0, 
-      keyAll: 0
+      keyAll: 0, 
+      conta: 0
     };
   },
 
@@ -108,7 +109,14 @@ export default {
                 this.keyAll++
             }
 
+            if(this.conta > 0){
+                  if(response.tipoEncuesta[0].tipo == 4){
+            this.$refs['diaHoraFront'].getDiayHoraByIdEncuesta(response.tipoEncuesta[0].id)
+            }
+            }
+            this.conta++
 
+            
             this.id = response.tipoEncuesta[0].id;
             this.titulo = response.tipoEncuesta[0].titulo;
             this.$store.commit("setmostrarEnMoLive", true);

@@ -117,6 +117,11 @@ export default {
     VueQrcode,
     Reaccion,
   },
+  watch:{
+        myEmitErrors: function (values, oldValues) {
+              console.log(values)
+        }
+  },
   async asyncData({ params, store, redirect, app }) {
     const response = await app.$axios.$get(
       "get_event_by_cod_front?codigo=" + params.cod
@@ -158,6 +163,9 @@ export default {
 
   data() {
     return {
+
+       myEmitErrors: { // Emit errors will get collected here now
+  },
       mostrar: true,
       fullscreen: false,
       componentKey: 0,
@@ -213,16 +221,23 @@ export default {
         (resp) => {}
       );
     },
+     timer(){
+  this.intervalo = setInterval(() => {
+         this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  }
+            );
+      }, 5000);
+    }
   },
   mounted() {
-    //  window.addEventListener("beforeunload", this.beforeWindowUnload);
-    console.log("tipo usuario", this.userTipo);
-    console.log("id usuario", this.$store.state.p);
+   var vm = this
     var User = this.$store.state.p;
     console.log("usuario", User);
     var codigo = this.$route.params.cod;
     this.socket = this.$nuxtSocket({
       channel: "/",
+      reconnection: true,
+       emitTimeout: 1000, // 1000 ms
+       emitErrorsProp: 'myEmitErrors'
     });
 
     console.log("socket", this.socket);
@@ -235,6 +250,16 @@ export default {
       },
       (resp) => {}
     );
+
+    this.timer()
+
+
+
+
+     this.socket.on("pong", (data) => {
+      console.log("recibi pong desde el servidor, clientes conectados: ", data.conectados);
+      this.$store.commit("setusersOnline", data.conectados);
+    });
 
     this.socket.on("cambiarEncuestaActiva", (data) => {
       console.log("cambiando encuesta Activa del Room", data.codigo);
@@ -293,7 +318,7 @@ export default {
       console.log("llego el voto usuario encuesta", data)
       this.$store.commit("setcontadorModoLiveFront", 1);
       console.log("componentKey MOdolivefront, ", this.$refs["modoLiveFront"])
-           this.$refs["modoLiveFront"].keyEncuesta += 1
+          this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
     
     });
 

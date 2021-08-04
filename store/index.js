@@ -328,7 +328,9 @@ export const state = () => ({
 
   ],
 
-  idioma: {}
+  idioma: {},
+  ipUser: "", 
+  paisUser: ""
 
 })
 
@@ -347,7 +349,13 @@ export const getters = {
 export const mutations = {
 
 
-
+  
+  setpaisUser(state, val) {
+    state.paisUser = val
+  },
+  setipUser(state, val) {
+    state.ipUser = val
+  },
 setisLoading(state, val) {
   state.isLoading = val
 },
@@ -414,6 +422,7 @@ export const actions = {
     const headers = (req && req.headers) ? Object.assign({}, req.headers) : {}
  //   console.log(headers)
     const xForwardedFor = headers['x-forwarded-for']
+    
     const xRealIp = headers['x-real-ip']
     console.log(xForwardedFor)
     var ipReal = xForwardedFor
@@ -429,7 +438,9 @@ export const actions = {
       var ipUser = dataIp.query
     }
 
- 
+    commit("setipUser", ipReal);
+    commit("setpaisUser", pais);
+    
 
 
     const cookieIdioma = this.$cookies.get('_lang_poll') 

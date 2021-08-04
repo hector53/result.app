@@ -89,6 +89,7 @@ export default {
       conectados: 0,
         isLoading: true,
       arrayReacciones: [],
+      intervalo: null
     };
   },
 
@@ -218,13 +219,26 @@ export default {
         (resp) => {}
       );
     },
+     enviarPing(){
+       console.log("enviando ping")
+       this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  },
+            (resp) => {}
+            );
+    }, 
+    timer(){
+  this.intervalo = setInterval(() => {
+         this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  },
+            (resp) => {}
+            );
+      }, 5000);
+    }
   },
   mounted() {
     window.addEventListener("keyup", this.detectaTecla);
     this.socket = this.$nuxtSocket({
       channel: "/",
+        reconnection: true,
     });
-
     var User = this.$store.state.p;
     var codigo = this.$route.params.cod;
     this.socket.emit(
@@ -235,6 +249,14 @@ export default {
       },
       (resp) => {}
     );
+
+this.timer()
+  
+
+     this.socket.on("pong", (data) => {
+      console.log("recibi pong desde el servidor, clientes conectados: ", data.conectados);
+         this.$store.commit("setusersOnline", data.conectados);
+    });
 
    this.socket.on("activarModoPresentacion", (data) => {
       console.log("llego e modo stop presentacion", data)

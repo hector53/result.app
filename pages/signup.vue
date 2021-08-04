@@ -110,6 +110,8 @@ export default {
             userName: this.userName,
             pass: this.pass,
             userCookie: cookieNotUser,
+            ipUser: this.$store.state.ipUser,
+            paisUser: this.$store.state.paisUser,
           })
           .then((response) => {
             if (response.status != 0) {

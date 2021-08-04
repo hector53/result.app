@@ -65,6 +65,8 @@ export default {
     // module options
     sockets: [{
       name: 'main',
+      transports: ['websocket'],
+  allowUpgrades: false,
     //url: 'http://localhost:5000', 
     url: 'https://api.result.app'
     }]

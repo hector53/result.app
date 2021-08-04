@@ -51,10 +51,11 @@ export default {
   data() {
     return {
       dias: [],
-      isLoading: true,
+      isLoading: false,
       modoenVivo: 0,
       votosTotales: 0,
       usuariosTotales: 0,
+      soyYo: false
     };
   },
   components: { Loading },
@@ -90,7 +91,8 @@ export default {
           });
           return false
             }
-            this.getDiayHoraByIdEncuesta(this.id_encuesta);
+            this.soyYo = true
+          //  this.getDiayHoraByIdEncuesta(this.id_encuesta);
           })
           .catch(({ response }) => {
             console.log(response);
@@ -99,7 +101,9 @@ export default {
     },
 
     async getDiayHoraByIdEncuesta(id) {
-      this.isLoading = true;
+        if(this.soyYo){
+          this.isLoading = true;
+      }
       await this.$axios
         .$get(
           "get_datos_diayhora_by_id_encuesta?id_evento=" +
