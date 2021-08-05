@@ -215,15 +215,11 @@ export default {
         },
       });
     },
-    beforeWindowUnload() {
-      this.socket.emit(
+   async beforeWindowUnload() {
+       this.socket.emit(
         "desconectar",
-        {
-          username: this.$store.state.p,
-          room: this.$route.params.cod,
-        },
-        (resp) => {}
       );
+
     },
     async timer() {
       this.intervalo = setInterval(() => {
@@ -264,6 +260,7 @@ if(response.connected == false)
     },
   },
   mounted() {
+    window.addEventListener("beforeunload", this.beforeWindowUnload);
     var vm = this;
     var User = this.$store.state.p;
     console.log("usuario", User);
@@ -401,6 +398,9 @@ if(response.connected == false)
       );
       this.$store.commit("setusersOnline", data.conectados);
     });
+  },
+    destroyed() {
+   window.removeEventListener("beforeunload", this.detectaTecla);
   },
 };
 </script>

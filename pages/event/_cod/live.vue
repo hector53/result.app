@@ -42,7 +42,7 @@ import HeaderLive from "../../../components/live/headerLive.vue";
 import Reaccion from "../../../components/reacciones/reaccion.vue";
 export default {
   middleware: "miauth",
-  layout: "live",
+  layout: "layoutLimpio",
   components: { HeaderLive, ContentLiveOff, Reaccion, Loading },
 
   async asyncData({ params, store, redirect, app }) {
@@ -208,6 +208,7 @@ export default {
       this.$refs["contentLive"].enLinea = this.conectados;
     },
     beforeWindowUnload() {
+      
       this.socket.emit(
         "desconectar",
       );
@@ -259,7 +260,7 @@ if(response.connected == false)
   },
   mounted() {
     window.addEventListener("keyup", this.detectaTecla);
-    window.addEventListener("beforeunload", this.detectaTecla);
+    window.addEventListener("beforeunload", this.beforeWindowUnload);
     this.socket = this.$nuxtSocket({
       channel: "/",
         reconnection: true,
@@ -361,7 +362,7 @@ this.timer()
   },
   destroyed() {
     window.removeEventListener("keyup", this.detectaTecla);
-   window.removeEventListener("beforeunload", this.detectaTecla);
+   window.removeEventListener("beforeunload", this.beforeWindowUnload);
 
     
   },
