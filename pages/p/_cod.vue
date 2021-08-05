@@ -49,7 +49,7 @@
               <vue-qrcode :value="urlQr" class="imgQr" />
             </div>
           </div>
-          
+
           <modo-live-front
             v-else
             :key="componentKey"
@@ -117,10 +117,10 @@ export default {
     VueQrcode,
     Reaccion,
   },
-  watch:{
-        myEmitErrors: function (values, oldValues) {
-              console.log(values)
-        }
+  watch: {
+    myEmitErrors: function (values, oldValues) {
+      console.log(values);
+    },
   },
   async asyncData({ params, store, redirect, app }) {
     const response = await app.$axios.$get(
@@ -163,14 +163,16 @@ export default {
 
   data() {
     return {
-
-       myEmitErrors: { // Emit errors will get collected here now
-  },
+      myEmitErrors: {
+        // Emit errors will get collected here now
+      },
       mostrar: true,
       fullscreen: false,
       componentKey: 0,
       urlQr: "https://result.app/p/" + this.$route.params.cod,
       arrayReacciones: [],
+      conectado: 0,
+      conectadoViejo: 0,
     };
   },
 
@@ -192,15 +194,17 @@ export default {
       this.arrayReacciones.push({ reaccion: val, index: index });
     },
     async getEncuestasByIdEvent() {
-     await this.$axios.$get(
-        "get_event_by_cod_front?codigo=" + this.$route.params.cod
-      ).then((response) => {
-           this.$store.commit("setarrayEncuestaActiveLiveMode", response.encuestas);
-      }).catch(({response}) => {
-        console.log(response)
-      })
-
-     
+      await this.$axios
+        .$get("get_event_by_cod_front?codigo=" + this.$route.params.cod)
+        .then((response) => {
+          this.$store.commit(
+            "setarrayEncuestaActiveLiveMode",
+            response.encuestas
+          );
+        })
+        .catch(({ response }) => {
+          console.log(response);
+        });
     },
 
     activarFullScreen() {
@@ -221,23 +225,54 @@ export default {
         (resp) => {}
       );
     },
-     timer(){
-  this.intervalo = setInterval(() => {
-         this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  }
-            );
+    async timer() {
+      this.intervalo = setInterval(() => {
+        this.conectadoViejo = this.conectado;
+        console.log("envie el ping: conectado=", this.conectado);
+
+        this.enviarPing();
       }, 5000);
-    }
+    },
+    async enviarPing() {
+  var response =    await this.socket.emit(
+        "ping",
+        { username: this.$store.state.p, room: this.$route.params.cod },
+        (resp) => {
+          console.log("recibiendo respuesta", resp);
+          this.conectado++;
+        }
+      );
+console.log("respuensasdasdas asd", response)
+if(response.connected == false)
+{
+  console.log("ersta desconectado ,. vamos a conectarnos")
+  this.socket = this.$nuxtSocket({
+      channel: "/",
+      reconnection: true,
+      emitTimeout: 1000, // 1000 ms
+      emitErrorsProp: "myEmitErrors",
+    });
+   this.socket.emit(
+      "joinRoom",
+      {
+      username: this.$store.state.p, room: this.$route.params.cod
+      },
+      (resp) => {}
+    );
+}
+    
+    },
   },
   mounted() {
-   var vm = this
+    var vm = this;
     var User = this.$store.state.p;
     console.log("usuario", User);
     var codigo = this.$route.params.cod;
     this.socket = this.$nuxtSocket({
       channel: "/",
       reconnection: true,
-       emitTimeout: 1000, // 1000 ms
-       emitErrorsProp: 'myEmitErrors'
+      emitTimeout: 1000, // 1000 ms
+      emitErrorsProp: "myEmitErrors",
     });
 
     console.log("socket", this.socket);
@@ -251,13 +286,13 @@ export default {
       (resp) => {}
     );
 
-    this.timer()
+    this.timer();
 
-
-
-
-     this.socket.on("pong", (data) => {
-      console.log("recibi pong desde el servidor, clientes conectados: ", data.conectados);
+    this.socket.on("pong", (data) => {
+      console.log(
+        "recibi pong desde el servidor, clientes conectados: ",
+        data.conectados
+      );
       this.$store.commit("setusersOnline", data.conectados);
     });
 
@@ -308,22 +343,18 @@ export default {
     });
 
     this.socket.on("cambioDeEncuesta", (data) => {
-      console.log(data)
+      console.log(data);
       this.$store.commit("setcontadorModoLiveFront", 1);
-           this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
-  //    this.componentKey += 1;
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+      //    this.componentKey += 1;
     });
 
     this.socket.on("votoUsuarioEncuesta", (data) => {
-      console.log("llego el voto usuario encuesta", data)
+      console.log("llego el voto usuario encuesta", data);
       this.$store.commit("setcontadorModoLiveFront", 1);
-      console.log("componentKey MOdolivefront, ", this.$refs["modoLiveFront"])
-          this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
-    
+      console.log("componentKey MOdolivefront, ", this.$refs["modoLiveFront"]);
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
     });
-
-
-    
 
     this.socket.on("join_room_announcement", (data) => {
       console.log(
@@ -335,11 +366,10 @@ export default {
 
     this.socket.on("activarModoPresentacion", (data) => {
       this.mostrar = false;
-       this.componentKey += 1;
+      this.componentKey += 1;
       this.statusEvent = data.modo;
       this.modoLive = data.modo;
       this.mostrar = true;
-
     });
 
     this.socket.on("cambiarStatusEvent", (data) => {
@@ -349,7 +379,7 @@ export default {
         this.modoLive = 0;
       }
       this.mostrar = false;
-       this.componentKey += 1;
+      this.componentKey += 1;
       this.statusEvent = data.status;
       this.mostrar = true;
     });

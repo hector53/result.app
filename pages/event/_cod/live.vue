@@ -89,7 +89,9 @@ export default {
       conectados: 0,
         isLoading: true,
       arrayReacciones: [],
-      intervalo: null
+      intervalo: null, 
+        conectado: 0,
+      conectadoViejo: 0,
     };
   },
 
@@ -137,13 +139,9 @@ export default {
     irAtras() {
       this.socket.emit(
         "desconectar",
-        {
-          username: this.$store.state.p,
-          room: this.$route.params.cod,
-        },
-        (resp) => {}
       );
       this.$router.push({ name: "event-cod" });
+      clearInterval(this.intervalo);
     },
     toggle() {
       fullscreen.toggle(this.$el.querySelector(".fullscreen-wrapper"), {
@@ -212,11 +210,6 @@ export default {
     beforeWindowUnload() {
       this.socket.emit(
         "desconectar",
-        {
-          username: this.$store.state.p,
-          room: this.$route.params.cod,
-        },
-        (resp) => {}
       );
     },
      enviarPing(){
@@ -226,15 +219,47 @@ export default {
             );
     }, 
     timer(){
-  this.intervalo = setInterval(() => {
-         this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  },
-            (resp) => {}
-            );
+      this.intervalo = setInterval(() => {
+        this.conectadoViejo = this.conectado;
+        console.log("envie el ping: conectado=", this.conectado);
+
+        this.enviarPing();
       }, 5000);
-    }
+    },
+
+      async enviarPing() {
+  var response =    await this.socket.emit(
+        "ping",
+        { username: this.$store.state.p, room: this.$route.params.cod },
+        (resp) => {
+          console.log("recibiendo respuesta", resp);
+          this.conectado++;
+        }
+      );
+console.log("respuensasdasdas asd", response)
+if(response.connected == false)
+{
+  console.log("ersta desconectado ,. vamos a conectarnos")
+  this.socket = this.$nuxtSocket({
+      channel: "/",
+      reconnection: true,
+      emitTimeout: 1000, // 1000 ms
+      emitErrorsProp: "myEmitErrors",
+    });
+   this.socket.emit(
+      "joinRoom",
+      {
+      username: this.$store.state.p, room: this.$route.params.cod
+      },
+      (resp) => {}
+    );
+}
+    
+    },
   },
   mounted() {
     window.addEventListener("keyup", this.detectaTecla);
+    window.addEventListener("beforeunload", this.detectaTecla);
     this.socket = this.$nuxtSocket({
       channel: "/",
         reconnection: true,
@@ -336,6 +361,9 @@ this.timer()
   },
   destroyed() {
     window.removeEventListener("keyup", this.detectaTecla);
+   window.removeEventListener("beforeunload", this.detectaTecla);
+
+    
   },
 };
 </script>

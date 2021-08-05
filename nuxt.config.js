@@ -65,16 +65,15 @@ export default {
     // module options
     sockets: [{
       name: 'main',
-      transports: ['websocket'],
-  allowUpgrades: false,
-    //url: 'http://localhost:5000', 
+   
+ //   url: 'http://localhost:5000', 
     url: 'https://api.result.app'
     }]
   },
 
   axios: {
   baseURL: 'https://api.result.app/api/',
-  //baseURL: 'http://127.0.0.1:5000/api/',
+ // baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 
