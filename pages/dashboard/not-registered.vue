@@ -43,10 +43,14 @@
         </div>
 
         <h1
-          class="headingM has-text-left"
-          style="margin-bottom: 40px; margin-top: 40px"
-        >
-          {{ $store.state.idioma.dashboardTitle2 }}
+          class="headingM has-text-left" style="margin-bottom: 40px;  margin-top: 40px;  display: flex;    justify-content: space-between;        "    >
+          <span>
+            {{ $store.state.idioma.dashboardTitle2 }}
+          </span>
+
+          <button class="buttonN blue" @click="btnAddEncuesta" >
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
         </h1>
         <div v-for="(item, index) in misEncuestas" :key="index">
           <div class="CubOption cubreDiv" @click="abrirEvento(item.codigo)">
@@ -126,11 +130,27 @@
         </div>
       </div>
     </b-modal>
+
+
+      <b-modal v-model="modalAddNew" :width="600">
+      <div class="card">
+        <div class="card-content">
+          <div class="content">
+           <tipos-encuestas-modal
+            @addNewEncuesta="addNewEncuesta"
+          ></tipos-encuestas-modal>
+          </div>
+        </div>
+      </div>
+    </b-modal>
+
+   
   </div>
 </template>
 
 <script>
 import Loading from "vue-loading-overlay";
+import TiposEncuestasModal from '../../components/indexComps/tiposEncuestasModal.vue';
 import DiaHoraEditUserNotRegistered from "../../components/live/encuestas/diaHora/diaHoraEditUserNotRegistered.vue";
 import EncuestaSimpleEditNotRegistered from "../../components/live/encuestas/encuestaSimpleEditNotRegistered.vue";
 import nubeEditNotRegistered from "../../components/live/encuestas/nubeDePalabras/nubeEditNotRegistered.vue";
@@ -140,6 +160,7 @@ export default {
     nubeEditNotRegistered,
     EncuestaSimpleEditNotRegistered,
     DiaHoraEditUserNotRegistered,
+    TiposEncuestasModal,
   },
   data() {
     return {
@@ -157,12 +178,41 @@ export default {
         this.$store.state.idioma.dateHeadBlock,
         this.$store.state.idioma.qaHeadBlock,
       ],
-      isLoading: true
+      isLoading: true, 
+      modalAddNew: false
       
     };
   },
 
   methods: {
+    btnAddEncuesta(){
+        this.modalAddNew = true
+    },
+    addNewEncuesta(val){
+
+      if(val == 1 || val == 2 || val == 4){
+              if(this.misEncuestas.length >= 3){
+            
+               this.$swal({
+                type: 'error',
+                title: 'Oops...',
+                text: 'Solo puedes crear 3 encuestas con el plan sin registro',
+                footer: '<a href="/singup" style="color:#59b1ff">Aún no tienes cuenta ? registrate aquí</a>'
+              })
+          }else{
+                if(val == 1){
+                  this.$router.push({name: "new-event-multiple-choice"})
+                }
+                 if(val == 2){
+                  this.$router.push({name: "new-event-cloud-words"})
+                }
+                 if(val == 4){
+                  this.$router.push({name: "new-event-date"})
+                }
+          }
+      }
+      
+    },
     cerrarModalEdit() {
       this.modalEditEventUserNotRegistered = false;
       this.getEvents();
@@ -216,10 +266,12 @@ export default {
       await this.$axios
         .$get("events_not_registered?cookieNotUser=" + cookieNotUser)
         .then((response) => {
-          console.log(response);
-          this.misEncuestas = response.encuestas;
+          if(response.status == 1){
+              this.misEncuestas = response.encuestas;
           this.cantEncuestas = response.cantEncuestas;
           this.cantVotos = response.cantVotos;
+          }
+          
           this.isLoading = false
         }).catch(({response}) => {
           this.isLoading = false

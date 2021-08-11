@@ -1,13 +1,13 @@
 <template>
-  <div>
-    <div :class="{ cubreModoLive: modoLive == 1 }">
+  <div style="    height: 100%; ">
+    <div :class="{ cubreModoLivep: modoLive == 1 }">
       <header-live-front
         v-if="modoLive == 1"
         @activarFullScreen="activarFullScreen"
       ></header-live-front>
       <nav-bar v-else></nav-bar>
 
-      <div v-if="mostrar">
+      <div v-if="mostrar" style="padding-left: 10px;    padding-right: 10px;">
         <div v-if="statusEvent == 1 && modoLive == 0">
           <get-evento
             ref="getEvento"
@@ -91,11 +91,7 @@
         </div>
       </div>
 
-      <div class="footerLive" v-if="modoLive == 1">
-        <div class="centerFooter">
-          <h1>Result</h1>
-        </div>
-      </div>
+      
     </div>
     <footer-t v-if="modoLive == 0"></footer-t>
   </div>
@@ -283,7 +279,7 @@ if(response.connected == false)
       (resp) => {}
     );
 
-    this.timer();
+ //   this.timer();
 
     this.socket.on("pong", (data) => {
       console.log(

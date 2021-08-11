@@ -62,9 +62,9 @@
               }}</a>
             </div>
             <div class="my-4">
-              <a class="navbar-item title is-5 my-2" href="/">{{
+              <nuxt-link class="navbar-item title is-5 my-2" to="/price">{{
                 $store.state.idioma.priceMenu
-              }}</a>
+              }}</nuxt-link>
             </div>
 
             <div
@@ -103,26 +103,20 @@
             <a class="navbar-item">
               {{ $store.state.idioma.productMenu }}
             </a>
-            <a class="navbar-item">
+            <nuxt-link class="navbar-item" to="/price">
               {{ $store.state.idioma.priceMenu }}
-            </a>
+            </nuxt-link>
             <div class="navbar-item" v-if="login">
               <div class="buttons">
                 <nuxt-link
                   class="button is-info"
                   to="/dashboard"
                   style="font-size: 14px; background-color: #59b1ff"
+                  v-if="$route.name != 'dashboard'"
                 >
                   {{ $store.state.idioma.dashboardTitle }}
                 </nuxt-link>
-                <a
-                  class="button is-info"
-                  href="#"
-                  @click="logout"
-                  style="font-size: 14px; background-color: #59b1ff"
-                >
-                  {{ $store.state.idioma.salirTitle }}
-                </a>
+             
               </div>
             </div>
             <div class="navbar-item" v-else>
@@ -143,6 +137,7 @@
                 </nuxt-link>
               </div>
             </div>
+            <perfil-drop-down @logout="logout"></perfil-drop-down>
           </div>
         </div>
       </nav>
@@ -152,7 +147,9 @@
 
 <script>
 import { mapState } from "vuex";
+import perfilDropDown from './perfilDropDown.vue';
 export default {
+  components: { perfilDropDown },
   data() {
     return {
       navBar: false,
@@ -161,6 +158,13 @@ export default {
       idioma: {},
     };
   },
+  filters: {
+  capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+},
   computed: {
     ...mapState(["login"]),
   },

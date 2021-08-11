@@ -1,7 +1,11 @@
 export default {
   env: {
- // baseUrl: process.env.BASE_URL || 'http://localhost:3000'
+  //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
  baseUrl: process.env.BASE_URL || 'https://api.result.app'
+  },
+  loading: {
+    color: '#59b1ff',
+    height: '5px',
   },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -37,7 +41,9 @@ export default {
   plugins: [
     { src: "~/plugins/vueworldcloud", ssr: false }, 
     { src: "~/plugins/vueloading", ssr: false }, 
+    { src: "~/plugins/vue-country", ssr: false }, 
     { src: '@/plugins/vue-html2pdf', mode: 'client' }
+    
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

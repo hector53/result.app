@@ -218,13 +218,44 @@ export default {
           }
         });
     },
+     async getEncuestasNotUser(val){
+      var cookieNotUser = this.$cookies.get("_r_u");
+         await this.$axios
+        .$get("events_not_registered?cookieNotUser=" + cookieNotUser)
+        .then((response) => {
+          console.log(response)
+          if(response.status == 1){
+                  if (response.cantEncuestas >= 3){
+                  this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Solo puedes crear 3 encuestas con el plan sin registro',
+                  footer: '<a href="/signup" style="color:#59b1ff">Aún no tienes cuenta ? registrate aquí</a>'
+                  })
+
+                  }else{
+                    if(val==1){this.$router.push("/new-event/multiple-choice");}
+                    if(val==2){this.$router.push("/new-event/cloud-words");}
+                    if(val==4){this.$router.push("/new-event/date");}
+                  
+                  }
+          }else{
+            return 0
+          }
+          
+        }).catch(({response}) => {
+          console.log(response)
+        })
+    },
     addNewEncuesta(val) {
       if (this.$route.name == "index") {
         if (val == 1) {
           if (this.$store.state.login) {
             this.crearEvento(1);
           } else {
-            this.$router.push("/new-event/multiple-choice");
+            //get cantidad de encuestas creadas
+             this.getEncuestasNotUser(1)
+            
           }
         }
 
@@ -233,7 +264,7 @@ export default {
             this.crearEvento(2);
           } else {
             //enviar a registrarse
-            this.$router.push("/new-event/cloud-words");
+            this.getEncuestasNotUser(2)
           }
         }
 
@@ -250,8 +281,8 @@ export default {
           if (this.$store.state.login) {
             this.crearEvento(4);
           } else {
-            //enviar a registrarse
-            this.$router.push("/new-event/date");
+            this.getEncuestasNotUser(4)
+           
           }
         }
 

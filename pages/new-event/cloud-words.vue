@@ -9,6 +9,9 @@
         >
       </div>
       <div class="form-block w-form has-text-left">
+        <h1 class="headingM has-text-left">
+        Cloud of Words
+      </h1>
         <div class="div-block-4">
           <label for="name" class="field-label has-text-left">{{
             $store.state.idioma.questionLabel

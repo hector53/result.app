@@ -6,7 +6,9 @@
 
 <script>
 export default {
-    middleware: 'miauth',
+    middleware({  redirect }) {
+        return redirect('/')
+    },
   data() {
     return {
      

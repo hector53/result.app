@@ -9,7 +9,7 @@
         >
       </div>
       <h1 class="headingM has-text-left">
-        {{ $store.state.idioma.pollTitle }}
+        Simple Poll
       </h1>
       <p class="hero-subhead has-text-left">
         {{ $store.state.idioma.pollSubtitle }}

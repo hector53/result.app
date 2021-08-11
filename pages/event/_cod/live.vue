@@ -26,11 +26,7 @@
       :posicion="index + 5000"
       @quitarReaccion="quitarReaccion"
     ></reaccion>
-    <div class="footerLive">
-      <div class="centerFooter">
-        <h1>Result</h1>
-      </div>
-    </div>
+  
   </div>
 </template>
 
@@ -276,7 +272,7 @@ if(response.connected == false)
       (resp) => {}
     );
 
-this.timer()
+//this.timer()
   
 
      this.socket.on("pong", (data) => {

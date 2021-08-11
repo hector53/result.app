@@ -235,7 +235,20 @@ export default {
         });
     },
     async crearEvento() {
-      var dataUser = this.$cookies.get("r_user");
+
+          if(this.$store.state.premium == 0){
+              if(this.misEventos.length >= 5){
+              this.$swal({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Solo puedes crear 5 eventos con el plan limitado',
+              footer: '<a href="/upgrade" style="color:#59b1ff">Actualiza al Plan Pro aquí</a>'
+              })
+              return false
+              }
+          }
+   
+ var dataUser = this.$cookies.get("r_user");
       var nameEvento = dataUser.username;
 
       this.isLoading = true;
@@ -262,6 +275,8 @@ export default {
           this.isLoading = false;
           console.log(response);
         });
+      
+     
     },
   },
   mounted() {

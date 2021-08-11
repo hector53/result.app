@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="    padding-left: 10px;    padding-right: 10px;        margin: auto;     margin-top: 0;    width: 100%;"  >
     <loading :active="$store.state.isLoading" color="#59b1ff" loader="dots" :is-full-page="true" />
     <nav-bar-evento
       @activarLoader="activarLoader"
@@ -130,9 +130,7 @@
         @click="closeModalEditLive"
       ></button>
     </div>
-    <footer-t v-if="$store.state.isLoading == false"
-      id="scrollAqui"
-    ></footer-t>
+  
   </div>
 </template>
 
@@ -401,7 +399,23 @@ export default {
       }
     },
     addNewEncuesta(val) {
-      this.opcionesPredeterminadas = false;
+      if(this.$store.state.premium == 0){
+            if(this.arrayEncuestas.length >=5){
+          this.$swal({
+                  type: 'error',
+                  title: 'Oops...',
+                  text: 'Solo puedes crear 5 encuestas con el plan Limitado',
+                   footer: '<a href="/upgrade" style="color:#59b1ff">Actualiza al Plan Pro aquí</a>'
+                  })
+                  return false
+      }
+      
+      }
+
+      
+
+     
+              this.opcionesPredeterminadas = false;
       this.dropdownAddPoll = false;
       if (val == 1) {
         this.arrayEncuestas.push({
@@ -456,6 +470,10 @@ export default {
 
       let element = document.getElementById("scrollAqui");
       element.scrollIntoView(false);
+      
+
+
+    
     },
 
     async publicarEvento() {

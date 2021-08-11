@@ -1,12 +1,10 @@
 <template>
-  <div>
+  <div class="x100">
 
   <notify-bar v-if="$route.name == 'index'"></notify-bar>
   <nav-bar></nav-bar>
-  <nuxt style="padding-bottom: 50px;
-    padding-left: 10px;
-    padding-right: 10px;" />
-  <footer-t :class="{'positionAbsolute': $route.name == 'new-event-qya'   }"></footer-t>
+  <nuxt style="    padding-left: 10px;    padding-right: 10px;        margin: auto;     margin-top: 0;    width: 100%;" />
+  <footer-t ></footer-t>
   </div>
 </template>
 

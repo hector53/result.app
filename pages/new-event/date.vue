@@ -2,6 +2,9 @@
   <div>
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
     <div style="max-width: 940px; margin: auto">
+      <h1 class="headingM has-text-left">
+        Day and time poll
+      </h1>
       <div class="control mt-2">
         <input
           class="input"

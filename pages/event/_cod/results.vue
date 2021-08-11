@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div  style="    padding-left: 10px;    padding-right: 10px;        margin: auto;     margin-top: 0;    width: 100%;" >
     <loading :active="isLoading" color="#59b1ff" loader="dots" />
     <nav-bar-evento
       v-if="eventT"
@@ -143,7 +143,6 @@
             
           </div>
 
-    <footer-t :class="{ positionAbsolute: encuestas.length == 0 }"></footer-t>
   </div>
 </template>
 

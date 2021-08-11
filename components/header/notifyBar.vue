@@ -44,11 +44,13 @@ export default {
           if (response.status == 1) {
             location.href = "/p/" + this.buscar;
           } else {
-            this.$swal({
-              type: "error",
-              title: "Oops...",
-              text: "codigo no existe",
-            });
+             this.$buefy.toast.open({
+                    duration: 5000,
+                    message: `Codigo de evento no existe`,
+                    position: 'is-bottom',
+                    type: 'is-danger'
+                })
+             loader.hide()
           }
         }).catch(({response}) =>{
           loader.hide()

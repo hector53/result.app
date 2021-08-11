@@ -158,14 +158,17 @@
                 />
               </button>
 
-              <button
-                class="button is-info"
-                @click="publicarEvento"
-              >
-                <i class="fa fa-lock" aria-hidden="true"   v-if="$store.state.candadoModoLive == 0"></i>
-                <i class="fa fa-unlock" aria-hidden="true"   v-else></i>
+              <button class="button is-info" @click="publicarEvento">
+                <i
+                  class="fa fa-lock"
+                  aria-hidden="true"
+                  v-if="$store.state.candadoModoLive == 0"
+                ></i>
+                <i class="fa fa-unlock" aria-hidden="true" v-else></i>
               </button>
             </div>
+
+             <perfil-drop-down @logout="logout"></perfil-drop-down>
           </div>
         </div>
       </nav>
@@ -176,7 +179,9 @@
 <script>
 import { mapState } from "vuex";
 import ClickOutside from "vue-click-outside";
+import perfilDropDown from './perfilDropDown.vue';
 export default {
+  components: { perfilDropDown },
   props: ["eventStatus", "eventModo"],
   data() {
     return {
@@ -189,6 +194,13 @@ export default {
       modoLive: this.eventModo,
     };
   },
+    filters: {
+  capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }
+},
   computed: {
     ...mapState(["login"]),
   },
@@ -228,7 +240,7 @@ export default {
       this.dropdownPublicar = false;
     },
     async publicarEvento() {
-      this.$emit("publicarEvento")
+      this.$emit("publicarEvento");
     },
     async logout() {
       this.$cookies.remove("r_auth");
