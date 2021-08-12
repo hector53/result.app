@@ -201,6 +201,8 @@ export const actions = {
         console.log("error")
         commit("setLogin", false);
         this.$cookies.remove('r_auth')
+        //redirect 
+        redirect('/')
       }
     } else {
       //no esta logueado 

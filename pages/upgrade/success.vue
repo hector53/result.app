@@ -35,13 +35,13 @@ export default {
   },
   methods: {
       async updatePlan(){
-
+//preguntar si el payment intent ya fue pagado con la sesion q viene por arriba 
+//si ya esta pagado entonces cancelar el intervalo y redireccion
            await this.$axios
           .$post("update_plan_user", {
-            payment: 1,
-            plan: 2,
-            amount: 11
+            session_id: this.$route.query.session_id,
           }).then((response) => {
+             clearInterval(this.intervalo)
            location.href = "/dashboard"
 
           })
@@ -59,11 +59,11 @@ export default {
       }
    },
   mounted() {
-      
+      console.log(this.$route.query.session_id)
        this.intervalo = setInterval(() => {
-            clearInterval(this.intervalo)
-            this.updatePlan()
-         
+           
+           this.updatePlan()
+       //  location.href = "/dashboard"
         
       }, 3000);
   },

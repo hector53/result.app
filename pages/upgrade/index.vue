@@ -206,18 +206,11 @@ export default {
         color: "#59b1ff",
       });
 
-
-       await this.$axios
-          .$post("guardar_user_perfil_billing", {
-            company: this.companyName,
-            address: this.addressBilling,
-            city: this.city,
-            zip: this.zip,
-            country: this.country,
-          }).then((response) => {
-            console.log(response);
-            loader.hide()
-           this.$router.push({name: "upgrade-success"})
+    if(this.payment == 1){
+           await this.$axios
+          .$post("get_data_by_stripe").then((response) => {
+           console.log(response);
+          location.href = response.redirect
 
           })
           .catch(({ response }) => {
@@ -229,6 +222,8 @@ export default {
               type: "is-danger",
             });
           });
+    }   
+      
 
       },
         async getBillingData(){
