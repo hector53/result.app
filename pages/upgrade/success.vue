@@ -59,6 +59,8 @@ export default {
       }
    },
   mounted() {
+      var tokenUser = this.$cookies.get("r_auth");
+    this.$axios.setToken(tokenUser, "Bearer");
       console.log(this.$route.query.session_id)
        this.intervalo = setInterval(() => {
            
