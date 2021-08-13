@@ -31,10 +31,10 @@
               <b-dropdown-item
                 has-link
                 aria-role="menuitem" >
-                <nuxt-link :to="{name: 'upgrade'}" v-if="$store.state.premium == 0" >
+                <a @click="actualizarPlan" v-if="$store.state.premium == 0" >
                   <i class="fa fa-level-up" aria-hidden="true"></i>
                   Actualizar Plan
-                </nuxt-link>
+                </a>
 
                  <a v-if="$store.state.premium == 2 || $store.state.customerId != 0" @click="openCustomerPortal" >
                   <i class="fa fa-level-up" aria-hidden="true"></i>
@@ -67,6 +67,29 @@ export default {
   }
 },
   methods: {
+ async   actualizarPlan(){
+ let loader = this.$loading.show({
+        loader: "dots",
+        color: "#59b1ff",
+      });
+     await this.$axios
+          .$post("get_data_by_stripe").then((response) => {
+           console.log(response);
+          location.href = response.redirect
+
+          })
+          .catch(({ response }) => {
+            console.log(response.data);
+            loader.hide()
+            this.$buefy.toast.open({
+              duration: 5000,
+              message: response.data.message,
+              position: "is-bottom",
+              type: "is-danger",
+            });
+          });
+
+    },
       logout(){
           this.$emit("logout")
       },
