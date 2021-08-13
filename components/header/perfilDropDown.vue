@@ -36,6 +36,11 @@
                   Actualizar Plan
                 </nuxt-link>
 
+                 <a v-if="$store.state.premium == 2" @click="openCustomerPortal" >
+                  <i class="fa fa-level-up" aria-hidden="true"></i>
+                  Customer Portal
+                </a>
+
              
               </b-dropdown-item>
         
@@ -64,6 +69,25 @@ export default {
   methods: {
       logout(){
           this.$emit("logout")
+      },
+
+      async openCustomerPortal(){
+         var tokenUser = this.$cookies.get("r_auth");
+    this.$axios.setToken(tokenUser, "Bearer");
+      let loader = this.$loading.show({
+      loader: "dots",
+      color: "#59b1ff",
+      });
+
+      await this.$axios
+      .$get("get_portal_customer_by_user_id")
+      .then((response) => {
+          location.href = response.redirect
+      }).catch(({response}) =>{
+      loader.hide()
+      console.log(response)
+      })
+
       }
    },
   mounted() {},
