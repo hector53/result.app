@@ -95,14 +95,12 @@
           </button>
         </h1>
         <div v-for="(item, index) in misEventos" :key="index">
-          <nuxt-link
-            :to="{
-              name: 'event-cod',
-              params: { cod: item['codigo'] },
-            }"
+          <a
+            @click="abrirEvento(item['codigo'], item['disabled'])"
             style="color: #222"
+            :class="{'noCursor': item['disabled']==1 }"
           >
-            <div class="CubOption cubreDiv">
+            <div class="CubOption cubreDiv" :class="{'noCursor': item['disabled']==1 }">
               <div class="columns">
                 <div class="column is-flex is-justify-content-space-between">
                   <div class="cubreIconandOption is-flex has-text-left">
@@ -124,6 +122,7 @@
                     class="cubreResult is-flex is-justify-content-space-between"
                   >
                     <span v-text="item['fecha']"></span>
+                    <span v-if="item['disabled'] == 1">Disabled</span>
                     <div>
                        <i
                       class="fa fa-pencil-square-o iconEditQyA"
@@ -140,7 +139,7 @@
                 </div>
               </div>
             </div>
-          </nuxt-link>
+          </a>
         </div>
       </div>
     </section>
@@ -171,6 +170,19 @@ export default {
     Loading,
   },
   methods: {
+    abrirEvento(codigo, disabled){
+        if(disabled == 0){
+            this.$router.push({name: "event-cod", params: { cod: codigo } })
+        }else{
+
+           this.$swal({
+              type: 'error',
+              title: 'Oops...',
+              text: 'Este evento esta desactivado solo puedes tener 5 eventos con el plan limitado',
+              footer: '<a href="/upgrade" style="color:#59b1ff">Actualiza al Plan Pro aquí</a>'
+              })
+        }
+    },
      eliminarEvento(cod){
         this.$swal({
                 type: "error",

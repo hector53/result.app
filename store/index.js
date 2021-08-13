@@ -24,7 +24,8 @@ export const state = () => ({
   languajes: languajes,
   idioma: {},
   ipUser: "", 
-  paisUser: ""
+  paisUser: "", 
+  customerId: ""
 })
 
 
@@ -40,6 +41,12 @@ export const getters = {
 
 
 export const mutations = {
+
+  
+
+  setcustomerId(state, val) {
+    state.customerId = val
+  },
   setpremium(state, val) {
     state.premium = val
   },
@@ -175,6 +182,8 @@ export const actions = {
 
         commit("setpremium", response.premium);
         commit("setplanName", response.namePlan);
+        commit("setcustomerId", response.customerId);
+        
 
 
 

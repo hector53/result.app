@@ -36,7 +36,7 @@
                   Actualizar Plan
                 </nuxt-link>
 
-                 <a v-if="$store.state.premium == 2" @click="openCustomerPortal" >
+                 <a v-if="$store.state.premium == 2 || $store.state.customerId != 0" @click="openCustomerPortal" >
                   <i class="fa fa-level-up" aria-hidden="true"></i>
                   Customer Portal
                 </a>
@@ -90,7 +90,9 @@ export default {
 
       }
    },
-  mounted() {},
+  mounted() {
+    console.log("customer id: ", this.$store.state.customerId)
+  },
 };
 </script>
 

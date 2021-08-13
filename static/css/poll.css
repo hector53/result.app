@@ -2222,7 +2222,9 @@ textarea#question-field {
 }
 
 /*form question */
-
+.noCursor{
+    cursor: none;
+}
 /*list question */
 
 .listPreguntas{

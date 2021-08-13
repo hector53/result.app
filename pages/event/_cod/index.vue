@@ -162,6 +162,19 @@ export default {
     DiaHoraAdd,
     QyaAdd,
   },
+  async asyncData({ params, store, redirect, app, route }) {
+    var tokenUser = app.$cookies.get("r_auth");
+    app.$axios.setToken(tokenUser, "Bearer");
+    const response = await app.$axios.$get("getSessionAndCodLive?cod="+route.params.cod)
+    if(response.status == 0){
+      return redirect("/");
+    }
+    if(response.status == 2){
+      return redirect("/dashboard");
+    }
+    
+
+  },
   head() {
     return {
       title: "Event - " + this.$route.params.cod + " - Resultapp",

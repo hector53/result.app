@@ -82,124 +82,7 @@
             </b-field>
           </section>
         </b-tab-item>
-        <b-tab-item label="Billing Info" icon="wallet"  v-if="$store.state.premium > 0">
-          <section class="has-text-left">
-            <b-field
-              label="Company / name"
-              :type="{ 'is-danger': hasError == 'company' }"
-              :message="{
-                'Company Name is required': hasError == 'company',
-              }"
-            >
-              <b-input
-                name="companyName"
-                placeholder="Company / name"
-                v-model="companyName"
-              ></b-input>
-            </b-field>
-            <b-field
-              label="Address"
-              :type="{ 'is-danger': hasError == 'address' }"
-              :message="{
-                'Address is required': hasError == 'address',
-              }"
-            >
-              <b-input
-                name="address"
-                placeholder="Address"
-                v-model="addressBilling"
-              ></b-input>
-            </b-field>
-
-            <b-field grouped>
-              <b-field
-                label="City"
-                expanded
-                :type="{ 'is-danger': hasError == 'city' }"
-                :message="{
-                  'City is required': hasError == 'city',
-                }"
-              >
-                <b-input placeholder="City" v-model="city"></b-input>
-              </b-field>
-              <b-field
-                label="Zip"
-                expanded
-                :type="{ 'is-danger': hasError == 'zip' }"
-                :message="{
-                  'Zip is required': hasError == 'zip',
-                }"
-              >
-                <b-input placeholder="Zip" v-model="zip"></b-input>
-              </b-field>
-            </b-field>
-
-            <b-field
-              label="Country"
-              :type="{ 'is-danger': hasError == 'country' }"
-              :message="{
-                'Country is required': hasError == 'country',
-              }"
-            >
-              <div class="control">
-                <span class="select is-empty" style="width: 100%">
-                  <country-select
-                    v-model="country"
-                    :country="country"
-                    style="width: 100%"
-                  />
-                </span>
-              </div>
-            </b-field>
-
-            <b-field
-              ><!-- Label left empty for spacing -->
-              <p class="control has-text-center">
-                <b-button label="Save" type="is-info" @click="guardarBilling" />
-              </p>
-            </b-field>
-          </section>
-        </b-tab-item>
-        <b-tab-item label="My Suscription" icon="account-clock" v-if="$store.state.premium > 0">
-          <section class="has-text-left">
-            <div
-              data-v-67eab706=""
-              style="
-                border: 1px solid rgb(232, 240, 247);
-                border-radius: 4px;
-                padding: 16px;
-                margin-bottom: 16px;
-              "
-            >
-              <p data-v-67eab706="">Current Plan</p>
-              <h4 data-v-67eab706="" style="padding-top: unset">
-                {{$store.state.planName}} (monthly)
-              </h4>
-              <h5 data-v-67eab706=""  v-if="activePlan==1">next renewal {{renewalDate}}</h5>
-               <h5 data-v-67eab706=""  v-if="activePlan==0">End date {{renewalDate}}</h5>
-            </div>
-
-             <b-button size="is-medium" type="is-danger" @click="CancelSuscription" v-if="activePlan==1"
-                >
-                Cancel Suscription
-            </b-button>
-
-            <b-button size="is-medium" type="is-info" @click="yesCancelSuscription"  v-if="activePlan==0"
-                >
-                Renovar Suscription
-            </b-button>
-          </section>
-        </b-tab-item>
-        <b-tab-item label="Payment History" icon="clipboard-list-outline" v-if="$store.state.premium > 0">
-          <section class="has-text-left">
-            <b-table
-              striped
-              hoverable
-              :data="dataPayments"
-              :columns="columnspayments"
-            ></b-table>
-          </section>
-        </b-tab-item>
+       
       </b-tabs>
     </no-ssr>
   </section>
@@ -501,7 +384,7 @@ let loader = this.$loading.show({
   mounted() {
     var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
-    this.getBillingData();
+   // this.getBillingData();
   },
 };
 </script>
