@@ -318,7 +318,7 @@
         </div>
 
         <div class="button-group">
-          <nuxt-link to="/dashboard" class="buttonN blue">
+          <nuxt-link to="/price" class="buttonN blue">
             <span>VER PRECIOS</span>
             <img
               src="https://uploads-ssl.webflow.com/60b13cec71296d20a8aa5bf0/60c78d0406a6de3f6ee384a9_credit_card_white_24dp.svg"

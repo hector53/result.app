@@ -36,7 +36,7 @@
                   Actualizar Plan
                 </a>
 
-                 <a v-if="$store.state.premium == 2 || $store.state.customerId != 0" @click="openCustomerPortal" >
+                 <a v-if="$store.state.premium == 2 || $store.state.customerId != ''" @click="openCustomerPortal" >
                   <i class="fa fa-level-up" aria-hidden="true"></i>
                   Customer Portal
                 </a>

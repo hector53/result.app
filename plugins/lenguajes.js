@@ -1,4 +1,7 @@
 export var languajes = [{
+    
+
+
     ////// HEAD
     "idioma": "en",
     "signupMenu": 'SIGN UP',
@@ -8,6 +11,11 @@ export var languajes = [{
     "notificationBar": 'Join an event?',
     "dashboardTitle": 'Dashboard',
     "salirTitle": 'Log out',
+
+
+    //search head
+    "titleJoinEvent": "Join an event?",
+    
     ////// INDEX
     "headlineHero": 'Create questions for free, ',
     "headlineHero2": 'get answers in real time',
@@ -144,9 +152,44 @@ export var languajes = [{
     "dashboardStatisTitle1": "Polls",
     "dashboardStatisTitle2": "Results",
     "dashboardTitle2": "Your Events",
+
+    //cloud of words
+    "titleCloudWords": "Cloud of Words",
+    "placeholderQuestion": "Enter your question here ",
+    "btnCreateCloudWords": "Create",
   },
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   {
+
+
+    //cloud of words
+    "titleCloudWords": "Nube de Palabras",
+    "placeholderQuestion": "Introduzca su pregunta aquí ",
+    "btnCreateCloudWords": "Crear",
+    
+
+
+
     ////// HEAD
     "idioma": "es",
     "signupMenu": 'REGISTRO',
@@ -156,6 +199,10 @@ export var languajes = [{
     "notificationBar": 'Entrar a un evento?',
     "dashboardTitle": 'Panel',
     "salirTitle": 'Salir',
+
+
+    //search head
+    "titleJoinEvent": "¿Quieres unirte a un evento? ",
 
     ////// INDEX
 

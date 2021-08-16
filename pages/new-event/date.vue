@@ -76,7 +76,7 @@
           style="display: inline"
           @click="guardarEncuesta(0)"
         >
-          Crear
+          {{ $store.state.idioma.btnCreateCloudWords }}
         </button>
       </div>
     </div>

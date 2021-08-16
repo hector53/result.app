@@ -2230,6 +2230,12 @@ textarea#question-field {
 .listPreguntas{
     margin-top: 40px;
 }
+.hashJoinEvent{
+    color: #59b1ff;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 10px;
+}
 
 .item_pregunta{
     display: flex;

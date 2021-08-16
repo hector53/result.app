@@ -1,9 +1,10 @@
 <template>
   <div class="notification-bar">
     <div class="container-2 w-container">
-      <div class="text-block-13">Join an event?</div>
-      <div class="text-block-14">#</div>
+      <div class="text-block-13">{{ $store.state.idioma.titleJoinEvent }}</div>
+     
       <div id="appB">
+         <div class="hashJoinEvent">#</div>
         <input
           type="text"
           class="div-block-13"

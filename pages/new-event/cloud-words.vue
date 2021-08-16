@@ -10,7 +10,7 @@
       </div>
       <div class="form-block w-form has-text-left">
         <h1 class="headingM has-text-left">
-        Cloud of Words
+         {{ $store.state.idioma.titleCloudWords }}
       </h1>
         <div class="div-block-4">
           <label for="name" class="field-label has-text-left">{{
@@ -22,12 +22,12 @@
             maxlength="256"
             ref="pregunta"
             v-model="preguntaEncuesta"
-            :placeholder="'Introduzca su pregunta aquí'"
+            :placeholder="$store.state.idioma.placeholderQuestion"
           />
         </div>
 
         <div class="button-group">
-          <button class="buttonN blue" @click="crearQYA">Crear</button>
+          <button class="buttonN blue" @click="crearQYA">{{ $store.state.idioma.btnCreateCloudWords }}</button>
         </div>
       </div>
     </div>
