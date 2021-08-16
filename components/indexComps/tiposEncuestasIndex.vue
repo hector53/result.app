@@ -240,7 +240,10 @@ export default {
                   
                   }
           }else{
-            return 0
+              if(val==1){this.$router.push("/new-event/multiple-choice");}
+                    if(val==2){this.$router.push("/new-event/cloud-words");}
+                    if(val==4){this.$router.push("/new-event/date");}
+            
           }
           
         }).catch(({response}) => {
