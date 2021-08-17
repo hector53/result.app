@@ -9,7 +9,7 @@
       </div>
 
          <vue-word-cloud v-else
-      style="height: 400px"
+      style="height: 300px"
       :words="palabras"
       :color="wordsColor"
       font-family="Roboto"

@@ -21,9 +21,9 @@
     ></content-live-off>
     <reaccion
       v-for="(item, index) in arrayReacciones"
-      :key="index + 5000"
+      :key="index + 10000"
       :reaccion="item.reaccion"
-      :posicion="index + 5000"
+      :posicion="index + 10000"
       @quitarReaccion="quitarReaccion"
     ></reaccion>
   
@@ -35,11 +35,11 @@ import Loading from "vue-loading-overlay";
 import { api as fullscreen } from "vue-fullscreen";
 import ContentLiveOff from "../../../components/live/contentLiveOff.vue";
 import HeaderLive from "../../../components/live/headerLive.vue";
-import Reaccion from "../../../components/reacciones/reaccion.vue";
+import reaccion from "../../../components/reacciones/reaccion.vue";
 export default {
   middleware: "miauth",
   layout: "layoutLimpio",
-  components: { HeaderLive, ContentLiveOff, Reaccion, Loading },
+  components: { HeaderLive, ContentLiveOff, reaccion, Loading },
 
   async asyncData({ params, store, redirect, app }) {
     var tokenUser = app.$cookies.get("r_auth");
@@ -366,5 +366,8 @@ if(response.connected == false)
 </script>
 
 <style>
+body.swal2-height-auto{
+    height: 100%!important;
+}
 </style>
 

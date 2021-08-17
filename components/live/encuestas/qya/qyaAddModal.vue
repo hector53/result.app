@@ -2,7 +2,7 @@
   <div>
     <h1 class="headingM has-text-left">Encuesta Q&A</h1>
     <div class="control mt-5">
-      <input class="input" type="text" v-model="titulo" placeholder="Título" />
+      <input class="input" type="text" v-model="titulo" @keyup.enter="crearEncuesta(0)" placeholder="Título" />
     </div>
 
     <div class="button-group-live" style="margin-top: 50px">

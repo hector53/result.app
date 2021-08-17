@@ -213,11 +213,14 @@ export default {
         }
 
         if (response.result == 2) {
-          this.$swal({
-            type: "error",
-            title: "Oops...",
-            text: "Ya has realizado tu voto",
+
+           this.$buefy.toast.open({
+            duration: 5000,
+            message: "Ya has realizado tu voto",
+            position: "is-top",
+            type: "is-danger",
           });
+         
           this.actualizaVoto = false;
         }
 
@@ -231,10 +234,13 @@ export default {
         }
 
         if (response.result == 5) {
-          this.$swal({
-            type: "error",
-            title: "Oops...",
-            text: "Ya has realizado votos en esta encuesta con la misma ip",
+
+          
+           this.$buefy.toast.open({
+            duration: 5000,
+            message: "Ya has realizado votos en esta encuesta con la misma ip",
+            position: "is-top",
+            type: "is-danger",
           });
           this.actualizaVoto = false;
         }
@@ -262,12 +268,11 @@ export default {
          // console.log("votare");
           await this.getEncuestaById(this.id_encuesta);
           // this.capture(2)
-          this.$swal({
-            position: "center",
-            type: "success",
-            title: "Votacion exitosa",
-            showConfirmButton: false,
-            timer: 1500,
+           this.$buefy.toast.open({
+            duration: 5000,
+            message: "Votacion exitosa",
+            position: "is-top",
+            type: "is-success",
           });
         }
 

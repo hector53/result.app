@@ -2258,6 +2258,9 @@ textarea#question-field {
     color: rgb(89, 177, 255);
     font-weight: bold;
 }
+body.swal2-height-auto{
+    height: 100%!important;
+}
 .item_pregunta{
     display: flex;
     flex-wrap: wrap;

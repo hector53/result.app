@@ -256,6 +256,7 @@ if(response.connected == false)
     },
   },
   mounted() {
+    this.arrayReacciones = []
     window.addEventListener("beforeunload", this.beforeWindowUnload);
     var vm = this;
     var User = this.$store.state.p;

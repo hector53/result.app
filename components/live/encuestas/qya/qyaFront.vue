@@ -277,6 +277,7 @@ export default {
           title: "¿Estas seguro que quieres borrar esta pregunta ? ",
           html: "Se perderan todas las votaciones realizadas en ella",
           showCancelButton: true,
+          heightAuto: false,
           confirmButtonText: `Si borrar`,
         }).then((result) => {
           if (result.value) {

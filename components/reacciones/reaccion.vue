@@ -10,6 +10,7 @@ export default {
   },
   methods: {
     animar(val) {
+      console.log("vengo de reaccion", val, this.posicion, this.nameR)
       var getRndInteger = function (min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
       };
@@ -71,6 +72,7 @@ export default {
     },
   },
   async mounted() {
+    console.log("vengo de reaccion")
     await this.animar(this.reaccion);
     this.$emit("quitarReaccion", this.posicion);
   },

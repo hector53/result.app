@@ -132,7 +132,7 @@
                     <i
                       class="fa fa-trash iconEditQyA"
                       aria-hidden="true"
-                      @click.prevent="eliminarEvento(item['codigo'])"
+                      @click.stop="eliminarEvento(item['codigo'])"
                     ></i>
                     </div>
                   </div>
@@ -202,8 +202,11 @@ export default {
         .$post("borrar_evento_by_admin", {
           codigo: cod,
         }).then((response) => {
-          console.log(response)
-          this.getEvents()
+          if(response.status == 1){
+              console.log(response)
+              this.getEvents()
+          }
+          
         })
     },
     generateRandomString(num) {
@@ -237,10 +240,18 @@ export default {
       await this.$axios
         .$get("events_user_registered")
         .then((response) => {
-          console.log(response);
+          console.log("get eventos", response)
+          if(response.status == 1){
+              console.log(response);
           this.misEventos = response.eventos;
           this.cantEventos = response.cantEventos;
-          this.cantParticipaciones = response.cantVotos;
+          this.cantParticipaciones = response.cantVotos;s
+          }else{
+              this.misEventos = response.eventos;
+          this.cantEventos = response.cantEventos;
+          this.cantParticipaciones = response.cantVotos;s
+          }
+          
         })
         .catch(({ response }) => {
           console.log(response);
@@ -271,16 +282,18 @@ export default {
           descripcion: "",
         })
         .then((response) => {
-          this.isLoading = false;
+          
           if (response.status != 0) {
-            this.getEvents();
+         //   this.getEvents();
             this.$router.push("/event/" + response.codigo);
+            this.isLoading = false;
           } else {
             this.$swal({
               type: "error",
               title: "Oops...",
               text: "Estas haciendo trampa xD",
             });
+            this.isLoading = false;
           }
         })
         .catch(({ response }) => {
