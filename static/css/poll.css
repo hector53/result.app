@@ -354,7 +354,6 @@ h3 {
 }
 p {
     margin-top: 0px;
-    margin-bottom: 26px;
     font-family: 'Varela Round', sans-serif;
     color: #848999;
     font-size: 14px;
@@ -2236,7 +2235,29 @@ textarea#question-field {
     margin-top: 10px;
     margin-left: 10px;
 }
-
+.b-radio.radio.button{
+    height: 100%;
+    justify-content: flex-start;
+}
+.radioBtnCustom{
+    width: 100%;
+    padding: 50px;
+    border: 1px solid #e6e8ec;
+    border-radius: 4px;
+    margin-top: 15px;
+    padding-left: 20px;
+}
+.radioBtnCustomBorder{
+    border: solid 1px #59b1ff;
+    background-color: #59b1ff1f;
+}
+.b-radio.radio input[type=radio] + .check{
+    border: 1px solid #7a7a7a5e;
+}
+.currentPlanPrice{
+    color: rgb(89, 177, 255);
+    font-weight: bold;
+}
 .item_pregunta{
     display: flex;
     flex-wrap: wrap;
@@ -2583,6 +2604,9 @@ textarea#question-field {
   }
 @media screen and (max-width: 767px)
 {
+    .radioBtnCustom{
+        width: 100%;
+    }
   .x1002{
       height: auto;
   }

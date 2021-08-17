@@ -1,81 +1,24 @@
 <template>
   <section class="section-hero pt-1" >
-      <h1 class="has-text-left">Upgrade yout account to <b style="    color: #59b1ff;">Pro Plan</b></h1>
-      <no-ssr>
-    <div class="columns mt-5">
-    <div class="column">
-        <section class="has-text-left">
-            <h1>Billing Info</h1>
-          <b-field
-            label="Company / name"
-            :type="{ 'is-danger': hasError == 'company' }"
-            :message="{
-              'Company Name is required': hasError == 'company',
-            }"
-          >
-            <b-input
-              name="companyName"
-              placeholder="Company / name"
-              v-model="companyName"
-            ></b-input>
-          </b-field>
-          <b-field
-            label="Address"
-            :type="{ 'is-danger': hasError == 'address' }"
-            :message="{
-              'Address is required': hasError == 'address',
-            }"
-          >
-            <b-input
-              name="address"
-              placeholder="Address"
-              v-model="addressBilling"
-            ></b-input>
-          </b-field>
+      <h1 >Upgrade yout account to <b style="    color: #59b1ff;">Pro Plan</b></h1>
 
-          <b-field grouped>
-            <b-field label="City" expanded  
-            :type="{ 'is-danger': hasError == 'city' }"
-            :message="{
-              'City is required': hasError == 'city',
-            }"
-            >
-              <b-input placeholder="City" v-model="city"></b-input>
-            </b-field>
-            <b-field label="Zip" expanded
-            :type="{ 'is-danger': hasError == 'zip' }"
-            :message="{
-              'Zip is required': hasError == 'zip',
-            }"
-               >
-              <b-input placeholder="Zip"  v-model="zip"  ></b-input>
-            </b-field>
-          </b-field>
-
-          <b-field label="Country" :type="{ 'is-danger': hasError == 'country' }"
-            :message="{
-              'Country is required': hasError == 'country',
-            }">
-            <div class="control">
-              <span class="select is-empty" style="width: 100%">
-                <country-select
-                  v-model="country"
-                  :country="country"
-                  style="width: 100%"
-                />
-              </span>
+       <b-field class="mt-5 mb-5">
+            <div style="display: flex;    justify-content: center;    align-items: center;">
+              <span :class="{'currentPlanPrice':isSwitched==false }" >Monthly</span>
+            <b-switch v-model="isSwitched" @input="cambiarPlan"
+            passive-type='is-info'
+            type='is-success'
+             style="margin-left: 20px;">
+            </b-switch>
+            <span :class="{'currentPlanPrice':isSwitched }">Annually</span>
             </div>
-          </b-field>
+        </b-field>
 
-         
-        </section>
-    </div>
-    <div class="column has-text-right">
-         <div class='package2 brilliant'>
+     <div class='package2 brilliant' style="width: 300px;">
     <div class='name'>Pro</div>
 
-    <hr>
-    <ul>
+    <hr style="    margin: 0;">
+    <ul style="margin-top: 10px;    margin-bottom: 10px;">
       <li>
        Eventos ilimitados
       </li>
@@ -101,45 +44,20 @@
      
     </ul>
      <hr>
-    <h1 class="has-text-left">Total: 11$</h1>
-    <hr>
-    <h2 class="has-text-left" style="font-weight: bold">Payments Methods:</h2>
-
-      <section class="has-text-left mt-5">
-        <b-field  :type="{ 'is-danger': hasError == 'payment' }"
-            :message="{
-              'Payment Method    is required': hasError == 'payment',
-            }" >
-            <b-radio v-model="payment"
-                native-value="1">
-              <img src="/img/tarjetas.jpg" />  
-            </b-radio>
-        </b-field>
-        <b-field  :type="{ 'is-danger': hasError == 'payment' }"
-            :message="{
-              'Payment Method    is required': hasError == 'payment',
-            }" >
-            <b-radio v-model="payment"
-                native-value="2"
-                type="is-info">
-                <img src="/img/CRYPTO.jpg" />
-            </b-radio>
-        </b-field>
-    </section>
+    <h1 style="    font-size: 30px;">Total: {{price}} $</h1>
+    <b-field
+     :type="{ 'is-danger': hasError}"
+              :message="{
+                'Choose Billing Cycle': hasError ,
+              }"
+    >
+      
+              <b-button label="Continue to payment" type="is-info"  expanded @click="continueToPay" />
+    </b-field>
    
   </div>
-    </div>
- 
-    </div>
-</no-ssr>
 
-     <b-field
-            ><!-- Label left empty for spacing -->
-            <p class="control has-text-right">
-              <b-button label="Continue to payment" type="is-info"  @click="continueToPay" />
-            </p>
-          </b-field>
-
+  
 
           
        
@@ -159,56 +77,33 @@ export default {
   },
   data() {
     return {
-      addressBilling: "",
-      city: "",
-      zip: "",
-      country: "",
+      price: 59.90,
       hasError: false,
-      companyName: "",
-      payment: null
+      isSwitched: true,
+      currentPlan: 'Anual'
     };
   },
   methods: {
+    cambiarPlan(val){
+      console.log(val)
+      if(val){
+        this.price = 59.90
+      }else{
+        this.price = 9.90
+      }
+    },
     async  continueToPay(){
              
         
-      if (this.companyName == "") {
-        this.hasError = "company";
-        return false;
-      }
-
-       if (this.addressBilling == "") {
-        this.hasError = "address";
-        return false;
-      }
-
-       if (this.city == "") {
-        this.hasError = "city";
-        return false;
-      }
-
-       if (this.zip == "") {
-        this.hasError = "zip";
-        return false;
-      }
-
-       if (this.country == "") {
-        this.hasError = "country";
-        return false;
-      }
-     if (this.payment == null) {
-        this.hasError = "payment";
-        return false;
-      }
-
-         let loader = this.$loading.show({
+              let loader = this.$loading.show({
         loader: "dots",
         color: "#59b1ff",
       });
 
-    if(this.payment == 1){
            await this.$axios
-          .$post("get_data_by_stripe").then((response) => {
+          .$post("get_data_by_stripe", {
+            plan: this.isSwitched
+          }).then((response) => {
            console.log(response);
           location.href = response.redirect
 
@@ -222,7 +117,6 @@ export default {
               type: "is-danger",
             });
           });
-    }   
       
 
       },

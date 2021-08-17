@@ -316,6 +316,7 @@
             <p>{{ $store.state.idioma.feature6Subhead }}</p>
           </div>
         </div>
+        {{ $store.state.idioma.titleCloudWords }}
 
         <div class="button-group">
           <nuxt-link to="/price" class="buttonN blue">

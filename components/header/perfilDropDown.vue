@@ -72,6 +72,9 @@ export default {
         loader: "dots",
         color: "#59b1ff",
       });
+this.$router.push({name: "upgrade"})
+loader.hide()
+      /*
      await this.$axios
           .$post("get_data_by_stripe").then((response) => {
            console.log(response);
@@ -87,7 +90,7 @@ export default {
               position: "is-bottom",
               type: "is-danger",
             });
-          });
+          });*/
 
     },
       logout(){
