@@ -2435,14 +2435,12 @@ body.swal2-height-auto{
     .package {
         box-sizing: border-box;
         width: 301px;
-        height: 540px;
         border: 3px solid #e8e8e8;
         border-radius: 7px;
-        display: inline-block;
+        display: flex; 
+        flex-direction: column;
         padding: 24px;
         text-align: center;
-        float: left;
-        transition: margin-top 0.5s linear;
         position: relative;
         margin-right: 11px;
         margin-bottom: 20px;
@@ -2457,10 +2455,6 @@ body.swal2-height-auto{
         text-align: center;
         position: relative;
         margin-bottom: 20px;
-    }
-    .package:hover {
-      margin-top: -30px;
-      transition: margin-top 0.3s linear;
     }
     
     .name {

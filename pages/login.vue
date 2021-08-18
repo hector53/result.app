@@ -4,6 +4,7 @@
     <div class="container cubreRegister">
       <h1 class="headingM">{{ $store.state.idioma.loginTitle }}</h1>
       <p class="hero-subhead">{{ $store.state.idioma.loginSubTitle }}</p>
+      
       <div class="form-block w-form" style="text-align: center">
         <div class="divR">
           <input
@@ -27,6 +28,7 @@
             required=""
           />
         </div>
+        <p>¿Aún no tienes cuenta ? Registrate <nuxt-link to="/signup">Aquí</nuxt-link></p>
         <div class="button-group">
           <button class="buttonN blue" @click="userLogin">
             {{ $store.state.idioma.loginButton }}

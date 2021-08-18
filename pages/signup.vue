@@ -3,6 +3,9 @@
     <loading :active="isLoading" color="#59b1ff" />
     <div class="container cubreRegister">
       <h1 class="headingM">{{ $store.state.idioma.signupTitle }}</h1>
+      <b-notification type="is-info is-light" aria-close-label="Close notification" v-if="$route.query.getPlan==2">
+            Despues de registrarse sera redirigido al checkout para el plan Pro
+        </b-notification>
       <p class="hero-subhead">{{ $store.state.idioma.signupSubTitle }}</p>
       <div class="form-block w-form" style="text-align: center">
         <div class="divR">
@@ -61,7 +64,7 @@
             required=""
           />
         </div>
-
+      <p>Ya tienes una cuenta ? Inicia Sesion <nuxt-link to="/login">Aquí</nuxt-link></p>
         <div class="button-group">
           <button class="buttonN blue" @click="signup">
             {{ $store.state.idioma.signupButton }}
@@ -132,7 +135,14 @@ export default {
                   maxAge: 10000 * 60 * 24 * 7,
                 }
               );
-              location.href = "/dashboard";
+
+              //if getPlan == 2 entonces hacer lo de stripe 
+              if(this.$route.query.getPlan == 2){
+                  location.href = "/upgrade";
+              }else{
+                location.href = "/dashboard";
+              }
+              
             }
           })
           .catch(({ response }) => {
