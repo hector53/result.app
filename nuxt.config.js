@@ -3,10 +3,11 @@ export default {
   //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
  baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
-  loading: {
+  loading: false,
+  /*loading: {
     color: '#59b1ff',
     height: '5px',
-  },
+  },*/
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: "Resultapp - The best survey platform",
@@ -42,6 +43,7 @@ export default {
     { src: "~/plugins/vueworldcloud", ssr: false }, 
     { src: "~/plugins/vueloading", ssr: false }, 
     { src: "~/plugins/vue-country", ssr: false }, 
+    { src: "~/plugins/devounce", ssr: false }, 
     { src: '@/plugins/vue-html2pdf', mode: 'client' }
     
   ],
@@ -72,14 +74,14 @@ export default {
     sockets: [{
       name: 'main',
    
-   // url: 'http://localhost:5000', 
+    //url: 'http://localhost:5000', 
     url: 'https://api.result.app'
     }]
   },
 
   axios: {
   baseURL: 'https://api.result.app/api/',
- // baseURL: 'http://127.0.0.1:5000/api/',
+  //baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },
 

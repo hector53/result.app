@@ -35,6 +35,7 @@
               type="text"
               v-model="titulo"
               placeholder="Título"
+              v-debounce:400ms="guardarEncuesta"
             />
           </div>
           <div class="columns mt-2">
@@ -80,6 +81,7 @@
                           v-model="time[index].horas[index2].ini"
                           inline
                           :locale="locale"
+                          @blur="guardarEncuesta"
                         ></b-timepicker>
                       </b-field>
                       <a
@@ -121,9 +123,9 @@ var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-console.log(timeZone);
+//console.log(timeZone);
 var d = new Date();
-console.log(d.toLocaleString("en-US", { timeZone }));
+//console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
   props: ["numero", "id_encuesta", "tituloP"],
   watch: {
@@ -156,7 +158,14 @@ export default {
           this.time.splice(index, 1);
         }
       }
+
+      //guardar 
+       this.guardarEncuesta(0)
+
     },
+time(val1, val2){
+ console.log("el time esta cambiando claro q si q peo")
+}
   },
   data() {
     return {
@@ -167,9 +176,13 @@ export default {
       horarios: false,
       locale: undefined, // Browser locale
       titulo: this.tituloP,
+      zonaHoraria: Intl.DateTimeFormat().resolvedOptions().timeZone,
     };
   },
   methods: {
+    testcambios(){
+      console.log("camniando la hora")
+    },
     eliminar() {
       this.$emit("eliminarEncuesta", {
         id_encuesta: this.id_encuesta,
@@ -227,22 +240,25 @@ export default {
       return date;
     },
     async guardarEncuesta(val) {
+      if(val == ""){
+          val = 0
+      }
       if (this.titulo == "") {
-        this.$swal({
+       /* this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes agregar un título",
         });
-        return false;
+        return false;*/
       }
 
       if (this.date.length == 0) {
-        this.$swal({
+     /*   this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes agregar un dia en el calendario",
         });
-        return false;
+        return false;*/
       }
       for (var i = 0; i < this.time.length; i++) {
         for (var e = 0; e < this.time[i].horas.length; e++) {
@@ -251,16 +267,17 @@ export default {
           var n = d.getHours();
           console.log(n);
           if (n == 0) {
-            this.$swal({
+         /*   this.$swal({
               type: "error",
               title: "Oops...",
               text: "La hora debe ser mayor a 0",
             });
-            return false;
+            return false;*/
           }
         }
       }
-      //ahora si enviar a la db encuesta
+
+             //ahora si enviar a la db encuesta
       const response = await this.$axios.$post("edit_diayhora_live", {
         titulo: this.titulo,
         dias: JSON.stringify(this.date),
@@ -271,7 +288,7 @@ export default {
       });
       console.log(response);
       if (response.status == 1) {
-        alert("actualizado");
+       // alert("actualizado");
       } else {
         this.isLoading = false;
         this.$swal({
@@ -281,6 +298,8 @@ export default {
           confirmButtonText: `OK`,
         });
       }
+      
+   
     },
     formatoHora(dt) {
       console.log("hoa", dt);
@@ -293,6 +312,7 @@ export default {
     },
     quitarHoras(index, index2) {
       this.time[index].horas.splice(index2, 1);
+      this.guardarEncuesta(0)
     },
     extraerDia(fecha) {
       const monthNames = [
@@ -326,6 +346,7 @@ export default {
       var d = new Date(this.time[index].horas[lenHoras - 1].ini);
       d.setSeconds(3600);
       this.time[index].horas.push({id: 0, ini: d, fin: d });
+      this.guardarEncuesta(0)
     },
     unselectableDates(day) {
       // console.log(day)

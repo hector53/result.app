@@ -6,27 +6,28 @@
       <p class="hero-subhead">{{ $store.state.idioma.loginSubTitle }}</p>
       
       <div class="form-block w-form" style="text-align: center">
-        <div class="divR">
-          <input
-            type="text"
-            id="email"
-            v-model="email"
-            @keyup.enter="userLogin"
-            class="text-field w-input"
-            maxlength="50"
-            :placeholder="$store.state.idioma.loginPlaceHolder1"
-            required=""
-          />
-          <input
-            type="password"
-            id="pass"
-            v-model="pass"
-            class="text-field w-input"
-            maxlength="50"
-            @keyup.enter="userLogin"
-            :placeholder="$store.state.idioma.loginPlaceHolder2"
-            required=""
-          />
+        <div class="divR mt-5 mb-5">
+
+             <b-field
+            
+              :type="{ 'is-danger': hasError == 'email'  }"
+              :message="[
+                { 'Email required': hasError == 'email' },
+              ]"
+            >
+              <b-input :placeholder="$store.state.idioma.loginPlaceHolder1" type="text" v-model="email" @keyup.enter="userLogin" maxlength="50"> </b-input>
+            </b-field>
+
+            <b-field
+              :type="{ 'is-danger': hasError == 'pass'  }"
+              :message="[
+                { 'Password required': hasError == 'pass' },
+              ]"
+            >
+              <b-input :placeholder="$store.state.idioma.loginPlaceHolder2" type="password" v-model="pass" @keyup.enter="userLogin" maxlength="50"> </b-input>
+            </b-field>
+         
+         
         </div>
         <p>¿Aún no tienes cuenta ? Registrate <nuxt-link to="/signup">Aquí</nuxt-link></p>
         <div class="button-group">
@@ -59,15 +60,29 @@ export default {
   components: {
     Loading,
   },
+  watch:{
+    email(val1, val2){
+      if(val1.length >0 && this.hasError == 'email'){
+          this.hasError=''
+      }
+    },
+    pass(val1, val2){
+      if(val1.length >0 && this.hasError == 'pass'){
+          this.hasError=''
+      }
+    }
+  },
   head() {
     return {
       title: "login",
+      
     };
   },
   data() {
     return {
       email: "",
       pass: "",
+      hasError: '',
       reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
       idioma: {},
       isLoading: false,
@@ -83,35 +98,17 @@ export default {
   },
   methods: {
     async userLogin() {
-    if(this.email==''){
-        $( "#email" ).focus();
-            this.$swal({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Falta Email',
-            })
-            return false
-          }
+    if (this.email == "") {
+        this.hasError = "email";
+        return false;
+      }
 
-          if(!this.reg.test(this.email)){
-                $( "#email" ).focus();
-               this.$swal({
-                      type: 'error',
-                    title: 'Oops...',
-                    text: 'Email incorrecto',
-                  })
-                  return false
-            }
+       if (this.pass == "") {
+        this.hasError = "pass";
+        return false;
+      }
 
-             if(this.pass==''){
-                 $( "#pass" ).focus();
-            this.$swal({
-              type: 'error',
-              title: 'Oops...',
-              text: 'Falta Contraseña',
-            })
-            return false
-          }
+       
       this.isLoading = true;
       try {
         const response = await this.$axios.$post("login", {
@@ -140,7 +137,12 @@ export default {
       } catch (err) {
         this.isLoading = false;
         //console.log(err.response)
-        alert(err.response.data.message);
+          this.$buefy.toast.open({
+              duration: 5000,
+              message: err.response.data.message,
+              position: "is-bottom",
+              type: "is-danger",
+            });
       }
     },
     Login() {},

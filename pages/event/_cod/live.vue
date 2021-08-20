@@ -359,8 +359,6 @@ if(response.connected == false)
   destroyed() {
     window.removeEventListener("keyup", this.detectaTecla);
    window.removeEventListener("beforeunload", this.beforeWindowUnload);
-
-    
   },
 };
 </script>

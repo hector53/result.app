@@ -396,7 +396,7 @@ export default {
     },
   },
   mounted() {
-    console.log("vengo del header event", this.eventName);
+    //console.log("vengo del header event", this.eventName);
   },
   directives: {
     ClickOutside,

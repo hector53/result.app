@@ -132,7 +132,7 @@ export var languajes = [{
     //////LOGIN
     "loginTitle": "Login",
     "loginSubTitle": "Securely login to your account",
-    "loginPlaceHolder1": "Email Adress",
+    "loginPlaceHolder1": "Email o Username",
     "loginPlaceHolder2": "Password",
     "loginButton": "Login",
 
@@ -328,7 +328,7 @@ export var languajes = [{
     //////LOGIN
     "loginTitle": "Iniciar Sesión",
     "loginSubTitle": "Inicie sesión de forma segura en su cuenta",
-    "loginPlaceHolder1": "Correo Electronico",
+    "loginPlaceHolder1": "Email o Username",
     "loginPlaceHolder2": "Contraseña",
     "loginButton": "Entrar",
 

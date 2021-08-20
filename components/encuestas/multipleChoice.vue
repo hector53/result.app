@@ -41,6 +41,8 @@
                 ref="pregunta"
                 v-model="preguntaEncuesta"
                 :placeholder="$store.state.idioma.questionPlaceholder"
+                
+                v-debounce:400ms="guardar"
               />
             </div>
 
@@ -61,6 +63,8 @@
                 v-model="opcionEncuesta[index]['opcion']"
                 :placeholder="$store.state.idioma.optionLabel"
                 required=""
+                
+                v-debounce:400ms="guardar"
               />
               <a
                 class="close close_option"
@@ -73,7 +77,7 @@
             </div>
 
             <label class="checkbox" style="margin-top: 20px">
-              <input type="checkbox" v-model="multipleE" />
+              <input type="checkbox" v-model="multipleE" @change="guardar" />
               Permitir respuestas multiples
             </label>
           </div>
@@ -85,6 +89,7 @@
 
 <script>
 export default {
+  
   props: [
     "numero",
     "idEcuesta",
@@ -92,6 +97,7 @@ export default {
     "opciones",
     "opciones2",
     "multiple",
+    "nuevo"
   ],
   data() {
     return {
@@ -102,6 +108,7 @@ export default {
       preguntaEncuesta2: this.pregunta,
       opcion2: this.opciones2,
       multipleE: false,
+      cE: this.$route.params.cod
     };
   },
 
@@ -127,6 +134,7 @@ export default {
         html: "Se perderan todas las votaciones realizadas en ella",
         showCancelButton: true,
         confirmButtonText: `Si borrar`,
+          heightAuto: false,
       }).then((result) => {
         if (result.value) {
           this.deleteEncuestaById(index);
@@ -138,6 +146,7 @@ export default {
         .$post("delete_poll_simple_live", {
           id: this.id_encuesta,
           id_opcion: this.opcionEncuesta[index]["id"],
+          codigo: this.$route.params.cod
         })
         .then((response) => {
          this.opcionEncuesta.splice(index, 1);
@@ -172,16 +181,16 @@ export default {
       return true;
     },
 
-    async guardarOpciones() {
+     guardarOpciones() {
       if (this.multipleE == true) {
         this.multipleE = 1;
       } else {
         this.multipleE = 0;
       }
-      await this.$axios
+       this.$axios
         .$post("guardar_opciones_tipo_1", {
           id: this.id_encuesta,
-          codigo: this.$route.params.cod,
+          codigo: this.cE,
           pregunta: this.preguntaEncuesta,
           opciones: this.opcionEncuesta,
           multiple: this.multipleE,
@@ -200,14 +209,27 @@ export default {
         });
     },
     async guardar() {
-      if (this.preguntaEncuesta != "" && this.opciones.length > 1) {
+   //   if (this.preguntaEncuesta != "" && this.opciones.length > 1) {
         await this.guardarOpciones();
-        this.$emit("actualizarArray");
-      }
+    //    this.$emit("actualizarArray");
+   //   }
     },
+    beforeWindowUnload(){
+          console.log("mi this antes de cerrar")
+     //   this.guardar()
+    }
   
   },
+  beforeDestroy() {
+        console.log("mi this del multiple", this)
+    ///    this.guardar()
+  },
+ 
   mounted() {
+    window.addEventListener("beforeunload", this.beforeWindowUnload);
+    if(this.nuevo==1){
+      this.guardar()
+    }
     if (this.multiple == 1) {
       this.multipleE = true;
     } else {
@@ -229,6 +251,9 @@ export default {
             }
     }, 10000);
 */
+  },
+   destroyed() {
+   window.removeEventListener("beforeunload", this.beforeWindowUnload);
   },
 };
 </script>

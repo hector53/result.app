@@ -22,6 +22,7 @@
     "nuxt-sweetalert2": "^1.0.0",
     "vue-click-outside": "^1.1.0",
     "vue-country-region-select": "^2.0.16",
+    "vue-debounce": "^3.0.1",
     "vue-fullscreen": "^2.5.1",
     "vue-html2pdf": "^1.8.0",
     "vue-loading-overlay": "3.0",

@@ -9,6 +9,7 @@ export default {
     middleware({  redirect }) {
         return redirect('/')
     },
+    
   data() {
     return {
      

@@ -71,7 +71,7 @@ export default {
     },
     async sortear() {
       await this.$axios
-        .$post("sortear_sorteo_live", {
+        .$post("sortear_sorteo_live_real", {
           participantes: JSON.stringify(this.participantes),
           premios: this.premios,
           codigo: this.$route.params.cod,

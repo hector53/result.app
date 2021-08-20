@@ -12,14 +12,14 @@
 
               <b-dropdown-item has-link aria-role="menuitem">
                 <b-tag type="is-light">Plan {{$store.state.planName}}</b-tag>
-                <a style="display: flex;    align-items: center;" >
+                <nuxt-link style="display: flex;    align-items: center;" to="/dashboard"  >
                   <i class="fa fa-user mr-3" aria-hidden="true"></i>
                   <div>
                     <h5>{{$store.state.firtsName | capitalize}} {{$store.state.lastName | capitalize}}</h5>
                     <span class="is-size-7">{{$store.state.email | capitalize}}</span>
 
                   </div>
-                </a>
+                </nuxt-link>
               </b-dropdown-item>
               <hr class="dropdown-divider" />
               <b-dropdown-item has-link aria-role="menuitem">
@@ -98,7 +98,9 @@ loader.hide()
       },
 
       async openCustomerPortal(){
-         var tokenUser = this.$cookies.get("r_auth");
+
+        if(this.$store.state.premium == 2 || this.$store.state.customerId != 0){
+               var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
       let loader = this.$loading.show({
       loader: "dots",
@@ -113,11 +115,14 @@ loader.hide()
       loader.hide()
       console.log(response)
       })
+        }
+
+      
 
       }
    },
   mounted() {
-    console.log("customer id: ", this.$store.state.customerId)
+    //console.log("customer id: ", this.$store.state.customerId)
   },
 };
 </script>

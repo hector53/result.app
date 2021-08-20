@@ -151,6 +151,7 @@ import Loading from "vue-loading-overlay";
 import "vue-loading-overlay/dist/vue-loading.css";
 export default {
   middleware: "miauth",
+ 
   head() {
     return {
       title: "Dashboard - Resultapp",
@@ -247,9 +248,9 @@ export default {
           this.cantEventos = response.cantEventos;
           this.cantParticipaciones = response.cantVotos;s
           }else{
-              this.misEventos = response.eventos;
-          this.cantEventos = response.cantEventos;
-          this.cantParticipaciones = response.cantVotos;s
+              this.misEventos = []
+          this.cantEventos = 0
+          this.cantParticipaciones = 0
           }
           
         })

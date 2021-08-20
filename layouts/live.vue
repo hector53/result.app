@@ -15,6 +15,7 @@
 <script>
 import footerT from '../components/footer/footerT.vue';
 export default {
+  
   components: { footerT },
   data() {
     return {

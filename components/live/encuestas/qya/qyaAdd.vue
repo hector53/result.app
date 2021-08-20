@@ -37,6 +37,7 @@
               ref="addPalabra"
               v-model="preguntaEncuesta"
               placeholder="Introduzca una pregunta"
+              v-debounce:400ms="guardar"
             />
           </div>
         </div>
@@ -47,7 +48,7 @@
 
 <script>
 export default {
-  props: ["numero", "idEcuesta", "pregunta"],
+  props: ["numero", "idEcuesta", "pregunta", "nuevo"],
   data() {
     return {
       preguntaEncuesta: this.pregunta,
@@ -93,10 +94,9 @@ export default {
     },
 
     async guardar() {
-      if (this.preguntaEncuesta != "") {
+  
         await this.guardarOpciones();
-        this.$emit("actualizarArray");
-      }
+       
     },
 
     async guardarOpciones() {
@@ -118,6 +118,10 @@ export default {
         });
     },
   },
-  mounted() {},
+  mounted() {
+     if(this.nuevo==1){
+      this.guardar()
+    }
+  },
 };
 </script>

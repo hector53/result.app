@@ -318,6 +318,7 @@ console.log("hasDownloaded", event);
     },
   },
   mounted() {
+    console.log("ruta resultados", this.$route.name)
     this.socket = this.$nuxtSocket({
       channel: "/",
     });

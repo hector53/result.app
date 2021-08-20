@@ -115,12 +115,12 @@ var today = new Date();
 var days = 86400000; //number of milliseconds in a day
 var fechaAyer = new Date(today - 1 * days);
 const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-console.log(timeZone);
+//console.log(timeZone);
 
 var d = new Date();
-console.log(d.toLocaleString("en-US", { timeZone }));
+//console.log(d.toLocaleString("en-US", { timeZone }));
 export default {
-  props: ["numero", "idEcuesta"],
+  props: ["numero", "idEcuesta", "nuevo"],
   watch: {
     time: function (values, oldValues) {
       console.log("valor colocado: ", values);
@@ -185,21 +185,21 @@ export default {
     },
     async guardarEncuesta(val) {
       if (this.titulo == "") {
-        this.$swal({
+       /* this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes agregar un título",
-        });
-        return false;
+        });*/
+      //  return false;
       }
 
       if (this.date.length == 0) {
-        this.$swal({
+      /*  this.$swal({
           type: "error",
           title: "Oops...",
           text: "Debes agregar un dia en el calendario",
-        });
-        return false;
+        });*/
+      //  return false;
       }
       for (var i = 0; i < this.time.length; i++) {
         for (var e = 0; e < this.time[i].horas.length; e++) {
@@ -208,12 +208,12 @@ export default {
           var n = d.getHours();
           console.log(n);
           if (n == 0) {
-            this.$swal({
+        /*    this.$swal({
               type: "error",
               title: "Oops...",
               text: "La hora debe ser mayor a 0",
-            });
-            return false;
+            });*/
+       //     return false;
           }
         }
       }
@@ -337,6 +337,10 @@ export default {
       );
     },
   },
-  mounted() {},
+  mounted() {
+     if(this.nuevo==1){
+      this.guardarEncuesta(0)
+    }
+  },
 };
 </script>

@@ -101,6 +101,7 @@ export default {
           premios: this.premios,
           codigo: this.$route.params.cod,
           activar: val,
+          id_encuesta: 0
         })
         .then((response) => {
           if (response.status == 1) {

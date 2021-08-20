@@ -37,6 +37,7 @@
               ref="addPalabra"
               v-model="preguntaEncuesta"
               placeholder="Introduzca una pregunta"
+               v-debounce:400ms="guardar"
             />
           </div>
         </div>
@@ -47,7 +48,7 @@
 
 <script>
 export default {
-  props: ["numero", "idEcuesta", "pregunta", "opciones", "opciones2"],
+  props: ["numero", "idEcuesta", "pregunta", "nuevo"],
   data() {
     return {
       preguntaEncuesta: this.pregunta,
@@ -101,10 +102,10 @@ export default {
     },
 
     async guardar() {
-      if (this.preguntaEncuesta != "") {
+   //   if (this.preguntaEncuesta != "") {
         await this.guardarOpciones();
-        this.$emit("actualizarArray");
-      }
+      //  this.$emit("actualizarArray");
+   //   }
     },
 
     async guardarOpciones() {
@@ -125,6 +126,9 @@ export default {
     },
   },
   mounted() {
+    if(this.nuevo==1){
+      this.guardar()
+    }
     //crear evento q compare los arrays cada x time
     /*   setInterval(() => {
           //si no esta vacío comparo

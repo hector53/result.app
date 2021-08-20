@@ -7,7 +7,7 @@
       ></header-live-front>
       <nav-bar v-else></nav-bar>
 
-      <div v-if="mostrar" style="padding-left: 10px;    padding-right: 10px;">
+      <div v-if="mostrar" style="padding-left: 10px;    padding-right: 10px;" :class="{'gradienteLive':modoLive == 1}">
         <div v-if="statusEvent == 1 && modoLive == 0">
           <get-evento
             ref="getEvento"
@@ -15,11 +15,13 @@
             :id_evento="id_evento"
             :encuestas="encuestas"
             :statusEvent="statusEvent"
+            :key="componentKey"
           ></get-evento>
           <get-evento-not-user
             :id_evento="id_evento"
             :encuestas="encuestas"
             :statusEvent="statusEvent"
+            :key="componentKey"
             v-else
           ></get-evento-not-user>
         </div>
@@ -37,7 +39,7 @@
             :key="componentKey"
           ></get-evento>
         </div>
-        <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px">
+        <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px; padding-bottom: 100px;">
           <div
             class="cubreContentLive"
             v-if="$store.state.arrayEncuestaActiveLiveMode.length == 0"
@@ -193,6 +195,7 @@ export default {
       await this.$axios
         .$get("get_event_by_cod_front?codigo=" + this.$route.params.cod)
         .then((response) => {
+          this.encuestas = response.encuestas
           this.$store.commit(
             "setarrayEncuestaActiveLiveMode",
             response.encuestas
@@ -309,7 +312,11 @@ if(response.connected == false)
     this.socket.on("CrearEncuestayActivar", (data) => {
       console.log("Crearon una encuesta y la activaron", data.codigo);
       this.$store.commit("setcontadorModoLiveFront", 1);
+      this.mostrar = false;
+      this.statusEvent = 1;
+      this.modoLive = 1;
       this.componentKey += 1;
+      this.mostrar = true
       this.getEncuestasByIdEvent();
     });
 

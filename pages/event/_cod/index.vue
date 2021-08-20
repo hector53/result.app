@@ -38,6 +38,7 @@
             v-if="item['tipo'] == 1"
             :numero="index"
             :idEcuesta="item['idEcuesta']"
+            :nuevo="item['nuevo']"
             :pregunta="item['pregunta']"
             :opciones="item['opciones']"
             :opciones2="item['opciones2']"
@@ -51,6 +52,7 @@
             :ref="'encuesta_' + index"
             v-if="item['tipo'] == 2"
             :numero="index"
+            :nuevo="item['nuevo']"
             :idEcuesta="item['idEcuesta']"
             :pregunta="item['pregunta']"
             @moverArriba="moverArriba"
@@ -63,6 +65,7 @@
             :ref="'encuesta_' + index"
             v-if="item['tipo'] == 3"
             :numero="index"
+            :nuevo="item['nuevo']"
             :idEcuesta="item['idEcuesta']"
             :tituloP="item['pregunta']"
             :integrantes="item['participantes']"
@@ -79,6 +82,7 @@
             :ref="'encuesta_' + index"
             v-if="item['tipo'] == 4 && item['idEcuesta'] == 0"
             :idEcuesta="item['idEcuesta']"
+            :nuevo="item['nuevo']"
             :numero="index"
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
@@ -91,6 +95,7 @@
             :ref="'encuesta_' + index"
             v-if="item['tipo'] == 4 && item['idEcuesta'] > 0"
             :numero="index"
+            :nuevo="item['nuevo']"
             :id_encuesta="item['idEcuesta']"
             :tituloP="item['pregunta']"
             @moverArriba="moverArriba"
@@ -102,6 +107,7 @@
             :ref="'encuesta_' + index"
             v-if="item['tipo'] == 5"
             :numero="index"
+            :nuevo="item['nuevo']"
             :idEcuesta="item['idEcuesta']"
             :pregunta="item['pregunta']"
             @moverArriba="moverArriba"
@@ -148,6 +154,7 @@ import DiaHoraAdd from "../../../components/live/encuestas/diaHora/diaHoraAdd.vu
 import QyaAdd from "../../../components/live/encuestas/qya/qyaAdd.vue";
 
 export default {
+  loading: false,
   layout: "live",
   middleware: "miauth",
   components: {
@@ -432,6 +439,7 @@ export default {
       this.dropdownAddPoll = false;
       if (val == 1) {
         this.arrayEncuestas.push({
+          nuevo: 1,
           tipo: 1,
           idEcuesta: 0,
           pregunta: "",
@@ -448,6 +456,7 @@ export default {
 
       if (val == 2) {
         this.arrayEncuestas.push({
+          nuevo: 1,
           tipo: 2,
           idEcuesta: 0,
           pregunta: "",
@@ -456,6 +465,7 @@ export default {
 
       if (val == 3) {
         this.arrayEncuestas.push({
+          nuevo: 1,
           tipo: 3,
           idEcuesta: 0,
           pregunta: "",
@@ -467,6 +477,7 @@ export default {
 
       if (val == 4) {
         this.arrayEncuestas.push({
+          nuevo: 1,
           tipo: 4,
           idEcuesta: 0,
           pregunta: "",
@@ -475,6 +486,7 @@ export default {
 
       if (val == 5) {
         this.arrayEncuestas.push({
+          nuevo: 1,
           tipo: 5,
           idEcuesta: 0,
           pregunta: "",
@@ -568,21 +580,25 @@ export default {
           console.log(response);
         });
     },
+    
   },
+  
+ 
   async mounted() {
+    console.log(this)
     var tokenUser = this.$cookies.get("r_auth");
     this.$axios.setToken(tokenUser, "Bearer");
     this.eventCod = this.$route.params.cod;
-    console.log(this.eventCod);
+  //  console.log(this.eventCod);
 
     var User = this.$store.state.p;
-    console.log("usuario", User);
+  //  console.log("usuario", User);
     var codigo = this.$route.params.cod;
     this.socket = this.$nuxtSocket({
       channel: "/",
     });
 
-    console.log("socket", this.socket);
+  //  console.log("socket", this.socket);
 
     this.socket.emit(
       "joinRoom",
@@ -594,7 +610,7 @@ export default {
     );
 
     this.socket.on("activarModoPresentacion", (data) => {
-      console.log("llego e modo stop presentacion", data)
+     // console.log("llego e modo stop presentacion", data)
         if(data.modo == 0){
           this.$store.commit("seteventLiveMode", 0);
         this.$store.commit("setcandadoModoLive", 0);
@@ -606,7 +622,7 @@ export default {
     });
 
        this.socket.on("cambiarStatusEvent", (data) => {
-      console.log("llego e cambiarStatusEvent", data)
+    //  console.log("llego e cambiarStatusEvent", data)
         if(data.status == 0){
         this.$store.commit("setcandadoModoLive", 0);
         this.$store.commit("seteventLiveMode", 0);
@@ -617,7 +633,7 @@ export default {
     });
 
     
-
+ console.log("this", this.$refs)
     await this.getEncuestas();
 
     var type = this.$route.query.type;
@@ -642,9 +658,13 @@ export default {
       console.log("no existe type");
     }
   },
+
+  
   directives: {
     ClickOutside,
   },
+
+
 };
 </script>
 <style>
