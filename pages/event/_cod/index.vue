@@ -548,7 +548,7 @@ export default {
 
     async getEncuestas() {
       this.isLoading = true
-      this.arrayEncuestas = [];
+   //   this.arrayEncuestas = [];
       await this.$axios
         .$get("get_encuestas_event?codigo=" + this.$route.params.cod)
         .then((response) => {
