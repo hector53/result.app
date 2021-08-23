@@ -99,6 +99,9 @@ export default {
       console.log("valor colocado: ", values);
     },
     date: function (values, oldValues) {
+
+        
+     
       var first = oldValues;
       var second = values;
 
@@ -125,6 +128,11 @@ export default {
         console.log("resultado", index);
         this.time.splice(index, 1);
       }
+
+   
+
+
+
     },
   },
   data() {

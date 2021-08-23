@@ -27,6 +27,7 @@
     "vue-html2pdf": "^1.8.0",
     "vue-loading-overlay": "3.0",
     "vue-qrcode": "^0.4.0",
+    "vue-social-sharing": "^3.0.8",
     "vuewordcloud": "^18.7.12"
   },
   "devDependencies": {

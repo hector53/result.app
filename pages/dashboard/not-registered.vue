@@ -266,10 +266,13 @@ export default {
       await this.$axios
         .$get("events_not_registered?cookieNotUser=" + cookieNotUser)
         .then((response) => {
+          console.log(response)
           if(response.status == 1){
               this.misEncuestas = response.encuestas;
           this.cantEncuestas = response.cantEncuestas;
           this.cantVotos = response.cantVotos;
+          }else{
+            this.misEncuestas = []
           }
           
           this.isLoading = false

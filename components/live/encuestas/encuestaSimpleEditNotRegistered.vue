@@ -212,6 +212,12 @@ export default {
         .then((response) => {
           if (response.status == 1) {
             this.isLoading = false;
+             this.$buefy.toast.open({
+            duration: 5000,
+            message: "guardado",
+            position: "is-top",
+            type: "is-success",
+          });
             this.$emit("cerrarModalEdit");
           } else {
             this.isLoading = false;

@@ -1,7 +1,7 @@
 export default {
   env: {
   //baseUrl: process.env.BASE_URL || 'http://localhost:3000'
- baseUrl: process.env.BASE_URL || 'https://api.result.app'
+  baseUrl: process.env.BASE_URL || 'https://api.result.app'
   },
   loading: false,
   /*loading: {
@@ -62,7 +62,8 @@ export default {
     'nuxt-sweetalert2', 
     'nuxt-socket-io',
     'nuxt-buefy',
-    '@nuxtjs/google-analytics'
+    '@nuxtjs/google-analytics', 
+    'vue-social-sharing/nuxt'
   ],
 
   googleAnalytics: {
@@ -80,7 +81,7 @@ export default {
   },
 
   axios: {
-  baseURL: 'https://api.result.app/api/',
+ baseURL: 'https://api.result.app/api/',
   //baseURL: 'http://127.0.0.1:5000/api/',
     credentials: true
     },

@@ -14,26 +14,44 @@
             <div class="text-block-10" @click="copyLink('urlsite', 1)">
               {{ $store.state.idioma.copyURL }}
             </div>
-            <div>
+            <div v-if="urlActual !=''">
               <div class="text-block-15">{{ $store.state.idioma.shareOn }}</div>
-              <a href="#" class="compartir"
-                ><i class="fa fa-twitter" aria-hidden="true"></i
-              ></a>
-              <a href="#" class="compartir"
-                ><i class="fa fa-facebook" aria-hidden="true"></i
-              ></a>
-              <a href="#" class="compartir"
-                ><i class="fa fa-linkedin" aria-hidden="true"></i
-              ></a>
-              <a href="#" class="compartir"
-                ><i class="fa fa-whatsapp" aria-hidden="true"></i
-              ></a>
-              <a href="#" class="compartir"
-                ><i class="fa fa-slack" aria-hidden="true"></i
-              ></a>
-              <a href="#" class="compartir"
-                ><i class="fa fa-envelope-o" aria-hidden="true"></i
-              ></a>
+              <ShareNetwork
+              network="twitter"
+              :url="urlActual"
+              :title="encuestas[0].titulo"
+              >
+              <i class="fa fa-twitter compartir" aria-hidden="true"></i>
+              </ShareNetwork>
+              <ShareNetwork
+              network="facebook"
+              :url="urlActual"
+              :title="encuestas[0].titulo"
+              >
+              <i class="fa fa-facebook compartir" aria-hidden="true"></i>
+              </ShareNetwork>
+              <ShareNetwork
+              network="LinkedIn"
+              :url="urlActual"
+              :title="encuestas[0].titulo"
+              >
+              <i class="fa fa-linkedin compartir" aria-hidden="true"></i>
+              </ShareNetwork>
+              <ShareNetwork
+              network="WhatsApp"
+              :url="urlActual"
+              :title="encuestas[0].titulo"
+              >
+              <i class="fa fa-whatsapp compartir" aria-hidden="true"></i>
+              </ShareNetwork>
+               <ShareNetwork
+              network="Email"
+              :url="urlActual"
+              :title="encuestas[0].titulo"
+              >
+              <i class="fa fa-envelope-o compartir" aria-hidden="true"></i>
+              </ShareNetwork>
+              
             </div>
           </div>
 
@@ -47,6 +65,7 @@
           :titulo_encuesta="item.titulo"
           :id_evento="id_evento"
           :statusEvent="statusEvent"
+          :modoLive="0"
         ></multiple-choice-front>
 
         <nube-de-palabras-front
@@ -55,6 +74,7 @@
           :titulo_encuesta="item.titulo"
           :id_evento="id_evento"
           :statusEvent="statusEvent"
+          :modoLive="0"
         ></nube-de-palabras-front>
 
         <dia-hora-front
@@ -63,6 +83,7 @@
           :titulo_encuesta="item.titulo"
           :id_evento="id_evento"
           :statusEvent="statusEvent"
+          :modoLive="0"
         ></dia-hora-front>
       </div>
     </section>
@@ -86,6 +107,7 @@ export default {
     return {
       codigoEncuesta: this.$route.params.cod,
       qrCode: false,
+      urlActual: ''
     };
   },
 
@@ -95,6 +117,7 @@ export default {
     },
   },
   async mounted() {
+    
     var URLactual = window.location;
     this.urlActual = URLactual.href;
   },

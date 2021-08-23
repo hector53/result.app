@@ -72,6 +72,9 @@ export default {
     },
     async votarHora(id) {
       if (this.statusEvent == 1) {
+        if(this.modoLive == 0){
+          this.isLoading = true
+        }
         await this.$axios
           .$post("votar_encuesta_dia_y_hora_front", {
             hora: id,
@@ -83,6 +86,9 @@ export default {
             login: this.$store.state.login,
           })
           .then((response) => {
+
+                 
+               
             if(response.status == 5){
                 this.$swal({
             type: "error",
@@ -90,6 +96,11 @@ export default {
             text: "Ya has realizado votos en esta encuesta con la misma ip",
           });
           return false
+            }else{
+               if(this.modoLive == 0){
+                    this.isLoading = false
+                    this.getDiayHoraByIdEncuesta(this.id_encuesta)
+                  }
             }
             this.soyYo = true
           //  this.getDiayHoraByIdEncuesta(this.id_encuesta);
@@ -128,6 +139,7 @@ export default {
     },
   },
   mounted() {
+    console.log("modo live es",this.modoLive)
     if (this.modoLive == 1) {
       this.modoenVivo = this.modoLive;
     }

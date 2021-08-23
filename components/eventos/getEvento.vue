@@ -21,6 +21,7 @@
             :statusEvent="statusEvent"
             @teclas="moverTab"
             @closeLoading="closeLoading"
+            :modoLive="0"
           ></multiple-choice-front>
           <nube-de-palabras-front
             @teclas="moverTab"
@@ -29,6 +30,7 @@
             :titulo_encuesta="item.titulo"
             :id_evento="id_evento"
             :statusEvent="statusEvent"
+            :modoLive="0"
           ></nube-de-palabras-front>
           <sorteos-front
             @teclas="moverTab"
@@ -37,6 +39,8 @@
             :titulo_encuesta="item.titulo"
             :id_evento="id_evento"
             :statusEvent="statusEvent"
+            :modoLive="0"
+             ref="sorteosFront"
           ></sorteos-front>
 
           <dia-hora-front
@@ -46,16 +50,18 @@
             :titulo_encuesta="item.titulo"
             :id_evento="id_evento"
             :statusEvent="statusEvent"
+            :modoLive="0"
           ></dia-hora-front>
 
           <qya-front
-            :ref="'qyaFront_' + item.id"
+            ref="qyaFront"
             @teclas="moverTab"
             v-if="item.tipo == 5"
             :id_encuesta="item.id"
             :titulo_encuesta="item.titulo"
             :id_evento="id_evento"
             :statusEvent="statusEvent"
+            :modoLive="0"
           ></qya-front>
         </div>
       </div>

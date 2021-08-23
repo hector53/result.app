@@ -268,8 +268,6 @@ if(response.connected == false)
     this.socket = this.$nuxtSocket({
       channel: "/",
       reconnection: true,
-      emitTimeout: 1000, // 1000 ms
-      emitErrorsProp: "myEmitErrors",
     });
 
     console.log("socket", this.socket);
@@ -344,10 +342,34 @@ if(response.connected == false)
     });
 
     this.socket.on("cambioDeEncuesta", (data) => {
+      
       console.log(data);
       this.$store.commit("setcontadorModoLiveFront", 1);
       this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
       //    this.componentKey += 1;
+    });
+      this.socket.on("addRespuestaQyA", (data) => {
+        console.log(data);
+        console.log(this)
+        if(data.modoLive == 0){
+this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_encuesta);
+        }else{
+                
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+        }
+    });
+
+      this.socket.on("borrandoPreguntaQyA", (data) => {
+        console.log(data);
+        console.log(this)
+        if(data.modoLive == 0){
+this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_encuesta);
+        }else{
+                
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+        }
     });
 
     this.socket.on("votoUsuarioEncuesta", (data) => {
@@ -389,10 +411,20 @@ if(response.connected == false)
     this.socket.on("generarGanadorSorteo", (data) => {
       console.log("Generar ganadores");
       console.log(data);
-      this.$refs["modoLiveFront"].$refs["sorteosFront"].generarGanador(
+      if(this.modoLive==1){
+          this.$refs["modoLiveFront"].$refs["sorteosFront"].generarGanador(
         data.id_encuesta,
         data.ganadores
       );
+      }else{
+        console.log("generar sorteo en modo live 0", this)
+           this.$refs["getEvento"].$refs["sorteosFront"][0].generarGanador(
+        data.id_encuesta,
+        data.ganadores
+      );
+        
+      }
+      
     });
 
     this.socket.on("join_room_disconect", (data) => {

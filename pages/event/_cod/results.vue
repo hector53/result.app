@@ -167,6 +167,19 @@ export default {
     DiaHoraLiveActivo,
     FooterT,
   },
+    async asyncData({ params, store, redirect, app, route }) {
+    var tokenUser = app.$cookies.get("r_auth");
+    app.$axios.setToken(tokenUser, "Bearer");
+    const response = await app.$axios.$get("getSessionAndCodLive?cod="+route.params.cod)
+    if(response.status == 0){
+      return redirect("/");
+    }
+    if(response.status == 2){
+      return redirect("/dashboard");
+    }
+    
+
+  },
   head() {
     return {
       title: "Event Results - " + this.$route.params.cod + " - Resultapp",
@@ -361,6 +374,12 @@ console.log("hasDownloaded", event);
           this.$refs[
             "encuestaFront_" + data.id_encuesta
           ][0].getPreguntasByIdEncuesta(data.id_encuesta);
+        }
+
+        if (data.tipo == 4) {
+          this.$refs[
+            "encuestaFront_" + data.id_encuesta
+          ][0].getDiayHoraByIdEncuesta(data.id_encuesta);
         }
       }
     });

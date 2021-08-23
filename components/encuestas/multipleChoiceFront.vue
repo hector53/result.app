@@ -311,6 +311,7 @@ export default {
               position: "center",
               icon: "error",
               title: "Error al cancelar el voto",
+               heightAuto: false,
               showConfirmButton: false,
               timer: 1500,
             });
@@ -361,6 +362,7 @@ export default {
               icon: "error",
               title: "Oops...",
               text: "No existe esa opción",
+               heightAuto: false,
             });
           }
         }

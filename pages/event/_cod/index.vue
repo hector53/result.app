@@ -280,33 +280,34 @@ export default {
           confirmButtonText: `Si borrar`,
         }).then((result) => {
           if (result.value) {
-            this.isLoading = true
+          this.$store.commit("setisLoading", true);
             this.deleteEncuestaById(val.id_encuesta);
           }
         });
       }
     },
     async deleteEncuestaById(id) {
+      console.log("borrar encuesta")
       await this.$axios
         .$post("delete_poll_simple_live_by_id", {
           id: id,
           codigo: this.$route.params.cod,
         })
         .then((response) => {
+          console.log(response)
           if (response.status != "error") {
-            this.isLoading = false
-             this.getEncuestas();
-            if (this.arrayEncuestas.length == 0) {
-              this.opcionesPredeterminadas = true;
-            }
+            console.log("encuesta borrada")
+            this.getEncuestas();
+             
+            
           } else {
             alert("ocurrio un error quizas algo mal en tus datos");
-             this.isLoading = false
+             this.$store.commit("setisLoading", false);
           }
         })
         .catch(({ response }) => {
            this.isLoading = false
-          console.log(response);
+          console.log("error error",response);
         });
     },
 
@@ -547,12 +548,12 @@ export default {
     },
 
     async getEncuestas() {
-      this.isLoading = true
+      
       this.arrayEncuestas = [];
       await this.$axios
         .$get("get_encuestas_event?codigo=" + this.$route.params.cod)
         .then((response) => {
-          console.log(response);
+          console.log("response del evento",response);
          
           this.$store.commit("setisLoading", false)
           this.eventName = response.eventName;
@@ -561,17 +562,21 @@ export default {
           this.eventFecha = response.fecha;
 
           this.$store.commit("seteventLiveMode", response.eventModo);
-         this.$store.commit("setcandadoModoLive", response.eventStatus);
+          this.$store.commit("setcandadoModoLive", response.eventStatus);
 
           console.log(this.eventStatus);
           this.eventT = true;
           if (response.status == 1) {
             this.arrayEncuestas = response.misencuestas;
-            if (response.misencuestas.length > 0) {
+            if (response.misencuestas.length >= 1) {
+
+              console.log("array mayor a cero")
               this.opcionesPredeterminadas = false;
-            } else {
+            } 
+          
+          }else{
+             console.log("array = a cero")
               this.opcionesPredeterminadas = true;
-            }
           }
            this.isLoading = false;
         })
