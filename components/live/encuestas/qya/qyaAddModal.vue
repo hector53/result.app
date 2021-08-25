@@ -4,7 +4,10 @@
     <div class="control mt-5">
       <input class="input" type="text" v-model="titulo" @keyup.enter="crearEncuesta(0)" placeholder="Título" />
     </div>
-
+<label class="checkbox" style="margin-top: 20px" v-if="$store.state.premium == 2">
+              <input type="checkbox" v-model="moderar"  />
+              Moderar Preguntas
+            </label>
     <div class="button-group-live" style="margin-top: 50px">
       <button class="buttonN blue" @click="crearEncuesta(0)">Guardar</button>
       <button class="buttonN play" @click="crearEncuesta(1)">
@@ -19,6 +22,7 @@ export default {
   data() {
     return {
       titulo: "",
+      moderar: false
     };
   },
   methods: {
@@ -41,6 +45,7 @@ export default {
           pregunta: this.titulo,
           codigo: this.$route.params.cod,
           activar: val,
+          moderar: this.moderar
         })
         .then((response) => {
           if (response.status == 1) {

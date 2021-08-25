@@ -8,6 +8,10 @@
         v-model="preguntaEncuesta"
         placeholder="Título"
       />
+      <label class="checkbox" style="margin-top: 20px" v-if="$store.state.premium == 2">
+              <input type="checkbox" v-model="moderar"  />
+              Moderar Preguntas
+            </label>
     </div>
 
     <div class="button-group-live" style="margin-top: 50px">
@@ -28,6 +32,7 @@ export default {
     return {
       preguntaEncuesta: "",
       isLoading: false,
+      moderar: false
     };
   },
   components: { Loading },
@@ -39,6 +44,10 @@ export default {
           console.log(response);
           if (response.status == 1) {
             this.preguntaEncuesta = response.encuesta[0].titulo;
+            if(response.encuesta[0].multiple == 1){
+                 this.moderar = true
+            }
+           
           }
         })
         .catch(({ response }) => {
@@ -64,6 +73,7 @@ export default {
           id: this.id_encuesta,
           modo: this.$store.state.eventLiveMode,
           activar: val,
+          moderar: this.moderar
         })
         .then((response) => {
           if (response.status == 1) {

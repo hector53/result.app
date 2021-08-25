@@ -39,6 +39,10 @@
               placeholder="Introduzca una pregunta"
               v-debounce:400ms="guardar"
             />
+            <label class="checkbox" style="margin-top: 20px" v-if="$store.state.premium == 2">
+              <input type="checkbox" v-model="moderarP" @change="guardarOpciones" />
+              Moderar Preguntas
+            </label>
           </div>
         </div>
       </div>
@@ -48,11 +52,12 @@
 
 <script>
 export default {
-  props: ["numero", "idEcuesta", "pregunta", "nuevo"],
+  props: ["numero", "idEcuesta", "pregunta", "nuevo", "moderar"],
   data() {
     return {
       preguntaEncuesta: this.pregunta,
       id_encuesta: this.idEcuesta,
+      moderarP: this.moderar
     };
   },
 
@@ -105,6 +110,7 @@ export default {
           id: this.id_encuesta,
           pregunta: this.preguntaEncuesta,
           codigo: this.$route.params.cod,
+          moderar: this.moderarP
         })
         .then((response) => {
           if (response.status != 0) {

@@ -64,6 +64,7 @@
                 :id_encuesta="item.id"
                 :titulo_encuesta="item.titulo"
                 :id_evento="id_evento"
+                :modoLive="1"
               ></qya-active>
             </div>
           </div>

@@ -50,65 +50,44 @@
     </div>
 
     <div class="listPreguntas mb-5">
-      <div
-        class="item_pregunta mt-3"
-        v-for="(item, index) in arrayPreguntas"
-        :key="index"
-      >
-        <div class="item_pregunta_top">
-          <div class="item_pregunta_top_img">
-            <svg
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              focusable="false"
-              class="UserIcon"
-            >
-              <path
-                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-              ></path>
-            </svg>
-          </div>
-          <div class="item_pregunta_top_user">
-            <span>{{ item.usuario }}</span>
-            <span>{{ item.fecha }}</span>
-          </div>
-          <div class="item_pregunta_top_like">
-            <span class="likeContador">
-              <span v-if="item.likes > 0" class="mr-3">({{ item.likes }})</span>
-              <svg
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-                focusable="false"
-                class="likeIcon"
-                :class="{ active: item.likes > 0 }"
-                @click="likePregunta(item.id)"
-              >
-                <path
-                  d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"
-                ></path></svg
-            ></span>
-            <span class="icontree" v-if="$store.state.p == item.id_user">
-              <i
-                class="fa fa-pencil-square-o iconEditQyA"
-                aria-hidden="true"
-                @click="editarMiPregunta(item.id, item.texto)"
-              ></i>
-              &nbsp;&nbsp;
-              <i
-                class="fa fa-trash iconEditQyA"
-                @click="deletePregunta(item)"
-                aria-hidden="true"
-              ></i>
-            </span>
-          </div>
-        </div>
-        <div class="item_pregunta_footer">{{ item.texto }}</div>
-        <div class="item_pregunta_footer" v-if="item.reply.length > 0">
-          <span class="replyCountAdmin" @click="replyPregunta(item)"
-            >({{ item.reply.length }})-Respuestas</span
-          >
-        </div>
+      <div v-if="extra == 1">
+            <div v-for="(item, index) in arrayPreguntas" :key="index" >
+              <question-front 
+              v-if="item.status == 0 && item.id_user == $store.state.p"
+              :item="item"
+              :extra="extra"
+              @likePregunta="likePregunta"
+              @editarMiPregunta="editarMiPregunta"
+              @deletePregunta="deletePregunta"
+              @replyPregunta="replyPregunta"
+              ></question-front>
+              <question-front 
+              v-if="item.status == 1"
+              :item="item"
+              :extra="extra"
+              @likePregunta="likePregunta"
+              @editarMiPregunta="editarMiPregunta"
+              @deletePregunta="deletePregunta"
+              @replyPregunta="replyPregunta"
+              ></question-front>
+            </div>
       </div>
+
+      <div v-else>
+            <div v-for="(item, index) in arrayPreguntas" :key="index" >
+              <question-front 
+              :item="item"
+              :extra="extra"
+              @likePregunta="likePregunta"
+              @editarMiPregunta="editarMiPregunta"
+              @deletePregunta="deletePregunta"
+              @replyPregunta="replyPregunta"
+              ></question-front>
+            </div>
+      </div>
+      
+
+
     </div>
 
     <b-modal v-model="ModalEditPregunta" :width="400">
@@ -209,14 +188,17 @@
 
 <script>
 import ClickOutside from "vue-click-outside";
+import questionFront from './comp/questionFront.vue';
 
 export default {
+  components: { questionFront },
   props: [
     "titulo_encuesta",
     "id_encuesta",
     "id_evento",
     "modoLive",
     "statusEvent",
+    "extra"
   ],
   directives: {
     ClickOutside,
@@ -357,10 +339,10 @@ export default {
           });
       }
     },
-    editarMiPregunta(id, texto) {
+    editarMiPregunta(val) {
       if (this.statusEvent == 1) {
-        this.idEdit = id;
-        this.textEditPregunta = texto;
+        this.idEdit = val.id;
+        this.textEditPregunta = val.texto;
         this.ModalEditPregunta = true;
       }
     },
@@ -388,6 +370,7 @@ export default {
             codigo: this.$route.params.cod,
             liveMode: this.modoenVivo,
             parent: 0,
+            extra: this.extra
           })
           .then((response) => {
             if (response.status != 0) {
@@ -449,6 +432,7 @@ export default {
     },
   },
   mounted() {
+    console.log("extra es igual a", this.extra)
     if(this.statusEvent == 1){
       this.disableQYA = false
     }

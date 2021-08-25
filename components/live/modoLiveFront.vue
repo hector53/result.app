@@ -9,6 +9,7 @@
       :id_evento="id_evento"
       :modoLive="modoLive"
       :statusEvent="1"
+      :extra="extra"
     ></multiple-choice-front>
 
     <nube-de-palabras-front
@@ -20,6 +21,7 @@
       :id_evento="id_evento"
       :modoLive="modoLive"
       :statusEvent="1"
+      :extra="extra"
     ></nube-de-palabras-front>
 
     <sorteos-front
@@ -29,6 +31,7 @@
       :titulo_encuesta="titulo"
       :id_evento="id_evento"
       :modoLive="modoLive"
+      :extra="extra"
     ></sorteos-front>
 
     <dia-hora-front
@@ -40,6 +43,7 @@
       :modoLive="modoLive"
       statusEvent="1"
        :key="keyEncuesta"
+       :extra="extra"
     ></dia-hora-front>
 
     <qya-front
@@ -51,6 +55,7 @@
       :id_evento="id_evento"
       :modoLive="modoLive"
       statusEvent="1"
+      :extra="extra"
     ></qya-front>
   </div>
 </template>
@@ -73,7 +78,7 @@ export default {
   data() {
     return {
       arrayEncuesta: [],
-      
+      extra: 0,
       mostrar: false,
       tipo: 0,
       id: 0,
@@ -101,6 +106,7 @@ export default {
             console.log("la respues fue igual a uno");
             this.arrayEncuesta = response.tipoEncuesta;
             this.tipo = response.tipoEncuesta[0].tipo;
+            this.extra = response.tipoEncuesta[0].extra;
             if(response.tipoEncuesta[0].tipo==1){
                 this.keySimpleChoice++
             }

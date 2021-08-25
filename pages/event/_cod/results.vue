@@ -131,6 +131,7 @@
                 :id_encuesta="item.id"
                 :titulo_encuesta="item.titulo"
                 :id_evento="id_evento"
+                 :modoLive="0"
               ></qya-active>
             </div>
             </section>

@@ -1630,6 +1630,25 @@ input[type="checkbox"], input[type="radio"] {
     padding-right: 20px;
     border-radius: 20px;
 }
+.preguntaDestacada{
+    background: #0b9ed4!important;
+    color: white;
+}
+.preguntaDestacada i{
+    opacity: 1;
+}
+.preguntaDestacada .likeIcon{
+    opacity: 1;
+    fill: white;
+}
+.stepByStep{
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    position: absolute;
+    right: 40px;
+    margin-top: 20px;
+}
 .usersOnline{
     position: absolute;
     color: white;
@@ -2285,6 +2304,11 @@ body.swal2-height-auto{
 .item_pregunta_top_img{
     margin-right: 20px;
     display: flex;
+    align-items: center;
+}
+.iconDestacarPregunta{
+    font-size: 20px;    margin-left: 10px;
+    cursor: pointer;
 }
 .item_pregunta_top_user{
     width: 100%;

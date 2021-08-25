@@ -110,6 +110,7 @@
             :nuevo="item['nuevo']"
             :idEcuesta="item['idEcuesta']"
             :pregunta="item['pregunta']"
+            :moderar="item['moderar']"
             @moverArriba="moverArriba"
             @moverAbajo="moverAbajo"
             @eliminarEncuesta="deleteEncuestaByClickId"

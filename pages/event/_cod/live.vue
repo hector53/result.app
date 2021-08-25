@@ -14,6 +14,8 @@
       alt="Ir Al Dashboard"
       @click="irAtras"
     ></i>
+
+    <div class="stepByStep">{{$store.state.encuestaActiveLiveMode}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
     <content-live-off
       ref="contentLive"
       v-if="content"

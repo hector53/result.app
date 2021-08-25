@@ -3,46 +3,48 @@
     <h5 class="has-text-right" >Encuesta Q&A</h5>
     <h1 style="text-align: left">{{ titulo_encuesta }}</h1>
     <hr />
-     <div v-if="arrayPreguntas.length==0"  class="palabrasVacias"  >
+     <div v-if="arrayPreguntas.length==0 && arrayPreguntasModerar==0 "  class="palabrasVacias"  >
       <h2>Sin preguntas aún</h2>
       </div>
     <div class="listPreguntas mb-5" v-else>
-      <div
-        class="item_pregunta mt-3"
+
+<b-tabs v-model="activeTab" >
+        <b-tab-item label="Activas"  >
+          <section class="has-text-left">
+           <div
+        class="item_pregunta mt-3" 
         v-for="(item, index) in arrayPreguntas"
         :key="index"
+        :class="{'preguntaDestacada': item.destacada}"
       >
         <div class="item_pregunta_top">
           <div class="item_pregunta_top_img">
-            <svg
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              focusable="false"
-              class="UserIcon"
-            >
-              <path
-                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-              ></path>
-            </svg>
+            <i class="fa fa-user UserIcon" style="font-size: 20px;" aria-hidden="true"></i>
+          
           </div>
           <div class="item_pregunta_top_user">
             <span>{{ item.usuario }}</span>
             <span>{{ item.fecha }}</span>
           </div>
           <div class="item_pregunta_top_like">
-            <span>
-              <span v-if="item.likes > 0">({{ item.likes }})</span>
+            <div class="likeContador">
+              <span v-if="item.likes > 0" class="mr-3">({{ item.likes }})</span>
               <svg
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
                 focusable="false"
                 class="likeIcon"
+                :class="{ active: item.likes > 0 }"
+                @click="likePregunta(item.id)"
               >
                 <path
                   d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-1.91l-.01-.01L23 10z"
-                ></path></svg
-            ></span>
-            <span class="icontree">
+                ></path></svg >
+                   <i class="fa fa-angle-double-up iconDestacarPregunta" @click="destacarPregunta(item.id)" aria-hidden="true"></i>
+         
+                
+           </div>
+              <span class="icontree">
               <i
                 class="fa fa-reply iconEditQyA"
                 aria-hidden="true"
@@ -64,6 +66,56 @@
           >
         </div>
       </div>
+          </section>
+        </b-tab-item>
+
+        <b-tab-item :label="'Pendientes '+'('+arrayPreguntasModerar.length+')'" v-if="extra == 1 && arrayPreguntasModerar.length > 0" >
+          <section class="has-text-left">
+           <div
+        class="item_pregunta mt-3"
+        v-for="(item, index) in arrayPreguntasModerar"
+        :key="index"
+      >
+        <div class="item_pregunta_top">
+          <div class="item_pregunta_top_img">
+            <svg
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+              focusable="false"
+              class="UserIcon"
+            >
+              <path
+                d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+              ></path>
+            </svg>
+          </div>
+          <div class="item_pregunta_top_user">
+            <span>{{ item.usuario }}</span>
+            <span>{{ item.fecha }}</span>
+          </div>
+          <div class="item_pregunta_top_like">
+             <b-switch :value="false" @input="moderar(item.id)"
+            type="is-success"
+            passive-type="is-danger"
+            >
+            </b-switch>
+            
+          </div>
+        </div>
+        <div class="item_pregunta_footer">{{ item.texto }}</div>
+        <div class="item_pregunta_footer" v-if="item.reply.length > 0">
+          <span class="replyCountAdmin" @click="replyPregunta(item)"
+            >({{ item.reply.length }})-Respuestas</span
+          >
+        </div>
+      </div>
+          </section>
+        </b-tab-item>
+       
+      </b-tabs>
+
+
+      
     </div>
 
     <b-modal v-model="modalReply" :width="600">
@@ -151,12 +203,12 @@
 
 <script>
 export default {
-  props: ["titulo_encuesta", "id_encuesta", "id_evento"],
+  props: ["titulo_encuesta", "id_encuesta", "id_evento", "modoLive"],
 
   data() {
     return {
       abierto: 0,
-      modoenVivo: 1,
+      modoenVivo: this.modoLive,
       mostrarFooter: false,
       pregunta: "",
       arrayPreguntas: [],
@@ -167,9 +219,39 @@ export default {
       dateReply: "",
       textReplyAdmin: "",
       arrayPreguntaR: [],
+      arrayPreguntasModerar: [],
+      activeTab: 0, 
+      extra: 0
     };
   },
   methods: {
+async    destacarPregunta(id){
+  console.log("modo live activo", this.modoenVivo)
+  await this.$axios
+        .$post("destacar_qya_pregunta_by_id", {
+          id: id, 
+          codigo: this.$route.params.cod, 
+          id_encuesta: this.id_encuesta, 
+          modoLive: this.modoenVivo
+        }).then((response) => {
+          this.getPreguntasByIdEncuesta(this.id_encuesta)
+        }).catch(({response}) => {
+          console.log("response error", response)
+        })
+    },
+    async moderar(id){
+        await this.$axios
+        .$post("moderar_qya_pregunta_by_id", {
+          id: id, 
+          codigo: this.$route.params.cod, 
+          id_encuesta: this.id_encuesta, 
+          modoLive: 1
+        }).then((response) => {
+          this.getPreguntasByIdEncuesta(this.id_encuesta)
+        }).catch(({response}) => {
+          console.log("response error", response)
+        })
+    },
     deletePregunta(item) {
       this.$swal({
         title: "¿Estas seguro que quieres borrar esta pregunta ? ",
@@ -225,6 +307,7 @@ export default {
           codigo: this.$route.params.cod,
           liveMode: this.modoenVivo,
           parent: this.idToReply,
+          extra: this.extra
         })
         .then((response) => {
           if (response.status != 0) {
@@ -305,7 +388,7 @@ export default {
     async getPreguntasByIdEncuesta(id) {
       await this.$axios
         .$get(
-          "get_preguntas_qya_front?id_evento=" +
+          "get_preguntas_qya_live_admin?id_evento=" +
             this.id_evento +
             "&p=" +
             this.$store.state.p +
@@ -316,6 +399,9 @@ export default {
           console.log(response);
           if (response.status == 1) {
             this.arrayPreguntas = response.preguntas;
+            this.arrayPreguntasModerar = response.moderar
+            this.activeTab = 0
+            this.extra = response.extra
           }
         }).catch(({response}) => {
           console.log(response)
@@ -323,6 +409,7 @@ export default {
     },
   },
   mounted() {
+    console.log("modo live activo", this.modoLive)
     if (this.$route.name == "event-cod-results") {
       this.modoenVivo = 0;
     }

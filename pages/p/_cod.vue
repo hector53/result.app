@@ -360,6 +360,30 @@ this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_en
         }
     });
 
+      this.socket.on("moderandoPreguntaQyA", (data) => {
+        console.log(data);
+        console.log(this)
+        if(data.modoLive == 0){
+this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_encuesta);
+        }else{
+                
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+        }
+    });
+
+      this.socket.on("destacandoPreguntaQyA", (data) => {
+        console.log(data);
+        console.log(this)
+        if(data.modoLive == 0){
+this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_encuesta);
+        }else{
+                
+      this.$store.commit("setcontadorModoLiveFront", 1);
+      this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+        }
+    });
+
       this.socket.on("borrandoPreguntaQyA", (data) => {
         console.log(data);
         console.log(this)
