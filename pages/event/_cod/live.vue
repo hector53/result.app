@@ -261,7 +261,6 @@ if(response.connected == false)
     window.addEventListener("beforeunload", this.beforeWindowUnload);
     this.socket = this.$nuxtSocket({
       channel: "/",
-      transports: [ 'polling'],
     });
     var User = this.$store.state.p;
     var codigo = this.$route.params.cod;
