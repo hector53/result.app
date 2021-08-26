@@ -262,9 +262,6 @@ if(response.connected == false)
     this.socket = this.$nuxtSocket({
       channel: "/",
       transports: [ 'polling'],
-        credentials: true,
-      persist: true,
-      reconnection: true
     });
     var User = this.$store.state.p;
     var codigo = this.$route.params.cod;
