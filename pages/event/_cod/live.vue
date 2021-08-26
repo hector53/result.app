@@ -15,7 +15,7 @@
       @click="irAtras"
     ></i>
 
-    <div class="stepByStep">{{$store.state.encuestaActiveLiveMode}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
+    <div class="stepByStep">{{$store.state.encuestaLivePosicionActive}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
 
     <button @click="beforeWindowUnload">Desconectar</button>
     <content-live-off
@@ -70,6 +70,12 @@ export default {
           "setarrayEncuestaActiveLiveMode",
           response.tipoEncuesta
         );
+        var posicionActiva=0;
+        for(var i = 0; i<response.tipoEncuesta.length; i++){
+            if(response.tipoEncuesta[i].play == 1){
+                app.store.commit("setencuestaLivePosicionActive", i+1);
+            }
+        }
         app.store.commit("setcandadoModoLive", response.statusEvent);
         //hacer un tipo encuesta live en el store para actualizarlo mas facil
         return { id_evento: response.id };
@@ -159,6 +165,11 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
+              for(var i = 0; i<response.tipoEncuesta.length; i++){
+              if(response.tipoEncuesta[i].play == 1){
+              this.$store.commit("setencuestaLivePosicionActive", i+1);
+              }
+              }
             this.$store.commit(
               "setarrayEncuestaActiveLiveMode",
               response.tipoEncuesta
@@ -174,6 +185,7 @@ export default {
             //this.$store.commit("seteventLiveMode", 0 );
             //  this.$store.commit("setcandadoModoLive", 0 );
             this.$store.commit("setarrayEncuestaActiveLiveMode", []);
+            this.$store.commit("setencuestaLivePosicionActive", 0);
             this.content = true;
           }
 
@@ -239,12 +251,14 @@ export default {
         { username: this.$store.state.p, room: this.$route.params.cod },
         (resp) => {
           console.log("recibiendo respuesta", resp);
+           this.$store.commit("setusersOnline", resp.conectados);
+
           if(resp.ifUser == 0){
               this.socket.emit(
               "joinRoom",
               {
-              username: User,
-              room: codigo,
+              username: this.$store.state.p,
+              room: this.$route.params.cod,
               },
               (resp) => {}
               );

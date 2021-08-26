@@ -1,5 +1,6 @@
 <template>
   <div v-if="arrayEncuesta.length > 0">
+    
     <multiple-choice-front
       ref="simpleFront"
       v-if="tipo == 1"
@@ -107,6 +108,18 @@ export default {
             this.arrayEncuesta = response.tipoEncuesta;
             this.tipo = response.tipoEncuesta[0].tipo;
             this.extra = response.tipoEncuesta[0].extra;
+
+              for(var i = 0; i<this.$store.state.arrayEncuestaActiveLiveMode.length; i++){
+                console.log("id array encuesta", this.$store.state.arrayEncuestaActiveLiveMode[i].id)
+              if(this.$store.state.arrayEncuestaActiveLiveMode[i].id == response.tipoEncuesta[0].id){
+                console.log("si es igual")
+                    this.$store.commit("setencuestaLivePosicionActive", i+1);
+              }
+              }
+
+
+
+
             if(response.tipoEncuesta[0].tipo==1){
                 this.keySimpleChoice++
             }

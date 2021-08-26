@@ -222,7 +222,7 @@ export default {
       textEditPregunta: "",
       arrayPreguntaR: [],
       modalReply: false,
-      disableQYA:true
+      disableQYA:true, 
     };
   },
   methods: {

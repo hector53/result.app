@@ -1,6 +1,8 @@
 <template>
   <div>
+
     <div class="cubreContentLive" v-if="$store.state.eventLiveMode == 0">
+      
       <div class="contentColumnLive">
         <h1>Entrá a <br />result.app <br />#{{ $route.params.cod }}</h1>
       </div>

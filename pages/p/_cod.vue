@@ -1,13 +1,15 @@
 <template>
   <div style="    height: 100%; ">
+   
     <div :class="{ cubreModoLivep: modoLive == 1 }">
       <header-live-front
         v-if="modoLive == 1"
         @activarFullScreen="activarFullScreen"
       ></header-live-front>
       <nav-bar v-else></nav-bar>
-
+ <div class="stepByStep">{{$store.state.encuestaLivePosicionActive}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
       <div v-if="mostrar" style="padding-left: 10px;    padding-right: 10px;" :class="{'gradienteLive':modoLive == 1}">
+        
         <div v-if="statusEvent == 1 && modoLive == 0">
           <get-evento
             ref="getEvento"
@@ -40,6 +42,7 @@
           ></get-evento>
         </div>
         <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px; padding-bottom: 100px;">
+          
           <div
             class="cubreContentLive"
             v-if="$store.state.arrayEncuestaActiveLiveMode.length == 0"
@@ -148,6 +151,11 @@ export default {
         }
 
         app.store.commit("setarrayEncuestaActiveLiveMode", response.encuestas);
+        for(var i = 0; i<response.encuestas.length; i++){
+            if(response.encuestas[i].play == 1){
+                app.store.commit("setencuestaLivePosicionActive", i+1);
+            }
+        }
         return {
           userTipo: tipoUser,
           id_evento: response.id_evento,
@@ -196,6 +204,11 @@ export default {
         .$get("get_event_by_cod_front?codigo=" + this.$route.params.cod)
         .then((response) => {
           this.encuestas = response.encuestas
+           for(var i = 0; i<response.encuestas.length; i++){
+            if(response.encuestas[i].play == 1){
+                this.$store.commit("setencuestaLivePosicionActive", i+1);
+            }
+        }
           this.$store.commit(
             "setarrayEncuestaActiveLiveMode",
             response.encuestas
@@ -234,12 +247,13 @@ export default {
         { username: this.$store.state.p, room: this.$route.params.cod },
         (resp) => {
           console.log("recibiendo respuesta", resp);
+          this.$store.commit("setusersOnline", resp.conectados);
         if(resp.ifUser == 0){
               this.socket.emit(
               "joinRoom",
               {
-              username: User,
-              room: codigo,
+              username: this.$store.state.p,
+              room: this.$route.params.cod,
               },
               (resp) => {}
               );
@@ -300,7 +314,7 @@ if(response.connected == false)
       this.componentKey += 1;
       this.$store.commit("setcontadorModoLiveFront", 0);
       console.log("modo live front componente", this.$refs["modoLiveFront"]);
-      //     this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
+           this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
     });
     this.socket.on("GuardarEncuesta", (data) => {
       console.log(

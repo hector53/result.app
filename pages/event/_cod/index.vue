@@ -492,6 +492,7 @@ export default {
           tipo: 5,
           idEcuesta: 0,
           pregunta: "",
+          moderar: false
         });
       }
 

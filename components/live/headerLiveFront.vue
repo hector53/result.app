@@ -64,6 +64,11 @@
                     <span class="tituloEncuestaLiveItem">{{
                       item.titulo
                     }}</span>
+                     <i
+                        class="fa fa-check"
+                        aria-hidden="true"
+                        v-if="item.play == 1"
+                      ></i>
                   </div>
                 </a>
               </div>

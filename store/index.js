@@ -13,6 +13,7 @@ export const state = () => ({
   eventStatus: 0,
   eventLiveMode: 0,
   encuestaActiveLiveMode: 0,
+  encuestaLivePosicionActive: 0,
   arrayEncuestaActiveLiveMode: [],
   candadoModoLive: 0,
   mostrarEnMoLive: false,
@@ -42,7 +43,10 @@ export const getters = {
 
 export const mutations = {
 
-  
+
+  setencuestaLivePosicionActive(state, val) {
+    state.encuestaLivePosicionActive = val
+  },
 
   setcustomerId(state, val) {
     state.customerId = val

@@ -62,6 +62,7 @@
             :id_evento="id_evento"
             :statusEvent="statusEvent"
             :modoLive="0"
+            :extra="item.extra"
           ></qya-front>
         </div>
       </div>
