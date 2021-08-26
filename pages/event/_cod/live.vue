@@ -261,7 +261,8 @@ if(response.connected == false)
     window.addEventListener("beforeunload", this.beforeWindowUnload);
     this.socket = this.$nuxtSocket({
       channel: "/",
-      transports: ['polling'],
+      transports: [ 'polling'],
+        credentials: true,
       persist: true,
       reconnection: true
     });
