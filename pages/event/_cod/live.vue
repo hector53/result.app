@@ -16,6 +16,8 @@
     ></i>
 
     <div class="stepByStep">{{$store.state.encuestaActiveLiveMode}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
+
+    <button @click="beforeWindowUnload">Desconectar</button>
     <content-live-off
       ref="contentLive"
       v-if="content"
@@ -208,22 +210,27 @@ export default {
     beforeWindowUnload() {
       
       this.socket.emit(
-        "desconectar",
+        "desconectar", (resp) => {
+            console.log("respuesta del desconectar", resp)
+            if(resp.user == this.$store.state.p){
+              //reconectar 
+                this.socket.emit(
+                "joinRoom",
+                {
+                username: this.$store.state.p, room: this.$route.params.cod
+                },
+                (resp) => {}
+                );
+            }
+        }
       );
     },
-     enviarPing(){
-       console.log("enviando ping")
-       this.socket.emit("ping", {     username: this.$store.state.p,    room: this.$route.params.cod,  },
-            (resp) => {}
-            );
-    }, 
+   
     timer(){
       this.intervalo = setInterval(() => {
-        this.conectadoViejo = this.conectado;
-        console.log("envie el ping: conectado=", this.conectado);
-
+        
         this.enviarPing();
-      }, 5000);
+      }, 10000);
     },
 
       async enviarPing() {
@@ -232,27 +239,26 @@ export default {
         { username: this.$store.state.p, room: this.$route.params.cod },
         (resp) => {
           console.log("recibiendo respuesta", resp);
-          this.conectado++;
+          if(resp.ifUser == 0){
+              this.socket.emit(
+              "joinRoom",
+              {
+              username: User,
+              room: codigo,
+              },
+              (resp) => {}
+              );
+          }
         }
       );
-console.log("respuensasdasdas asd", response)
+
+      console.log("respuensasdasdas asd", response)
 if(response.connected == false)
 {
   console.log("ersta desconectado ,. vamos a conectarnos")
-  this.socket = this.$nuxtSocket({
-      channel: "/",
-      reconnection: true,
-      emitTimeout: 1000, // 1000 ms
-      emitErrorsProp: "myEmitErrors",
-    });
-   this.socket.emit(
-      "joinRoom",
-      {
-      username: this.$store.state.p, room: this.$route.params.cod
-      },
-      (resp) => {}
-    );
+location.reload();
 }
+
     
     },
   },
@@ -261,6 +267,10 @@ if(response.connected == false)
     window.addEventListener("beforeunload", this.beforeWindowUnload);
     this.socket = this.$nuxtSocket({
       channel: "/",
+      reconnection: true,
+    reconnectionDelay: 1000,
+    reconnectionDelayMax : 5000,
+    reconnectionAttempts: 99999
     });
     var User = this.$store.state.p;
     var codigo = this.$route.params.cod;
@@ -273,12 +283,12 @@ if(response.connected == false)
       (resp) => {}
     );
 
-//this.timer()
+this.timer()
   
 
      this.socket.on("pong", (data) => {
       console.log("recibi pong desde el servidor, clientes conectados: ", data.conectados);
-         this.$store.commit("setusersOnline", data.conectados);
+        
     });
 
    this.socket.on("activarModoPresentacion", (data) => {
