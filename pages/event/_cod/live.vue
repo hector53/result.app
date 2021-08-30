@@ -17,7 +17,6 @@
 
     <div class="stepByStep">{{$store.state.encuestaLivePosicionActive}} / {{$store.state.arrayEncuestaActiveLiveMode.length}}</div>
 
-    <button @click="beforeWindowUnload">Desconectar</button>
     <content-live-off
       ref="contentLive"
       v-if="content"
@@ -297,7 +296,7 @@ location.reload();
       (resp) => {}
     );
 
-this.timer()
+//this.timer()
   
 
      this.socket.on("pong", (data) => {
@@ -352,6 +351,7 @@ this.timer()
     });
 
     this.socket.on("respuestaDelVoto", (data) => {
+      console.log("respuesta del voto", data)
       if (data.tipo == 1) {
         this.$refs["contentLive"].$refs[
           "encuestaFront_" + data.id_encuesta

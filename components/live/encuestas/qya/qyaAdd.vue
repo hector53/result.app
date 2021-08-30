@@ -39,7 +39,7 @@
               placeholder="Introduzca una pregunta"
               v-debounce:400ms="guardar"
             />
-            <label class="checkbox" style="margin-top: 20px" v-if="$store.state.premium == 2">
+            <label class="checkbox"  style="margin-top: 20px" v-if="$store.state.premium == 2">
               <input type="checkbox" v-model="moderarP" @change="guardarOpciones" />
               Moderar Preguntas
             </label>

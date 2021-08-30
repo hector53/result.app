@@ -82,7 +82,7 @@ export default {
   data() {
     return {
       addPalabra: "",
-      isLoading: true,
+      isLoading: false,
       abierto: 0,
       palabras: [],
       modoenVivo: 0,
@@ -252,6 +252,7 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
+            this.$emit("ocultarLoader");
             this.palabras = response.palabras;
           }
           this.isLoading = false;

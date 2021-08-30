@@ -112,6 +112,7 @@ export default {
     },
 
     async getDiayHoraByIdEncuesta(id) {
+      console.log("la ifde es: ", id)
         if(this.soyYo){
           this.isLoading = true;
       }
@@ -127,10 +128,12 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
+
             //asdasd
             this.dias = response.dias;
             this.votosTotales = response.votosTotales;
             this.usuariosTotales = response.usuariosTotales;
+            this.$emit("ocultarLoader");
             this.isLoading = false;
           }
         }).catch(({response}) => {
@@ -139,7 +142,7 @@ export default {
     },
   },
   mounted() {
-    console.log("modo live es",this.modoLive)
+    console.log("modo live es",this.modoLive, "la id es ", this.id_encuesta)
     if (this.modoLive == 1) {
       this.modoenVivo = this.modoLive;
     }

@@ -380,6 +380,8 @@ export default {
         )
         .then((response) => {
           this.$emit("closeLoading");
+           this.$emit("ocultarLoader");
+          
           this.opciones = response.opciones;
           this.totalVotos = response.totalVotos;
           if (response.siVote == 1) {

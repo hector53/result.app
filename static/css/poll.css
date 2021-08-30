@@ -1649,6 +1649,15 @@ input[type="checkbox"], input[type="radio"] {
     right: 40px;
     margin-top: 20px;
 }
+.loaderSpinnerLive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
+}
+.loaderSpinnerLive i{
+    color: white;
+}
 .usersOnline{
     position: absolute;
     color: white;

@@ -413,7 +413,9 @@ export default {
         .then((response) => {
           console.log(response);
           if (response.status == 1) {
+
             this.arrayPreguntas = response.preguntas;
+            this.$emit("ocultarLoader");
           }
         }).catch(({response}) => {
           console.log(response)

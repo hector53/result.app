@@ -75,7 +75,7 @@ export default {
     sockets: [{
       name: 'main',
    
-    //url: 'http://localhost:5000', 
+  //  url: 'http://localhost:5000', 
     url: 'https://api.result.app'
     }]
   },

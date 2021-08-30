@@ -56,7 +56,7 @@ export default {
     return {
       participantes: [],
       premios: 0,
-      isLoading: true,
+      isLoading: false,
       ganadores: [],
     };
   },
@@ -99,7 +99,6 @@ export default {
     },
 
     async getSorteoByIdEncuesta(id) {
-      this.isLoading = true;
       await this.$axios
         .$get(
           "get_datos_sorteo_by_id_encuesta?id_evento=" +
@@ -115,6 +114,7 @@ export default {
             this.participantes = response.participantes;
             this.premios = response.premios;
             this.ganadores = response.ganadores;
+            this.$emit("ocultarLoader");
             this.isLoading = false;
           }
         })

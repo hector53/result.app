@@ -42,7 +42,9 @@
           ></get-evento>
         </div>
         <div v-if="statusEvent == 1 && modoLive == 1" style="min-height: 500px; padding-bottom: 100px;">
-          
+         
+          <loader-spinner v-show="loaderSpin && $store.state.arrayEncuestaActiveLiveMode.length >0 "></loader-spinner>
+
           <div
             class="cubreContentLive"
             v-if="$store.state.arrayEncuestaActiveLiveMode.length == 0"
@@ -57,11 +59,13 @@
 
           <modo-live-front
             v-else
+            @ocultarLoader="ocultarLoader"
             :key="componentKey"
             style="margin-top: 60px"
             ref="modoLiveFront"
             :id_evento="id_evento"
             :modoLive="modoLive"
+            v-show="loaderSpin == false"
           ></modo-live-front>
 
           <div class="boxR">
@@ -109,6 +113,7 @@ import { api as fullscreen } from "vue-fullscreen";
 import ModoLiveFront from "../../components/live/modoLiveFront.vue";
 import VueQrcode from "vue-qrcode";
 import Reaccion from "../../components/reacciones/reaccion.vue";
+import LoaderSpinner from '../../components/loaderSpinner.vue';
 export default {
   layout: "live",
   components: {
@@ -117,6 +122,7 @@ export default {
     ModoLiveFront,
     VueQrcode,
     Reaccion,
+    LoaderSpinner,
   },
   watch: {
     myEmitErrors: function (values, oldValues) {
@@ -179,10 +185,14 @@ export default {
       arrayReacciones: [],
       conectado: 0,
       conectadoViejo: 0,
+      loaderSpin: true
     };
   },
 
   methods: {
+    ocultarLoader(){
+      this.loaderSpin = false
+    },
     quitarReaccion(index) {
       this.arrayReacciones.splice(index, 1);
     },
@@ -297,7 +307,7 @@ if(response.connected == false)
       (resp) => {}
     );
 
-    this.timer();
+   // this.timer();
 
     this.socket.on("pong", (data) => {
       console.log(
@@ -311,7 +321,8 @@ if(response.connected == false)
       console.log("cambiando encuesta Activa del Room", data.codigo);
       this.statusEvent = 1;
       this.modoLive = 1;
-      this.componentKey += 1;
+      //this.mostrar = true
+     // this.componentKey += 1;
       this.$store.commit("setcontadorModoLiveFront", 0);
       console.log("modo live front componente", this.$refs["modoLiveFront"]);
            this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
@@ -359,7 +370,7 @@ if(response.connected == false)
 
     this.socket.on("cambioDeEncuesta", (data) => {
       
-      console.log(data);
+      console.log("estoy cambiando la encuesta", data);
       this.$store.commit("setcontadorModoLiveFront", 1);
       this.$refs["modoLiveFront"].getEncuestaByEventLive(data.codigo);
       //    this.componentKey += 1;
@@ -428,6 +439,8 @@ this.$refs["getEvento"].$refs["qyaFront"][0].getPreguntasByIdEncuesta(data.id_en
     });
 
     this.socket.on("activarModoPresentacion", (data) => {
+      console.log("activar modo presentacion", data)
+      this.getEncuestasByIdEvent()
       this.mostrar = false;
       this.componentKey += 1;
       this.statusEvent = data.modo;

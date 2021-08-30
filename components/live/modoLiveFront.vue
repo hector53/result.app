@@ -11,6 +11,7 @@
       :modoLive="modoLive"
       :statusEvent="1"
       :extra="extra"
+      @ocultarLoader="ocultarLoader"
     ></multiple-choice-front>
 
     <nube-de-palabras-front
@@ -23,28 +24,32 @@
       :modoLive="modoLive"
       :statusEvent="1"
       :extra="extra"
+      @ocultarLoader="ocultarLoader"
     ></nube-de-palabras-front>
 
     <sorteos-front
       ref="sorteosFront"
       v-if="tipo == 3"
+      :key="keyAll"
       :id_encuesta="id"
       :titulo_encuesta="titulo"
       :id_evento="id_evento"
       :modoLive="modoLive"
       :extra="extra"
+      @ocultarLoader="ocultarLoader"
     ></sorteos-front>
 
     <dia-hora-front
       ref="diaHoraFront"
       v-if="tipo == 4"
+      :key="keyAll"
       :id_encuesta="id"
       :titulo_encuesta="titulo"
       :id_evento="id_evento"
       :modoLive="modoLive"
       statusEvent="1"
-       :key="keyEncuesta"
        :extra="extra"
+       @ocultarLoader="ocultarLoader"
     ></dia-hora-front>
 
     <qya-front
@@ -57,6 +62,7 @@
       :modoLive="modoLive"
       statusEvent="1"
       :extra="extra"
+      @ocultarLoader="ocultarLoader"
     ></qya-front>
   </div>
 </template>
@@ -92,6 +98,9 @@ export default {
   },
 
   methods: {
+    ocultarLoader(){
+      this.$emit("ocultarLoader")
+    },
     async getEncuestaByEventLive(cod) {
       console.log("actualizando modo live front")
       this.mostrar = false;
@@ -105,9 +114,14 @@ export default {
           if (response.status == 1) {
             this.arrayEncuesta = [];
             console.log("la respues fue igual a uno");
-            this.arrayEncuesta = response.tipoEncuesta;
+            
             this.tipo = response.tipoEncuesta[0].tipo;
             this.extra = response.tipoEncuesta[0].extra;
+             this.id = response.tipoEncuesta[0].id;
+            this.titulo = response.tipoEncuesta[0].titulo;
+            var idEncuesta = response.tipoEncuesta[0].id;
+
+            this.arrayEncuesta = response.tipoEncuesta;
 
               for(var i = 0; i<this.$store.state.arrayEncuestaActiveLiveMode.length; i++){
                 console.log("id array encuesta", this.$store.state.arrayEncuestaActiveLiveMode[i].id)
@@ -128,45 +142,15 @@ export default {
                 this.keyAll++
             }
 
-            if(this.conta > 0){
-                  if(response.tipoEncuesta[0].tipo == 4){
-            this.$refs['diaHoraFront'].getDiayHoraByIdEncuesta(response.tipoEncuesta[0].id)
-            }
-            }
-            this.conta++
+          
 
             
-            this.id = response.tipoEncuesta[0].id;
-            this.titulo = response.tipoEncuesta[0].titulo;
+           
             this.$store.commit("setmostrarEnMoLive", true);
             console.log("id del ", response.tipoEncuesta[0].id);
           }
 
-          /*    console.log("contador va en ", this.contador)
-                    if(this.$store.state.contadorModoLiveFront > 0){
-                      console.log("pase el contador a 1")
-                           if(response.tipoEncuesta[0].tipo == 1){
-                         //    this.keySimpleChoice += 1;
-                        //    this.$refs['simpleFront'].getEncuestaById(response.tipoEncuesta[0].id)
-                            }
-                            if(response.tipoEncuesta[0].tipo == 2){
-                            this.$refs['nubeFront'].getRespuestaByIdEncuesta(response.tipoEncuesta[0].id)
-                            }
-                            if(response.tipoEncuesta[0].tipo == 3){
-                            this.$refs['sorteosFront'].getSorteoByIdEncuesta(response.tipoEncuesta[0].id)
-                            }
-                            if(response.tipoEncuesta[0].tipo == 4){
-                            this.$refs['diaHoraFront'].getDiayHoraByIdEncuesta(response.tipoEncuesta[0].id)
-                            }
-                            if(response.tipoEncuesta[0].tipo == 5){
-                            this.$refs['qyaFront'].getPreguntasByIdEncuesta(response.tipoEncuesta[0].id)
-                            }
-                    }
-                }else{
-                      this.arrayEncuesta = []
-                }
-
-                */
+        
         }).catch(({response}) => {
           console.log(response)
         })
